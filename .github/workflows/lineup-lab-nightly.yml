@@ -1,0 +1,72 @@
+# Lineup Lab: download the season in progress, rebuild the site, commit.
+#
+# Twice a day: 21:35 UTC (the source has refreshed by then on the days seen so
+# far) and 09:35 UTC as a safety net. Also on "Run workflow" and on any push to
+# main that changes the build. No secrets: the source files are public, and the
+# automatic GITHUB_TOKEN is only used to push this repo and read the public
+# nba-headshots file list.
+#
+# GitHub Pages serves docs/ from main; https://hoopsmatic.com/lineups/ proxies it.
+name: Lineup Lab nightly
+
+on:
+  schedule:
+    - cron: '35 21 * * *'
+    - cron: '35 9 * * *'
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'build/**'
+      - 'tests/**'
+      - 'data/teams.json'
+      - 'requirements.txt'
+      - '.github/workflows/lineup-lab-nightly.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: lineup-lab-nightly
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: 'pip'
+      - run: pip install -r requirements.txt
+
+      - name: Unit tests
+        run: python -m unittest tests.test_lineup_lab.Units -v
+
+      # Fails the run (and so the failure email) if the source is missing or
+      # has fewer games than our copy; nothing below runs, the site stays as is.
+      - name: Download
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python build/lineup_lab_update.py
+
+      - name: Build
+        run: python build/lineup_lab_build.py
+
+      - name: Site tests
+        run: python -m unittest discover -s tests -v
+
+      - name: Commit if anything changed
+        run: |
+          git add -A data docs
+          if git diff --cached --quiet; then
+            echo "No changes."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Lineup update $(date -u '+%F %H:%M UTC')"
+          git pull --rebase origin main
+          git push

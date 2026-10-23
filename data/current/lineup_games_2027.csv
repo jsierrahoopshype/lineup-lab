@@ -1,0 +1,597 @@
+game_date,game_id,team,lineup,names,poss,pts,opp_poss,opp_pts,secs
+2026-10-20,0022600001,BOS,1628369-1628401-1629011-1630573-1631248,Jayson Tatum|Derrick White|Mitchell Robinson|Sam Hauser|Baylor Scheierman,1.0,0.0,1.0,3.0,17.0
+2026-10-20,0022600001,BOS,1628369-1628401-1629011-1630573-1641775,Jayson Tatum|Derrick White|Mitchell Robinson|Sam Hauser|Jordan Walsh,0.0,0.0,0.0,0.0,10.0
+2026-10-20,0022600001,BOS,1628369-1628401-1629674-1630202-1642864,Jayson Tatum|Derrick White|Neemias Queta|Payton Pritchard|Hugo González,1.0,0.0,2.0,2.0,24.0
+2026-10-20,0022600001,BOS,1628369-1628401-1630202-1630568-1642864,Jayson Tatum|Derrick White|Payton Pritchard|Luka Garza|Hugo González,1.0,0.0,1.0,3.0,29.0
+2026-10-20,0022600001,BOS,1628369-1629674-1630202-1630573-1631248,Jayson Tatum|Neemias Queta|Payton Pritchard|Sam Hauser|Baylor Scheierman,13.0,15.0,14.0,14.0,374.0
+2026-10-20,0022600001,BOS,1628369-1630202-1630568-1630573-1631248,Jayson Tatum|Payton Pritchard|Luka Garza|Sam Hauser|Baylor Scheierman,5.0,7.0,5.0,5.0,152.0
+2026-10-20,0022600001,BOS,1628369-1630202-1630568-1630573-1642864,Jayson Tatum|Payton Pritchard|Luka Garza|Sam Hauser|Hugo González,4.0,3.0,4.0,8.0,128.0
+2026-10-20,0022600001,BOS,1628401-1629011-1630202-1630573-1641775,Derrick White|Mitchell Robinson|Payton Pritchard|Sam Hauser|Jordan Walsh,2.0,3.0,3.0,8.0,70.0
+2026-10-20,0022600001,BOS,1628401-1629011-1630202-1631248-1641775,Derrick White|Mitchell Robinson|Payton Pritchard|Baylor Scheierman|Jordan Walsh,2.0,0.0,1.0,0.0,52.0
+2026-10-20,0022600001,BOS,1628401-1629011-1630202-1631248-1642864,Derrick White|Mitchell Robinson|Payton Pritchard|Baylor Scheierman|Hugo González,5.0,7.0,5.0,7.0,175.0
+2026-10-20,0022600001,BOS,1628401-1630202-1630568-1631248-1642864,Derrick White|Payton Pritchard|Luka Garza|Baylor Scheierman|Hugo González,0.0,0.0,1.0,2.0,14.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629011-1631248,Paul George|Jayson Tatum|Derrick White|Mitchell Robinson|Baylor Scheierman,3.0,0.0,3.0,6.0,77.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629011-1641775,Paul George|Jayson Tatum|Derrick White|Mitchell Robinson|Jordan Walsh,15.0,22.0,16.0,17.0,470.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629674-1630202,Paul George|Jayson Tatum|Derrick White|Neemias Queta|Payton Pritchard,10.0,14.0,10.0,10.0,254.30000000000018
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629674-1630573,Paul George|Jayson Tatum|Derrick White|Neemias Queta|Sam Hauser,11.0,19.0,11.0,4.0,288.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629674-1631248,Paul George|Jayson Tatum|Derrick White|Neemias Queta|Baylor Scheierman,2.0,0.0,2.0,5.0,89.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629674-1641775,Paul George|Jayson Tatum|Derrick White|Neemias Queta|Jordan Walsh,9.0,10.0,7.0,10.0,206.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1629674-1642864,Paul George|Jayson Tatum|Derrick White|Neemias Queta|Hugo González,2.0,1.0,2.0,5.0,57.0
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1630202-1630568,Paul George|Jayson Tatum|Derrick White|Payton Pritchard|Luka Garza,2.0,0.0,1.0,2.0,6.699999999999818
+2026-10-20,0022600001,BOS,202331-1628369-1628401-1630568-1630573,Paul George|Jayson Tatum|Derrick White|Luka Garza|Sam Hauser,1.0,0.0,0.0,0.0,16.0
+2026-10-20,0022600001,BOS,202331-1628369-1629011-1629674-1630202,Paul George|Jayson Tatum|Mitchell Robinson|Neemias Queta|Payton Pritchard,1.0,0.0,2.0,2.0,35.5
+2026-10-20,0022600001,BOS,202331-1628369-1629011-1630202-1630573,Paul George|Jayson Tatum|Mitchell Robinson|Payton Pritchard|Sam Hauser,1.0,0.0,1.0,0.0,35.5
+2026-10-20,0022600001,BOS,202331-1628401-1629011-1630202-1631248,Paul George|Derrick White|Mitchell Robinson|Payton Pritchard|Baylor Scheierman,5.0,8.0,5.0,5.0,144.0
+2026-10-20,0022600001,BOS,202331-1628401-1630202-1630568-1642864,Paul George|Derrick White|Payton Pritchard|Luka Garza|Hugo González,4.0,4.0,4.0,3.0,156.0
+2026-10-20,0022600001,DET,1628381-1628989-1629130-1630194-1630595,John Collins|Kevin Huerter|Duncan Robinson|Paul Reed|Cade Cunningham,0.0,0.0,0.0,0.0,6.0
+2026-10-20,0022600001,DET,1628381-1628989-1629130-1630595-1631105,John Collins|Kevin Huerter|Duncan Robinson|Cade Cunningham|Jalen Duren,5.0,4.0,6.0,13.0,144.0
+2026-10-20,0022600001,DET,1628381-1628989-1630595-1631105-1641709,John Collins|Kevin Huerter|Cade Cunningham|Jalen Duren|Ausar Thompson,2.0,2.0,1.0,0.0,35.5
+2026-10-20,0022600001,DET,1628381-1629130-1629750-1630595-1641709,John Collins|Duncan Robinson|Javonte Green|Cade Cunningham|Ausar Thompson,2.0,3.0,2.0,0.0,57.0
+2026-10-20,0022600001,DET,1628381-1629130-1630194-1630595-1641709,John Collins|Duncan Robinson|Paul Reed|Cade Cunningham|Ausar Thompson,8.0,0.0,7.0,6.0,220.0
+2026-10-20,0022600001,DET,1628381-1629130-1630595-1631105-1641709,John Collins|Duncan Robinson|Cade Cunningham|Jalen Duren|Ausar Thompson,20.0,25.0,19.0,27.0,579.0
+2026-10-20,0022600001,DET,1628381-1629130-1631105-1641709-1642450,John Collins|Duncan Robinson|Jalen Duren|Ausar Thompson|Daniss Jenkins,1.0,3.0,1.0,0.0,27.0
+2026-10-20,0022600001,DET,1628381-1629750-1630198-1630595-1642450,John Collins|Javonte Green|Isaiah Joe|Cade Cunningham|Daniss Jenkins,4.0,2.0,5.0,8.0,139.0
+2026-10-20,0022600001,DET,1628381-1630194-1630198-1630595-1641709,John Collins|Paul Reed|Isaiah Joe|Cade Cunningham|Ausar Thompson,9.0,10.0,9.0,7.0,262.0
+2026-10-20,0022600001,DET,1628381-1630198-1630595-1631105-1641709,John Collins|Isaiah Joe|Cade Cunningham|Jalen Duren|Ausar Thompson,3.0,2.0,3.0,3.0,58.0
+2026-10-20,0022600001,DET,1628989-1629130-1629750-1630194-1630595,Kevin Huerter|Duncan Robinson|Javonte Green|Paul Reed|Cade Cunningham,4.0,7.0,3.0,1.0,81.0
+2026-10-20,0022600001,DET,1628989-1629130-1629750-1630595-1631105,Kevin Huerter|Duncan Robinson|Javonte Green|Cade Cunningham|Jalen Duren,2.0,6.0,2.0,3.0,41.0
+2026-10-20,0022600001,DET,1628989-1629130-1631105-1641709-1642450,Kevin Huerter|Duncan Robinson|Jalen Duren|Ausar Thompson|Daniss Jenkins,2.0,3.0,3.0,4.0,90.0
+2026-10-20,0022600001,DET,1628989-1629750-1630194-1630198-1630595,Kevin Huerter|Javonte Green|Paul Reed|Isaiah Joe|Cade Cunningham,4.0,9.0,5.0,3.0,134.0
+2026-10-20,0022600001,DET,1628989-1629750-1630194-1630198-1642450,Kevin Huerter|Javonte Green|Paul Reed|Isaiah Joe|Daniss Jenkins,6.0,7.0,5.0,7.0,175.0
+2026-10-20,0022600001,DET,1628989-1630198-1630595-1631105-1641709,Kevin Huerter|Isaiah Joe|Cade Cunningham|Jalen Duren|Ausar Thompson,1.0,0.0,1.0,0.0,35.5
+2026-10-20,0022600001,DET,1628989-1630198-1631105-1641709-1642450,Kevin Huerter|Isaiah Joe|Jalen Duren|Ausar Thompson|Daniss Jenkins,6.0,9.0,5.0,7.0,189.0
+2026-10-20,0022600001,DET,1628989-1630198-1631105-1641842-1642450,Kevin Huerter|Isaiah Joe|Jalen Duren|Ronald Holland II|Daniss Jenkins,6.0,6.0,6.0,10.0,165.0
+2026-10-20,0022600001,DET,1629130-1629750-1630194-1630595-1641709,Duncan Robinson|Javonte Green|Paul Reed|Cade Cunningham|Ausar Thompson,3.0,5.0,4.0,2.0,124.0
+2026-10-20,0022600001,DET,1629130-1629750-1630595-1631105-1641709,Duncan Robinson|Javonte Green|Cade Cunningham|Jalen Duren|Ausar Thompson,7.0,5.0,6.0,9.0,182.80000000000018
+2026-10-20,0022600001,DET,1629130-1629750-1631105-1641709-1642450,Duncan Robinson|Javonte Green|Jalen Duren|Ausar Thompson|Daniss Jenkins,4.0,9.0,4.0,0.0,117.0
+2026-10-20,0022600001,DET,1629750-1630595-1631105-1641709-1642450,Javonte Green|Cade Cunningham|Jalen Duren|Ausar Thompson|Daniss Jenkins,2.0,4.0,3.0,3.0,18.199999999999818
+2026-10-20,0022600002,NYK,1626157-1628384-1628404-1628969-1628973,Karl-Anthony Towns|OG Anunoby|Josh Hart|Mikal Bridges|Jalen Brunson,27.0,15.0,26.0,25.0,738.0
+2026-10-20,0022600002,NYK,1626157-1628384-1628404-1628973-1629013,Karl-Anthony Towns|OG Anunoby|Josh Hart|Jalen Brunson|Landry Shamet,7.0,7.0,7.0,9.0,156.0
+2026-10-20,0022600002,NYK,1626157-1628384-1628969-1628973-1629013,Karl-Anthony Towns|OG Anunoby|Mikal Bridges|Jalen Brunson|Landry Shamet,1.0,3.0,1.0,1.0,28.0
+2026-10-20,0022600002,NYK,1626157-1628404-1628973-1629013-1630540,Karl-Anthony Towns|Josh Hart|Jalen Brunson|Landry Shamet|Miles McBride,6.0,11.0,5.0,5.0,164.0
+2026-10-20,0022600002,NYK,1626157-1628404-1628973-1629013-1630631,Karl-Anthony Towns|Josh Hart|Jalen Brunson|Landry Shamet|Jose Alvarado,3.0,3.0,4.0,3.0,115.0
+2026-10-20,0022600002,NYK,203083-1628384-1628404-1628969-1628973,Andre Drummond|OG Anunoby|Josh Hart|Mikal Bridges|Jalen Brunson,8.0,9.0,8.0,6.0,258.0
+2026-10-20,0022600002,NYK,203083-1628384-1628969-1628973-1629013,Andre Drummond|OG Anunoby|Mikal Bridges|Jalen Brunson|Landry Shamet,5.0,0.0,4.0,2.0,80.0
+2026-10-20,0022600002,NYK,203083-1628384-1628969-1628973-1630540,Andre Drummond|OG Anunoby|Mikal Bridges|Jalen Brunson|Miles McBride,12.0,10.0,13.0,19.0,376.5
+2026-10-20,0022600002,NYK,203083-1628384-1628969-1629013-1630540,Andre Drummond|OG Anunoby|Mikal Bridges|Landry Shamet|Miles McBride,1.0,0.0,1.0,3.0,1.5
+2026-10-20,0022600002,NYK,203083-1628384-1628969-1629013-1630631,Andre Drummond|OG Anunoby|Mikal Bridges|Landry Shamet|Jose Alvarado,5.0,4.0,6.0,5.0,186.0
+2026-10-20,0022600002,NYK,203083-1628384-1628969-1630540-1630631,Andre Drummond|OG Anunoby|Mikal Bridges|Miles McBride|Jose Alvarado,1.0,1.0,1.0,2.0,36.0
+2026-10-20,0022600002,NYK,203083-1628404-1628973-1629013-1630540,Andre Drummond|Josh Hart|Jalen Brunson|Landry Shamet|Miles McBride,2.0,5.0,3.0,4.0,74.0
+2026-10-20,0022600002,NYK,203083-1628969-1628973-1629013-1630540,Andre Drummond|Mikal Bridges|Jalen Brunson|Landry Shamet|Miles McBride,1.0,2.0,1.0,0.0,14.399999999999975
+2026-10-20,0022600002,NYK,203083-1628969-1629013-1630540-1630631,Andre Drummond|Mikal Bridges|Landry Shamet|Miles McBride|Jose Alvarado,3.0,3.0,4.0,1.0,101.60000000000002
+2026-10-20,0022600002,NYK,203083-1628973-1629013-1630540-1630631,Andre Drummond|Jalen Brunson|Landry Shamet|Miles McBride|Jose Alvarado,2.0,0.0,1.0,2.0,42.0
+2026-10-20,0022600002,NYK,203083-203903-1628404-1629013-1630631,Andre Drummond|Jordan Clarkson|Josh Hart|Landry Shamet|Jose Alvarado,5.0,8.0,5.0,6.0,134.0
+2026-10-20,0022600002,NYK,203083-203903-1628969-1629013-1630631,Andre Drummond|Jordan Clarkson|Mikal Bridges|Landry Shamet|Jose Alvarado,6.0,7.0,6.0,5.0,163.0
+2026-10-20,0022600002,NYK,203903-1626157-1628384-1629013-1630631,Jordan Clarkson|Karl-Anthony Towns|OG Anunoby|Landry Shamet|Jose Alvarado,1.0,3.0,0.0,0.0,35.0
+2026-10-20,0022600002,NYK,203903-1626157-1628404-1629013-1630631,Jordan Clarkson|Karl-Anthony Towns|Josh Hart|Landry Shamet|Jose Alvarado,6.0,9.0,6.0,8.0,177.0
+2026-10-20,0022600002,PHI,1627759-1629014-1630178-1641737-1642845,Jaylen Brown|Anfernee Simons|Tyrese Maxey|Adem Bona|VJ Edgecombe,1.0,0.0,1.0,2.0,14.399999999999975
+2026-10-20,0022600002,PHI,203484-1627759-1629014-1630178-1641737,Kentavious Caldwell-Pope|Jaylen Brown|Anfernee Simons|Tyrese Maxey|Adem Bona,9.0,11.0,8.0,4.0,275.1
+2026-10-20,0022600002,PHI,203484-203954-1627759-1629014-1630178,Kentavious Caldwell-Pope|Joel Embiid|Jaylen Brown|Anfernee Simons|Tyrese Maxey,4.0,5.0,4.0,2.0,122.0
+2026-10-20,0022600002,PHI,203484-203954-1627759-1629014-1642845,Kentavious Caldwell-Pope|Joel Embiid|Jaylen Brown|Anfernee Simons|VJ Edgecombe,14.0,14.0,14.0,14.0,328.0
+2026-10-20,0022600002,PHI,203484-203954-1627759-1630178-1642845,Kentavious Caldwell-Pope|Joel Embiid|Jaylen Brown|Tyrese Maxey|VJ Edgecombe,4.0,3.0,3.0,3.0,115.0
+2026-10-20,0022600002,PHI,2544-1627759-1629014-1630178-1631133,LeBron James|Jaylen Brown|Anfernee Simons|Tyrese Maxey|Jabari Walker,4.0,5.0,3.0,5.0,89.0
+2026-10-20,0022600002,PHI,2544-1627759-1629014-1630178-1641737,LeBron James|Jaylen Brown|Anfernee Simons|Tyrese Maxey|Adem Bona,2.0,0.0,3.0,2.0,74.0
+2026-10-20,0022600002,PHI,2544-1627759-1629014-1630178-1642845,LeBron James|Jaylen Brown|Anfernee Simons|Tyrese Maxey|VJ Edgecombe,5.0,8.0,5.0,6.0,133.0
+2026-10-20,0022600002,PHI,2544-1629014-1630178-1631133-1642845,LeBron James|Anfernee Simons|Tyrese Maxey|Jabari Walker|VJ Edgecombe,2.0,0.0,3.0,6.0,68.0
+2026-10-20,0022600002,PHI,2544-203484-1627759-1630178-1642845,LeBron James|Kentavious Caldwell-Pope|Jaylen Brown|Tyrese Maxey|VJ Edgecombe,0.0,0.0,1.0,2.0,8.5
+2026-10-20,0022600002,PHI,2544-203484-1629014-1630178-1641737,LeBron James|Kentavious Caldwell-Pope|Anfernee Simons|Tyrese Maxey|Adem Bona,1.0,0.0,2.0,6.0,47.0
+2026-10-20,0022600002,PHI,2544-203484-1630178-1641737-1642845,LeBron James|Kentavious Caldwell-Pope|Tyrese Maxey|Adem Bona|VJ Edgecombe,5.0,8.0,5.0,6.0,165.0
+2026-10-20,0022600002,PHI,2544-203484-203954-1629014-1630178,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Anfernee Simons|Tyrese Maxey,6.0,5.0,5.0,4.0,186.0
+2026-10-20,0022600002,PHI,2544-203484-203954-1629014-1642845,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Anfernee Simons|VJ Edgecombe,6.0,4.0,5.0,9.0,178.0
+2026-10-20,0022600002,PHI,2544-203484-203954-1630178-1642845,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Tyrese Maxey|VJ Edgecombe,6.0,9.0,6.0,6.0,142.0
+2026-10-20,0022600002,PHI,2544-203954-1627759-1629014-1630178,LeBron James|Joel Embiid|Jaylen Brown|Anfernee Simons|Tyrese Maxey,1.0,3.0,1.0,0.0,1.5
+2026-10-20,0022600002,PHI,2544-203954-1627759-1630178-1642845,LeBron James|Joel Embiid|Jaylen Brown|Tyrese Maxey|VJ Edgecombe,32.0,31.0,33.0,23.0,933.5
+2026-10-20,0022600003,OKC,1627936-1628392-1628983-1631096-1642272,Alex Caruso|Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Jared McCain,5.0,7.0,5.0,3.0,164.0
+2026-10-20,0022600003,OKC,1627936-1628392-1628983-1641717-1642272,Alex Caruso|Isaiah Hartenstein|Shai Gilgeous-Alexander|Cason Wallace|Jared McCain,5.0,8.0,6.0,5.0,150.0
+2026-10-20,0022600003,OKC,1627936-1628392-1628983-1642272-1642349,Alex Caruso|Isaiah Hartenstein|Shai Gilgeous-Alexander|Jared McCain|Ajay Mitchell,1.0,2.0,1.0,0.0,27.0
+2026-10-20,0022600003,OKC,1627936-1628392-1631114-1642272-1642349,Alex Caruso|Isaiah Hartenstein|Jalen Williams|Jared McCain|Ajay Mitchell,1.0,0.0,0.0,0.0,14.0
+2026-10-20,0022600003,OKC,1627936-1628983-1631096-1631114-1631119,Alex Caruso|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Jaylin Williams,6.0,6.0,6.0,9.0,155.0
+2026-10-20,0022600003,OKC,1627936-1628983-1631096-1631114-1642349,Alex Caruso|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Ajay Mitchell,2.0,2.0,2.0,0.0,49.799999999999955
+2026-10-20,0022600003,OKC,1627936-1628983-1631096-1641717-1642272,Alex Caruso|Shai Gilgeous-Alexander|Chet Holmgren|Cason Wallace|Jared McCain,1.0,0.0,1.0,2.0,37.0
+2026-10-20,0022600003,OKC,1627936-1628983-1631119-1641717-1642272,Alex Caruso|Shai Gilgeous-Alexander|Jaylin Williams|Cason Wallace|Jared McCain,0.0,0.0,0.0,0.0,19.0
+2026-10-20,0022600003,OKC,1627936-1628983-1641717-1642272-1643530,Alex Caruso|Shai Gilgeous-Alexander|Cason Wallace|Jared McCain|Aday Mara,4.0,8.0,4.0,2.0,92.0
+2026-10-20,0022600003,OKC,1627936-1628983-1642272-1642349-1643530,Alex Caruso|Shai Gilgeous-Alexander|Jared McCain|Ajay Mitchell|Aday Mara,18.0,25.0,17.0,22.0,477.0
+2026-10-20,0022600003,OKC,1627936-1631096-1631114-1631119-1642349,Alex Caruso|Chet Holmgren|Jalen Williams|Jaylin Williams|Ajay Mitchell,9.0,5.0,10.0,6.0,260.0
+2026-10-20,0022600003,OKC,1627936-1631096-1631114-1642349-1643530,Alex Caruso|Chet Holmgren|Jalen Williams|Ajay Mitchell|Aday Mara,1.0,2.0,2.0,0.0,38.0
+2026-10-20,0022600003,OKC,1628392-1628983-1631096-1631114-1641717,Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Cason Wallace,17.0,13.0,18.0,19.0,470.0
+2026-10-20,0022600003,OKC,1628392-1628983-1631096-1631114-1642272,Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Jared McCain,3.0,3.0,3.0,3.0,68.0
+2026-10-20,0022600003,OKC,1628392-1628983-1631096-1631114-1642349,Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Ajay Mitchell,1.0,2.0,1.0,2.0,27.0
+2026-10-20,0022600003,OKC,1628392-1628983-1631114-1641717-1642272,Isaiah Hartenstein|Shai Gilgeous-Alexander|Jalen Williams|Cason Wallace|Jared McCain,4.0,7.0,3.0,2.0,102.0
+2026-10-20,0022600003,OKC,1628392-1631096-1631114-1641717-1642349,Isaiah Hartenstein|Chet Holmgren|Jalen Williams|Cason Wallace|Ajay Mitchell,1.0,0.0,1.0,2.0,23.0
+2026-10-20,0022600003,OKC,1628983-1629026-1631096-1631114-1641717,Shai Gilgeous-Alexander|Kenrich Williams|Chet Holmgren|Jalen Williams|Cason Wallace,0.0,0.0,1.0,2.0,10.300000000000182
+2026-10-20,0022600003,OKC,1628983-1629026-1631096-1642272-1642349,Shai Gilgeous-Alexander|Kenrich Williams|Chet Holmgren|Jared McCain|Ajay Mitchell,1.0,3.0,0.0,0.0,21.0
+2026-10-20,0022600003,OKC,1628983-1629026-1641717-1642349-1643530,Shai Gilgeous-Alexander|Kenrich Williams|Cason Wallace|Ajay Mitchell|Aday Mara,1.0,0.0,1.0,2.0,10.0
+2026-10-20,0022600003,OKC,1628983-1629026-1642272-1642349-1643530,Shai Gilgeous-Alexander|Kenrich Williams|Jared McCain|Ajay Mitchell|Aday Mara,1.0,0.0,1.0,0.0,39.69999999999982
+2026-10-20,0022600003,OKC,1628983-1631096-1631114-1631119-1641717,Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Jaylin Williams|Cason Wallace,4.0,5.0,3.0,8.0,127.0
+2026-10-20,0022600003,OKC,1628983-1631096-1631114-1641717-1642272,Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Cason Wallace|Jared McCain,1.0,2.0,0.0,0.0,7.0
+2026-10-20,0022600003,OKC,1628983-1631096-1631114-1642272-1642349,Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Jared McCain|Ajay Mitchell,1.0,2.0,2.0,4.0,41.200000000000045
+2026-10-20,0022600003,OKC,1628983-1631114-1631119-1641717-1642272,Shai Gilgeous-Alexander|Jalen Williams|Jaylin Williams|Cason Wallace|Jared McCain,2.0,0.0,3.0,4.0,71.0
+2026-10-20,0022600003,OKC,1629026-1631096-1631114-1631119-1642349,Kenrich Williams|Chet Holmgren|Jalen Williams|Jaylin Williams|Ajay Mitchell,9.0,12.0,9.0,5.0,296.0
+2026-10-20,0022600003,OKC,1629026-1631119-1642892-1642964-1643530,Kenrich Williams|Jaylin Williams|Bennett Stirtz|Brooks Barnhizer|Aday Mara,2.0,2.0,1.0,2.0,47.0
+2026-10-20,0022600003,OKC,1631096-1631114-1631119-1641717-1642349,Chet Holmgren|Jalen Williams|Jaylin Williams|Cason Wallace|Ajay Mitchell,1.0,0.0,1.0,0.0,37.0
+2026-10-20,0022600003,SAS,1628368-1628436-1629640-1630577-1642868,De'Aaron Fox|Luke Kornet|Keldon Johnson|Julian Champagnie|Carter Bryant,8.0,11.0,9.0,13.0,237.0
+2026-10-20,0022600003,SAS,1628368-1628436-1630170-1630577-1642264,De'Aaron Fox|Luke Kornet|Devin Vassell|Julian Champagnie|Stephon Castle,6.0,5.0,5.0,8.0,150.0
+2026-10-20,0022600003,SAS,1628368-1628436-1630170-1630577-1642844,De'Aaron Fox|Luke Kornet|Devin Vassell|Julian Champagnie|Dylan Harper,8.0,8.0,9.0,9.0,237.0
+2026-10-20,0022600003,SAS,1628368-1629640-1630170-1641705-1642264,De'Aaron Fox|Keldon Johnson|Devin Vassell|Victor Wembanyama|Stephon Castle,1.0,0.0,1.0,0.0,39.69999999999982
+2026-10-20,0022600003,SAS,1628368-1629640-1630577-1641705-1642264,De'Aaron Fox|Keldon Johnson|Julian Champagnie|Victor Wembanyama|Stephon Castle,1.0,2.0,1.0,0.0,10.0
+2026-10-20,0022600003,SAS,1628368-1629640-1630577-1641705-1642868,De'Aaron Fox|Keldon Johnson|Julian Champagnie|Victor Wembanyama|Carter Bryant,2.0,0.0,3.0,5.0,58.0
+2026-10-20,0022600003,SAS,1628368-1629640-1641705-1642264-1642844,De'Aaron Fox|Keldon Johnson|Victor Wembanyama|Stephon Castle|Dylan Harper,0.0,0.0,1.0,3.0,21.0
+2026-10-20,0022600003,SAS,1628368-1630170-1630577-1641705-1642844,De'Aaron Fox|Devin Vassell|Julian Champagnie|Victor Wembanyama|Dylan Harper,5.0,6.0,5.0,6.0,135.0
+2026-10-20,0022600003,SAS,1628368-1630170-1641705-1642264-1642844,De'Aaron Fox|Devin Vassell|Victor Wembanyama|Stephon Castle|Dylan Harper,20.0,27.0,20.0,17.0,552.3000000000002
+2026-10-20,0022600003,SAS,1628368-1630577-1641705-1642264-1642844,De'Aaron Fox|Julian Champagnie|Victor Wembanyama|Stephon Castle|Dylan Harper,6.0,9.0,6.0,6.0,155.0
+2026-10-20,0022600003,SAS,1628436-1629640-1630170-1630577-1642844,Luke Kornet|Keldon Johnson|Devin Vassell|Julian Champagnie|Dylan Harper,3.0,2.0,2.0,5.0,56.0
+2026-10-20,0022600003,SAS,1628436-1629640-1630577-1642264-1642844,Luke Kornet|Keldon Johnson|Julian Champagnie|Stephon Castle|Dylan Harper,2.0,0.0,1.0,2.0,57.0
+2026-10-20,0022600003,SAS,1628436-1629640-1630577-1642844-1642868,Luke Kornet|Keldon Johnson|Julian Champagnie|Dylan Harper|Carter Bryant,1.0,3.0,1.0,2.0,20.0
+2026-10-20,0022600003,SAS,1629640-1630170-1630577-1641705-1642264,Keldon Johnson|Devin Vassell|Julian Champagnie|Victor Wembanyama|Stephon Castle,2.0,2.0,3.0,0.0,88.0
+2026-10-20,0022600003,SAS,1629640-1630170-1630577-1641705-1642844,Keldon Johnson|Devin Vassell|Julian Champagnie|Victor Wembanyama|Dylan Harper,1.0,0.0,2.0,3.0,36.0
+2026-10-20,0022600003,SAS,1629640-1630170-1641705-1642264-1642844,Keldon Johnson|Devin Vassell|Victor Wembanyama|Stephon Castle|Dylan Harper,3.0,4.0,2.0,2.0,68.0
+2026-10-20,0022600003,SAS,1629640-1630577-1641705-1642264-1642844,Keldon Johnson|Julian Champagnie|Victor Wembanyama|Stephon Castle|Dylan Harper,5.0,3.0,5.0,7.0,164.0
+2026-10-20,0022600003,SAS,1630170-1630577-1641705-1642264-1642844,Devin Vassell|Julian Champagnie|Victor Wembanyama|Stephon Castle|Dylan Harper,7.0,5.0,5.0,4.0,166.0
+2026-10-20,0022600003,SAS,1642357-1642868-1643542-1643551-1643576,David Jones Garcia|Carter Bryant|Tarris Reed Jr.|Ja'Kobi Gillespie|Maliq Brown,2.0,4.0,3.0,4.0,74.0
+2026-10-20,0022600003,SAS,203084-1628368-1629640-1630170-1641705,Harrison Barnes|De'Aaron Fox|Keldon Johnson|Devin Vassell|Victor Wembanyama,6.0,8.0,5.0,5.0,162.0
+2026-10-20,0022600003,SAS,203084-1628368-1630577-1641705-1642264,Harrison Barnes|De'Aaron Fox|Julian Champagnie|Victor Wembanyama|Stephon Castle,5.0,2.0,5.0,5.0,159.0
+2026-10-20,0022600003,SAS,203084-1629640-1630170-1641705-1642844,Harrison Barnes|Keldon Johnson|Devin Vassell|Victor Wembanyama|Dylan Harper,6.0,3.0,5.0,3.0,162.0
+2026-10-20,0022600003,SAS,203084-1630577-1641705-1642264-1642844,Harrison Barnes|Julian Champagnie|Victor Wembanyama|Stephon Castle|Dylan Harper,2.0,0.0,3.0,7.0,73.0
+2026-10-21,0022600004,MIA,1630208-1631107-1631323-1642066-1643553,Nick Richards|Nikola Jović|Simone Fontecchio|Myron Gardner|Ryan Conwell,6.0,8.0,6.0,4.0,194.0
+2026-10-21,0022600004,MIA,202691-203507-203952-1628389-1630558,Klay Thompson|Giannis Antetokounmpo|Andrew Wiggins|Bam Adebayo|Davion Mitchell,21.0,24.0,21.0,31.0,555.0
+2026-10-21,0022600004,MIA,202691-203952-1626171-1628389-1630558,Klay Thompson|Andrew Wiggins|Bobby Portis Jr.|Bam Adebayo|Davion Mitchell,3.0,2.0,2.0,5.0,83.0
+2026-10-21,0022600004,MIA,202691-203952-1628389-1630558-1631107,Klay Thompson|Andrew Wiggins|Bam Adebayo|Davion Mitchell|Nikola Jović,3.0,2.0,4.0,8.0,102.0
+2026-10-21,0022600004,MIA,202691-203952-1628389-1630558-1641796,Klay Thompson|Andrew Wiggins|Bam Adebayo|Davion Mitchell|Pelle Larsson,9.0,10.0,9.0,17.0,235.0
+2026-10-21,0022600004,MIA,203501-1626171-1628389-1630558-1641796,Tim Hardaway Jr.|Bobby Portis Jr.|Bam Adebayo|Davion Mitchell|Pelle Larsson,2.0,2.0,2.0,2.0,61.0
+2026-10-21,0022600004,MIA,203501-1626171-1628389-1631107-1641796,Tim Hardaway Jr.|Bobby Portis Jr.|Bam Adebayo|Nikola Jović|Pelle Larsson,2.0,3.0,1.0,3.0,39.0
+2026-10-21,0022600004,MIA,203501-203507-1626171-1630558-1631107,Tim Hardaway Jr.|Giannis Antetokounmpo|Bobby Portis Jr.|Davion Mitchell|Nikola Jović,5.0,4.0,5.0,3.0,178.0
+2026-10-21,0022600004,MIA,203501-203507-1626171-1631107-1641796,Tim Hardaway Jr.|Giannis Antetokounmpo|Bobby Portis Jr.|Nikola Jović|Pelle Larsson,25.0,19.0,25.0,21.0,677.0
+2026-10-21,0022600004,MIA,203501-203507-1628389-1630558-1631107,Tim Hardaway Jr.|Giannis Antetokounmpo|Bam Adebayo|Davion Mitchell|Nikola Jović,1.0,0.0,1.0,4.0,34.0
+2026-10-21,0022600004,MIA,203501-203952-1626171-1628389-1630558,Tim Hardaway Jr.|Andrew Wiggins|Bobby Portis Jr.|Bam Adebayo|Davion Mitchell,2.0,2.0,3.0,2.0,84.0
+2026-10-21,0022600004,MIA,203507-1626171-1628389-1630558-1631107,Giannis Antetokounmpo|Bobby Portis Jr.|Bam Adebayo|Davion Mitchell|Nikola Jović,2.0,4.0,1.0,3.0,58.0
+2026-10-21,0022600004,MIA,203507-203952-1628389-1630558-1641796,Giannis Antetokounmpo|Andrew Wiggins|Bam Adebayo|Davion Mitchell|Pelle Larsson,14.0,12.0,13.0,12.0,285.0
+2026-10-21,0022600004,MIA,203952-1626171-1628389-1630558-1631107,Andrew Wiggins|Bobby Portis Jr.|Bam Adebayo|Davion Mitchell|Nikola Jović,6.0,9.0,6.0,8.0,160.0
+2026-10-21,0022600004,MIA,203952-1626171-1628389-1630558-1641796,Andrew Wiggins|Bobby Portis Jr.|Bam Adebayo|Davion Mitchell|Pelle Larsson,5.0,5.0,6.0,8.0,135.0
+2026-10-21,0022600004,MIN,1626168-1630162-1630183-1630245-1630545,Trey Lyles|Anthony Edwards|Jaden McDaniels|Ayo Dosunmu|Terrence Shannon Jr,3.0,6.0,3.0,3.0,59.0
+2026-10-21,0022600004,MIN,1626168-1630162-1630183-1630245-1642866,Trey Lyles|Anthony Edwards|Jaden McDaniels|Ayo Dosunmu|Joan Beringer,4.0,5.0,4.0,5.0,123.0
+2026-10-21,0022600004,MIN,1626168-1630162-1630245-1630545-1642866,Trey Lyles|Anthony Edwards|Ayo Dosunmu|Terrence Shannon Jr|Joan Beringer,6.0,3.0,6.0,9.0,159.0
+2026-10-21,0022600004,MIN,1626168-1630163-1630245-1630545-1642866,Trey Lyles|LaMelo Ball|Ayo Dosunmu|Terrence Shannon Jr|Joan Beringer,5.0,2.0,5.0,6.0,109.0
+2026-10-21,0022600004,MIN,1626168-1630538-1630545-1641740-1642866,Trey Lyles|Bones Hyland|Terrence Shannon Jr|Jaylen Clark|Joan Beringer,0.0,0.0,0.0,0.0,11.0
+2026-10-21,0022600004,MIN,1630162-1630228-1630245-1630545-1642866,Anthony Edwards|Jonathan Kuminga|Ayo Dosunmu|Terrence Shannon Jr|Joan Beringer,9.0,16.0,8.0,9.0,227.0
+2026-10-21,0022600004,MIN,1630538-1630545-1641740-1642262-1642866,Bones Hyland|Terrence Shannon Jr|Jaylen Clark|Cody Williams|Joan Beringer,2.0,0.0,1.0,2.0,44.0
+2026-10-21,0022600004,MIN,1630538-1641740-1642262-1642866-1642912,Bones Hyland|Jaylen Clark|Cody Williams|Joan Beringer|Isaiah Evans,4.0,4.0,5.0,6.0,139.0
+2026-10-21,0022600004,MIN,203497-1626168-1630162-1630163-1630183,Rudy Gobert|Trey Lyles|Anthony Edwards|LaMelo Ball|Jaden McDaniels,1.0,3.0,0.0,0.0,20.0
+2026-10-21,0022600004,MIN,203497-1626168-1630162-1630183-1630228,Rudy Gobert|Trey Lyles|Anthony Edwards|Jaden McDaniels|Jonathan Kuminga,3.0,5.0,4.0,6.0,113.0
+2026-10-21,0022600004,MIN,203497-1626168-1630162-1630228-1630245,Rudy Gobert|Trey Lyles|Anthony Edwards|Jonathan Kuminga|Ayo Dosunmu,2.0,4.0,2.0,2.0,60.0
+2026-10-21,0022600004,MIN,203497-1626168-1630162-1630245-1630545,Rudy Gobert|Trey Lyles|Anthony Edwards|Ayo Dosunmu|Terrence Shannon Jr,1.0,1.0,1.0,0.0,19.0
+2026-10-21,0022600004,MIN,203497-1626168-1630163-1630183-1630228,Rudy Gobert|Trey Lyles|LaMelo Ball|Jaden McDaniels|Jonathan Kuminga,2.0,3.0,3.0,4.0,73.0
+2026-10-21,0022600004,MIN,203497-1630162-1630163-1630183-1630228,Rudy Gobert|Anthony Edwards|LaMelo Ball|Jaden McDaniels|Jonathan Kuminga,27.0,37.0,28.0,30.0,741.0
+2026-10-21,0022600004,MIN,203497-1630162-1630163-1630183-1630245,Rudy Gobert|Anthony Edwards|LaMelo Ball|Jaden McDaniels|Ayo Dosunmu,11.0,17.0,12.0,11.0,261.0
+2026-10-21,0022600004,MIN,203497-1630162-1630183-1630228-1630245,Rudy Gobert|Anthony Edwards|Jaden McDaniels|Jonathan Kuminga|Ayo Dosunmu,1.0,3.0,0.0,0.0,22.0
+2026-10-21,0022600004,MIN,203497-1630162-1630183-1630245-1630545,Rudy Gobert|Anthony Edwards|Jaden McDaniels|Ayo Dosunmu|Terrence Shannon Jr,3.0,4.0,4.0,2.0,79.0
+2026-10-21,0022600004,MIN,203497-1630162-1630228-1630245-1630545,Rudy Gobert|Anthony Edwards|Jonathan Kuminga|Ayo Dosunmu|Terrence Shannon Jr,3.0,0.0,2.0,2.0,73.0
+2026-10-21,0022600004,MIN,203497-1630163-1630183-1630228-1630245,Rudy Gobert|LaMelo Ball|Jaden McDaniels|Jonathan Kuminga|Ayo Dosunmu,5.0,2.0,5.0,3.0,145.0
+2026-10-21,0022600004,MIN,203497-1630163-1630183-1630245-1630545,Rudy Gobert|LaMelo Ball|Jaden McDaniels|Ayo Dosunmu|Terrence Shannon Jr,2.0,2.0,2.0,0.0,50.0
+2026-10-21,0022600004,MIN,203497-1630163-1630228-1630245-1630545,Rudy Gobert|LaMelo Ball|Jonathan Kuminga|Ayo Dosunmu|Terrence Shannon Jr,10.0,12.0,10.0,6.0,316.0
+2026-10-21,0022600004,MIN,203497-1630183-1630245-1630538-1630545,Rudy Gobert|Jaden McDaniels|Ayo Dosunmu|Bones Hyland|Terrence Shannon Jr,1.0,2.0,1.0,0.0,37.0
+2026-10-21,0022600005,GSW,1627777-1642502-1642954-1643018-1643633,Georges Niang|Malevy Leons|Will Richard|LJ Cryer|Graham Ike,9.0,13.0,8.0,4.0,218.0
+2026-10-21,0022600005,GSW,1627780-1642502-1642954-1643018-1643633,Gary Payton II|Malevy Leons|Will Richard|LJ Cryer|Graham Ike,6.0,9.0,7.0,7.0,188.0
+2026-10-21,0022600005,GSW,1629001-1642502-1642954-1643018-1643633,De'Anthony Melton|Malevy Leons|Will Richard|LJ Cryer|Graham Ike,4.0,6.0,4.0,5.0,115.0
+2026-10-21,0022600005,GSW,1630314-1630611-1642865-1642954-1643633,Brandon Williams|Gui Santos|Yaxel Lendeborg|Will Richard|Graham Ike,6.0,9.0,6.0,7.0,183.0
+2026-10-21,0022600005,GSW,1630611-1642502-1642954-1643018-1643633,Gui Santos|Malevy Leons|Will Richard|LJ Cryer|Graham Ike,0.0,0.0,1.0,2.0,16.0
+2026-10-21,0022600005,GSW,201143-1627777-1627780-1630611-1642865,Al Horford|Georges Niang|Gary Payton II|Gui Santos|Yaxel Lendeborg,1.0,0.0,1.0,3.0,3.2999999999999545
+2026-10-21,0022600005,GSW,201143-1627777-1630314-1630611-1642865,Al Horford|Georges Niang|Brandon Williams|Gui Santos|Yaxel Lendeborg,8.0,10.0,7.0,10.0,208.60000000000002
+2026-10-21,0022600005,GSW,201143-1627777-1630314-1642865-1642954,Al Horford|Georges Niang|Brandon Williams|Yaxel Lendeborg|Will Richard,4.0,2.0,4.0,6.0,121.0
+2026-10-21,0022600005,GSW,201143-1627780-1630314-1630611-1642865,Al Horford|Gary Payton II|Brandon Williams|Gui Santos|Yaxel Lendeborg,3.0,4.0,2.0,4.0,89.0
+2026-10-21,0022600005,GSW,201143-1627780-1630314-1642865-1642954,Al Horford|Gary Payton II|Brandon Williams|Yaxel Lendeborg|Will Richard,1.0,0.0,1.0,2.0,20.0
+2026-10-21,0022600005,GSW,201143-1629001-1630314-1630611-1642865,Al Horford|De'Anthony Melton|Brandon Williams|Gui Santos|Yaxel Lendeborg,5.0,4.0,6.0,4.0,159.0
+2026-10-21,0022600005,GSW,201143-1630314-1630611-1642865-1642954,Al Horford|Brandon Williams|Gui Santos|Yaxel Lendeborg|Will Richard,11.0,8.0,12.0,11.0,288.4
+2026-10-21,0022600005,GSW,201143-201939-203110-1627777-1627780,Al Horford|Stephen Curry|Draymond Green|Georges Niang|Gary Payton II,5.0,6.0,5.0,7.0,149.0
+2026-10-21,0022600005,GSW,201939-203110-1627777-1627780-1629001,Stephen Curry|Draymond Green|Georges Niang|Gary Payton II|De'Anthony Melton,14.0,13.0,13.0,20.0,413.0
+2026-10-21,0022600005,GSW,201939-203110-1627777-1627780-1642954,Stephen Curry|Draymond Green|Georges Niang|Gary Payton II|Will Richard,2.0,0.0,2.0,3.0,61.0
+2026-10-21,0022600005,GSW,201939-203110-1627777-1630611-1642865,Stephen Curry|Draymond Green|Georges Niang|Gui Santos|Yaxel Lendeborg,1.0,0.0,0.0,0.0,19.100000000000136
+2026-10-21,0022600005,GSW,201939-203110-1627780-1629001-1642865,Stephen Curry|Draymond Green|Gary Payton II|De'Anthony Melton|Yaxel Lendeborg,4.0,2.0,4.0,5.0,111.0
+2026-10-21,0022600005,GSW,201939-203110-1627780-1630611-1642865,Stephen Curry|Draymond Green|Gary Payton II|Gui Santos|Yaxel Lendeborg,3.0,4.0,3.0,5.0,64.59999999999991
+2026-10-21,0022600005,GSW,201939-203110-1629001-1630611-1642865,Stephen Curry|Draymond Green|De'Anthony Melton|Gui Santos|Yaxel Lendeborg,15.0,15.0,16.0,22.0,453.0
+2026-10-21,0022600005,LAL,1626172-1629029-1629656-1630559-1630572,Kevon Looney|Luka Dončić|Quentin Grimes|Austin Reaves|Sandro Mamukelashvili,4.0,9.0,6.0,10.0,149.0
+2026-10-21,0022600005,LAL,1626172-1629029-1629656-1630572-1631222,Kevon Looney|Luka Dončić|Quentin Grimes|Sandro Mamukelashvili|Jake LaRavia,15.0,14.0,14.0,9.0,364.0
+2026-10-21,0022600005,LAL,1626172-1630533-1630702-1631222-1642355,Kevon Looney|Ziaire Williams|Jaden Hardy|Jake LaRavia|Bronny James,1.0,0.0,1.0,0.0,31.0
+2026-10-21,0022600005,LAL,1626172-1630533-1630702-1642355-1643024,Kevon Looney|Ziaire Williams|Jaden Hardy|Bronny James|Chris Mañon,3.0,2.0,3.0,7.0,63.0
+2026-10-21,0022600005,LAL,1626172-1630572-1630702-1642355-1643024,Kevon Looney|Sandro Mamukelashvili|Jaden Hardy|Bronny James|Chris Mañon,10.0,9.0,10.0,15.0,271.0
+2026-10-21,0022600005,LAL,1629029-1629656-1629680-1630533-1630572,Luka Dončić|Quentin Grimes|Matisse Thybulle|Ziaire Williams|Sandro Mamukelashvili,0.0,0.0,0.0,0.0,21.0
+2026-10-21,0022600005,LAL,1629029-1629656-1630533-1630572-1631222,Luka Dončić|Quentin Grimes|Ziaire Williams|Sandro Mamukelashvili|Jake LaRavia,6.0,8.0,6.0,5.0,173.0
+2026-10-21,0022600005,LAL,1629029-1629656-1630559-1630572-1631117,Luka Dončić|Quentin Grimes|Austin Reaves|Sandro Mamukelashvili|Walker Kessler,8.0,12.0,6.0,6.0,207.0
+2026-10-21,0022600005,LAL,1629029-1629656-1630559-1630572-1631222,Luka Dončić|Quentin Grimes|Austin Reaves|Sandro Mamukelashvili|Jake LaRavia,1.0,2.0,1.0,0.0,20.0
+2026-10-21,0022600005,LAL,1629029-1629656-1630559-1631117-1631222,Luka Dončić|Quentin Grimes|Austin Reaves|Walker Kessler|Jake LaRavia,1.0,3.0,2.0,0.0,22.40000000000009
+2026-10-21,0022600005,LAL,1629029-1629680-1630533-1630559-1631117,Luka Dončić|Matisse Thybulle|Ziaire Williams|Austin Reaves|Walker Kessler,24.0,34.0,23.0,24.0,700.0
+2026-10-21,0022600005,LAL,1629029-1630533-1630559-1630572-1631117,Luka Dončić|Ziaire Williams|Austin Reaves|Sandro Mamukelashvili|Walker Kessler,4.0,7.0,6.0,4.0,125.59999999999991
+2026-10-21,0022600005,LAL,1629656-1629680-1630533-1630559-1631117,Quentin Grimes|Matisse Thybulle|Ziaire Williams|Austin Reaves|Walker Kessler,8.0,9.0,7.0,8.0,226.0
+2026-10-21,0022600005,LAL,1629656-1629680-1630559-1631117-1631222,Quentin Grimes|Matisse Thybulle|Austin Reaves|Walker Kessler|Jake LaRavia,13.0,16.0,14.0,15.0,402.0
+2026-10-21,0022600005,LAL,1629656-1630533-1630559-1631117-1631222,Quentin Grimes|Ziaire Williams|Austin Reaves|Walker Kessler|Jake LaRavia,3.0,2.0,2.0,2.0,64.0
+2026-10-21,0022600005,LAL,1629680-1630533-1630702-1631117-1642355,Matisse Thybulle|Ziaire Williams|Jaden Hardy|Walker Kessler|Bronny James,1.0,0.0,1.0,0.0,41.0
+2026-10-21,0022600085,ATL,1629111-1629638-1629652-1630598-1643412,Jock Landale|Nickeil Alexander-Walker|Luguentz Dort|Aaron Wiggins|Kingston Flemings,12.0,12.0,9.0,7.0,309.5
+2026-10-21,0022600085,ATL,1629111-1629638-1630598-1630700-1643412,Jock Landale|Nickeil Alexander-Walker|Aaron Wiggins|Dyson Daniels|Kingston Flemings,5.0,4.0,4.0,2.0,103.0
+2026-10-21,0022600085,ATL,1629111-1629652-1630552-1630598-1643412,Jock Landale|Luguentz Dort|Jalen Johnson|Aaron Wiggins|Kingston Flemings,7.0,6.0,9.0,14.0,233.0
+2026-10-21,0022600085,ATL,1629111-1629652-1630552-1630700-1643412,Jock Landale|Luguentz Dort|Jalen Johnson|Dyson Daniels|Kingston Flemings,1.0,3.0,1.0,0.0,33.0
+2026-10-21,0022600085,ATL,1629111-1629652-1630598-1630700-1643412,Jock Landale|Luguentz Dort|Aaron Wiggins|Dyson Daniels|Kingston Flemings,7.0,5.0,8.0,12.0,204.0
+2026-10-21,0022600085,ATL,1629638-1629652-1630168-1630598-1630700,Nickeil Alexander-Walker|Luguentz Dort|Onyeka Okongwu|Aaron Wiggins|Dyson Daniels,2.0,2.0,1.0,2.0,70.0
+2026-10-21,0022600085,ATL,1629638-1629652-1630168-1630598-1643412,Nickeil Alexander-Walker|Luguentz Dort|Onyeka Okongwu|Aaron Wiggins|Kingston Flemings,1.0,0.0,1.0,2.0,25.0
+2026-10-21,0022600085,ATL,1629638-1629652-1630598-1630700-1643412,Nickeil Alexander-Walker|Luguentz Dort|Aaron Wiggins|Dyson Daniels|Kingston Flemings,1.0,2.0,2.0,0.0,6.5
+2026-10-21,0022600085,ATL,1629638-1630168-1630552-1630598-1630700,Nickeil Alexander-Walker|Onyeka Okongwu|Jalen Johnson|Aaron Wiggins|Dyson Daniels,15.0,20.0,16.0,14.0,416.0999999999999
+2026-10-21,0022600085,ATL,203468-1629111-1629638-1629652-1630598,CJ McCollum|Jock Landale|Nickeil Alexander-Walker|Luguentz Dort|Aaron Wiggins,8.0,9.0,9.0,9.0,233.0
+2026-10-21,0022600085,ATL,203468-1629638-1629652-1630168-1630700,CJ McCollum|Nickeil Alexander-Walker|Luguentz Dort|Onyeka Okongwu|Dyson Daniels,9.0,17.0,9.0,18.0,261.0
+2026-10-21,0022600085,ATL,203468-1629638-1630168-1630552-1630598,CJ McCollum|Nickeil Alexander-Walker|Onyeka Okongwu|Jalen Johnson|Aaron Wiggins,1.0,2.0,0.0,0.0,0.900000000000091
+2026-10-21,0022600085,ATL,203468-1629638-1630168-1630552-1630700,CJ McCollum|Nickeil Alexander-Walker|Onyeka Okongwu|Jalen Johnson|Dyson Daniels,13.0,15.0,14.0,19.0,358.0
+2026-10-21,0022600085,ATL,203468-1629652-1630168-1630552-1630700,CJ McCollum|Luguentz Dort|Onyeka Okongwu|Jalen Johnson|Dyson Daniels,14.0,15.0,13.0,8.0,323.0
+2026-10-21,0022600085,ATL,203468-1630168-1630552-1630598-1630700,CJ McCollum|Onyeka Okongwu|Jalen Johnson|Aaron Wiggins|Dyson Daniels,14.0,20.0,13.0,18.0,304.0
+2026-10-21,0022600085,ORL,1628976-1630217-1630532-1630591-1631094,Wendell Carter Jr.|Desmond Bane|Franz Wagner|Jalen Suggs|Paolo Banchero,35.0,45.0,36.0,48.0,982.0
+2026-10-21,0022600085,ORL,1628976-1630217-1630532-1630591-1641783,Wendell Carter Jr.|Desmond Bane|Franz Wagner|Jalen Suggs|Tristan da Silva,1.0,3.0,1.0,0.0,20.0
+2026-10-21,0022600085,ORL,1628976-1630217-1630532-1631094-1641783,Wendell Carter Jr.|Desmond Bane|Franz Wagner|Paolo Banchero|Tristan da Silva,6.0,7.0,5.0,8.0,144.0
+2026-10-21,0022600085,ORL,1628976-1630217-1630591-1631094-1641783,Wendell Carter Jr.|Desmond Bane|Jalen Suggs|Paolo Banchero|Tristan da Silva,17.0,24.0,17.0,24.0,412.0
+2026-10-21,0022600085,ORL,1628976-1630217-1631094-1631288-1642859,Wendell Carter Jr.|Desmond Bane|Paolo Banchero|Jamal Cain|Jase Richardson,0.0,0.0,1.0,2.0,17.0
+2026-10-21,0022600085,ORL,1628976-1630217-1631094-1641783-1642859,Wendell Carter Jr.|Desmond Bane|Paolo Banchero|Tristan da Silva|Jase Richardson,9.0,4.0,10.0,6.0,225.0
+2026-10-21,0022600085,ORL,1628976-1630532-1630591-1631094-1641783,Wendell Carter Jr.|Franz Wagner|Jalen Suggs|Paolo Banchero|Tristan da Silva,1.0,0.0,1.0,2.0,31.0
+2026-10-21,0022600085,ORL,1628976-1630532-1631094-1641783-1642859,Wendell Carter Jr.|Franz Wagner|Paolo Banchero|Tristan da Silva|Jase Richardson,1.0,2.0,1.0,0.0,20.0
+2026-10-21,0022600085,ORL,1628976-1630591-1631094-1631288-1641783,Wendell Carter Jr.|Jalen Suggs|Paolo Banchero|Jamal Cain|Tristan da Silva,1.0,0.0,1.0,2.0,3.0
+2026-10-21,0022600085,ORL,1629048-1630217-1630532-1630591-1642859,Goga Bitadze|Desmond Bane|Franz Wagner|Jalen Suggs|Jase Richardson,1.0,0.0,1.0,0.0,36.09999999999991
+2026-10-21,0022600085,ORL,1629048-1630217-1631094-1641783-1642859,Goga Bitadze|Desmond Bane|Paolo Banchero|Tristan da Silva|Jase Richardson,2.0,4.0,2.0,2.0,85.0
+2026-10-21,0022600085,ORL,1629048-1630532-1630591-1631094-1641783,Goga Bitadze|Franz Wagner|Jalen Suggs|Paolo Banchero|Tristan da Silva,3.0,2.0,3.0,5.0,65.0
+2026-10-21,0022600085,ORL,1629048-1630532-1630591-1631288-1641783,Goga Bitadze|Franz Wagner|Jalen Suggs|Jamal Cain|Tristan da Silva,5.0,4.0,6.0,5.0,146.5
+2026-10-21,0022600085,ORL,1629048-1630532-1630591-1631288-1642859,Goga Bitadze|Franz Wagner|Jalen Suggs|Jamal Cain|Jase Richardson,0.0,0.0,1.0,2.0,14.200000000000273
+2026-10-21,0022600085,ORL,1629048-1630532-1631094-1631288-1642859,Goga Bitadze|Franz Wagner|Paolo Banchero|Jamal Cain|Jase Richardson,4.0,5.0,4.0,2.0,86.69999999999982
+2026-10-21,0022600085,ORL,1629048-1630532-1631094-1641783-1642859,Goga Bitadze|Franz Wagner|Paolo Banchero|Tristan da Silva|Jase Richardson,0.0,1.0,1.0,0.0,25.0
+2026-10-21,0022600085,ORL,1629048-1630532-1631288-1641783-1642859,Goga Bitadze|Franz Wagner|Jamal Cain|Tristan da Silva|Jase Richardson,7.0,10.0,5.0,4.0,148.0
+2026-10-21,0022600085,ORL,1629048-1630591-1631094-1631288-1641783,Goga Bitadze|Jalen Suggs|Paolo Banchero|Jamal Cain|Tristan da Silva,3.0,5.0,2.0,2.0,97.0
+2026-10-21,0022600085,ORL,1630217-1630532-1630591-1631094-1641783,Desmond Bane|Franz Wagner|Jalen Suggs|Paolo Banchero|Tristan da Silva,1.0,0.0,0.0,0.0,3.5
+2026-10-21,0022600085,ORL,202696-1630217-1631094-1631288-1642859,Nikola Vučević|Desmond Bane|Paolo Banchero|Jamal Cain|Jase Richardson,3.0,0.0,3.0,6.0,62.0
+2026-10-21,0022600085,ORL,202696-1630532-1630591-1631288-1641783,Nikola Vučević|Franz Wagner|Jalen Suggs|Jamal Cain|Tristan da Silva,1.0,0.0,2.0,4.0,46.0
+2026-10-21,0022600085,ORL,202696-1630591-1631094-1631288-1641783,Nikola Vučević|Jalen Suggs|Paolo Banchero|Jamal Cain|Tristan da Silva,2.0,1.0,1.0,3.0,69.0
+2026-10-21,0022600085,ORL,202696-1631094-1631288-1641783-1642859,Nikola Vučević|Paolo Banchero|Jamal Cain|Tristan da Silva|Jase Richardson,6.0,8.0,6.0,5.0,142.0
+2026-10-21,0022600086,MIL,1626167-1628398-1629639-1631157-1631170,Myles Turner|Kyle Kuzma|Tyler Herro|Ryan Rollins|Jaime Jaquez Jr.,30.0,37.0,31.0,34.0,765.9000000000001
+2026-10-21,0022600086,MIL,1626167-1628398-1629639-1631170-1642857,Myles Turner|Kyle Kuzma|Tyler Herro|Jaime Jaquez Jr.|Kasparas Jakučionis,5.0,5.0,4.0,7.0,154.0
+2026-10-21,0022600086,MIL,1626167-1628398-1629639-1631260-1642857,Myles Turner|Kyle Kuzma|Tyler Herro|AJ Green|Kasparas Jakučionis,1.0,0.0,0.0,0.0,5.099999999999909
+2026-10-21,0022600086,MIL,1626167-1628398-1631157-1631170-1642857,Myles Turner|Kyle Kuzma|Ryan Rollins|Jaime Jaquez Jr.|Kasparas Jakučionis,4.0,5.0,3.0,3.0,85.0
+2026-10-21,0022600086,MIL,1626167-1628398-1631157-1631170-1643415,Myles Turner|Kyle Kuzma|Ryan Rollins|Jaime Jaquez Jr.|Brayden Burries,7.0,5.0,9.0,13.0,277.0
+2026-10-21,0022600086,MIL,1626167-1629639-1631170-1631172-1642857,Myles Turner|Tyler Herro|Jaime Jaquez Jr.|Ousmane Dieng|Kasparas Jakučionis,10.0,16.0,12.0,13.0,308.3000000000002
+2026-10-21,0022600086,MIL,1626167-1629639-1631172-1631260-1642857,Myles Turner|Tyler Herro|Ousmane Dieng|AJ Green|Kasparas Jakučionis,2.0,0.0,2.0,0.0,38.69999999999982
+2026-10-21,0022600086,MIL,1626167-1629639-1631172-1642857-1643415,Myles Turner|Tyler Herro|Ousmane Dieng|Kasparas Jakučionis|Brayden Burries,3.0,2.0,2.0,4.0,73.0
+2026-10-21,0022600086,MIL,1626167-1631157-1631172-1631260-1643415,Myles Turner|Ryan Rollins|Ousmane Dieng|AJ Green|Brayden Burries,4.0,3.0,4.0,2.0,119.0
+2026-10-21,0022600086,MIL,1626167-1631172-1631260-1642857-1643415,Myles Turner|Ousmane Dieng|AJ Green|Kasparas Jakučionis|Brayden Burries,5.0,5.0,5.0,6.0,109.0
+2026-10-21,0022600086,MIL,1628398-1629639-1631170-1642276-1642857,Kyle Kuzma|Tyler Herro|Jaime Jaquez Jr.|Kel'el Ware|Kasparas Jakučionis,6.0,6.0,7.0,7.0,161.0
+2026-10-21,0022600086,MIL,1628398-1630579-1631172-1631260-1642857,Kyle Kuzma|Jericho Sims|Ousmane Dieng|AJ Green|Kasparas Jakučionis,0.0,0.0,1.0,0.0,1.099999999999909
+2026-10-21,0022600086,MIL,1628398-1631157-1631170-1642276-1642857,Kyle Kuzma|Ryan Rollins|Jaime Jaquez Jr.|Kel'el Ware|Kasparas Jakučionis,1.0,2.0,1.0,0.0,21.0
+2026-10-21,0022600086,MIL,1628398-1631157-1631170-1642276-1643415,Kyle Kuzma|Ryan Rollins|Jaime Jaquez Jr.|Kel'el Ware|Brayden Burries,2.0,2.0,1.0,2.0,52.0
+2026-10-21,0022600086,MIL,1628398-1631157-1631260-1642276-1643415,Kyle Kuzma|Ryan Rollins|AJ Green|Kel'el Ware|Brayden Burries,3.0,3.0,3.0,7.0,95.0
+2026-10-21,0022600086,MIL,1628398-1631172-1631260-1642857-1643415,Kyle Kuzma|Ousmane Dieng|AJ Green|Kasparas Jakučionis|Brayden Burries,1.0,0.0,1.0,2.0,8.300000000000182
+2026-10-21,0022600086,MIL,1629639-1631170-1631172-1642276-1642857,Tyler Herro|Jaime Jaquez Jr.|Ousmane Dieng|Kel'el Ware|Kasparas Jakučionis,3.0,3.0,2.0,2.0,59.0
+2026-10-21,0022600086,MIL,1629639-1631172-1631260-1642276-1642857,Tyler Herro|Ousmane Dieng|AJ Green|Kel'el Ware|Kasparas Jakučionis,10.0,11.0,11.0,19.0,350.0
+2026-10-21,0022600086,MIL,1630579-1631172-1631260-1642857-1643415,Jericho Sims|Ousmane Dieng|AJ Green|Kasparas Jakučionis|Brayden Burries,4.0,11.0,3.0,7.0,111.59999999999992
+2026-10-21,0022600086,MIL,1631172-1631260-1642276-1642857-1643415,Ousmane Dieng|AJ Green|Kel'el Ware|Kasparas Jakučionis|Brayden Burries,2.0,0.0,2.0,0.0,86.0
+2026-10-21,0022600086,WAS,1629027-1629028-1630551-1642267-1642848,Trae Young|Deandre Ayton|Justin Champagnie|Bub Carrington|Tre Johnson,9.0,9.0,8.0,10.0,267.0
+2026-10-21,0022600086,WAS,1629027-1629028-1630551-1642273-1642848,Trae Young|Deandre Ayton|Justin Champagnie|Kyshawn George|Tre Johnson,7.0,16.0,8.0,5.0,241.0
+2026-10-21,0022600086,WAS,1629027-1629028-1641731-1642273-1642848,Trae Young|Deandre Ayton|Bilal Coulibaly|Kyshawn George|Tre Johnson,4.0,5.0,4.0,6.0,125.0
+2026-10-21,0022600086,WAS,203076-1629027-1629028-1641731-1642267,Anthony Davis|Trae Young|Deandre Ayton|Bilal Coulibaly|Bub Carrington,1.0,2.0,1.0,2.0,52.0
+2026-10-21,0022600086,WAS,203076-1629027-1630551-1641731-1642267,Anthony Davis|Trae Young|Justin Champagnie|Bilal Coulibaly|Bub Carrington,0.0,0.0,1.0,0.0,5.099999999999909
+2026-10-21,0022600086,WAS,203076-1629027-1641731-1642259-1642267,Anthony Davis|Trae Young|Bilal Coulibaly|Alex Sarr|Bub Carrington,7.0,8.0,6.0,11.0,173.9000000000001
+2026-10-21,0022600086,WAS,203076-1629027-1641731-1642259-1642273,Anthony Davis|Trae Young|Bilal Coulibaly|Alex Sarr|Kyshawn George,39.0,41.0,38.0,41.0,963.0
+2026-10-21,0022600086,WAS,203076-1629028-1642267-1642273-1642848,Anthony Davis|Deandre Ayton|Bub Carrington|Kyshawn George|Tre Johnson,0.0,0.0,1.0,0.0,15.0
+2026-10-21,0022600086,WAS,203076-1630551-1641731-1642267-1642848,Anthony Davis|Justin Champagnie|Bilal Coulibaly|Bub Carrington|Tre Johnson,3.0,4.0,3.0,3.0,69.0
+2026-10-21,0022600086,WAS,203076-1630551-1641731-1642273-1642848,Anthony Davis|Justin Champagnie|Bilal Coulibaly|Kyshawn George|Tre Johnson,5.0,10.0,4.0,5.0,135.0
+2026-10-21,0022600086,WAS,203076-1641731-1642259-1642267-1642273,Anthony Davis|Bilal Coulibaly|Alex Sarr|Bub Carrington|Kyshawn George,2.0,4.0,3.0,2.0,73.0
+2026-10-21,0022600086,WAS,203076-1641731-1642259-1642273-1642848,Anthony Davis|Bilal Coulibaly|Alex Sarr|Kyshawn George|Tre Johnson,1.0,0.0,0.0,0.0,29.0
+2026-10-21,0022600086,WAS,203076-203114-1629027-1629028-1642267,Anthony Davis|Khris Middleton|Trae Young|Deandre Ayton|Bub Carrington,3.0,5.0,3.0,2.0,102.0
+2026-10-21,0022600086,WAS,203076-203114-1629027-1630551-1642267,Anthony Davis|Khris Middleton|Trae Young|Justin Champagnie|Bub Carrington,7.0,13.0,6.0,13.0,158.69999999999982
+2026-10-21,0022600086,WAS,203076-203114-1629028-1642267-1642273,Anthony Davis|Khris Middleton|Deandre Ayton|Bub Carrington|Kyshawn George,3.0,2.0,3.0,6.0,84.0
+2026-10-21,0022600086,WAS,203076-203114-1629028-1642273-1642848,Anthony Davis|Khris Middleton|Deandre Ayton|Kyshawn George|Tre Johnson,1.0,0.0,1.0,2.0,21.0
+2026-10-21,0022600086,WAS,203076-203114-1630551-1641731-1642267,Anthony Davis|Khris Middleton|Justin Champagnie|Bilal Coulibaly|Bub Carrington,4.0,5.0,5.0,3.0,110.30000000000018
+2026-10-21,0022600086,WAS,203076-203114-1630551-1642273-1642848,Anthony Davis|Khris Middleton|Justin Champagnie|Kyshawn George|Tre Johnson,1.0,2.0,1.0,0.0,36.0
+2026-10-21,0022600086,WAS,203114-1629027-1630551-1642259-1642848,Khris Middleton|Trae Young|Justin Champagnie|Alex Sarr|Tre Johnson,6.0,2.0,6.0,5.0,215.89999999999998
+2026-10-21,0022600086,WAS,203114-1630551-1641731-1642259-1642848,Khris Middleton|Justin Champagnie|Bilal Coulibaly|Alex Sarr|Tre Johnson,1.0,0.0,1.0,0.0,4.100000000000023
+2026-10-21,0022600087,BKN,1629008-1629021-1631165-1641730-1642849,Michael Porter Jr.|Moritz Wagner|Keon Ellis|Noah Clowney|Nolan Traore,4.0,4.0,4.0,5.0,85.0
+2026-10-21,0022600087,BKN,1629008-1629021-1631165-1641730-1642856,Michael Porter Jr.|Moritz Wagner|Keon Ellis|Noah Clowney|Egor Dëmin,1.0,2.0,0.0,0.0,15.0
+2026-10-21,0022600087,BKN,1629008-1629021-1641730-1642849-1643414,Michael Porter Jr.|Moritz Wagner|Noah Clowney|Nolan Traore|Mikel Brown Jr.,1.0,2.0,1.0,2.0,25.0
+2026-10-21,0022600087,BKN,1629008-1629021-1642849-1642856-1643052,Michael Porter Jr.|Moritz Wagner|Nolan Traore|Egor Dëmin|Chaney Johnson,3.0,0.0,3.0,5.0,96.0
+2026-10-21,0022600087,BKN,1629008-1630549-1631165-1641730-1643414,Michael Porter Jr.|Day'Ron Sharpe|Keon Ellis|Noah Clowney|Mikel Brown Jr.,6.0,6.0,7.0,6.0,188.0
+2026-10-21,0022600087,BKN,1629008-1630549-1631165-1642856-1643052,Michael Porter Jr.|Day'Ron Sharpe|Keon Ellis|Egor Dëmin|Chaney Johnson,5.0,2.0,5.0,3.0,121.0
+2026-10-21,0022600087,BKN,1629021-1641730-1642849-1643052-1643414,Moritz Wagner|Noah Clowney|Nolan Traore|Chaney Johnson|Mikel Brown Jr.,3.0,3.0,2.0,5.0,80.0
+2026-10-21,0022600087,BKN,203944-1629008-1629021-1631165-1642856,Julius Randle|Michael Porter Jr.|Moritz Wagner|Keon Ellis|Egor Dëmin,3.0,1.0,3.0,4.0,84.0
+2026-10-21,0022600087,BKN,203944-1629008-1629021-1642849-1642856,Julius Randle|Michael Porter Jr.|Moritz Wagner|Nolan Traore|Egor Dëmin,0.0,0.0,1.0,2.0,31.0
+2026-10-21,0022600087,BKN,203944-1629008-1630549-1631165-1642856,Julius Randle|Michael Porter Jr.|Day'Ron Sharpe|Keon Ellis|Egor Dëmin,39.0,45.0,39.0,34.0,1109.0
+2026-10-21,0022600087,BKN,203944-1629008-1630549-1631165-1643414,Julius Randle|Michael Porter Jr.|Day'Ron Sharpe|Keon Ellis|Mikel Brown Jr.,4.0,4.0,4.0,5.0,149.0
+2026-10-21,0022600087,BKN,203944-1629008-1631165-1641730-1642856,Julius Randle|Michael Porter Jr.|Keon Ellis|Noah Clowney|Egor Dëmin,7.0,5.0,6.0,4.0,151.0
+2026-10-21,0022600087,BKN,203944-1629021-1641730-1642849-1643414,Julius Randle|Moritz Wagner|Noah Clowney|Nolan Traore|Mikel Brown Jr.,19.0,21.0,21.0,25.0,533.0
+2026-10-21,0022600087,BKN,203944-1630549-1631165-1641730-1643414,Julius Randle|Day'Ron Sharpe|Keon Ellis|Noah Clowney|Mikel Brown Jr.,4.0,3.0,3.0,6.0,132.0
+2026-10-21,0022600087,BKN,203944-1630549-1641730-1642849-1643414,Julius Randle|Day'Ron Sharpe|Noah Clowney|Nolan Traore|Mikel Brown Jr.,2.0,5.0,3.0,4.0,81.0
+2026-10-21,0022600087,CHA,1626220-1628960-1631217-1641706-1643515,Royce O'Neale|Grayson Allen|Moussa Diabaté|Brandon Miller|Christian Anderson,2.0,4.0,1.0,2.0,53.0
+2026-10-21,0022600087,CHA,1626220-1628960-1631217-1642883-1643515,Royce O'Neale|Grayson Allen|Moussa Diabaté|Sion James|Christian Anderson,5.0,3.0,6.0,5.0,159.0
+2026-10-21,0022600087,CHA,1626220-1628960-1641706-1641750-1643515,Royce O'Neale|Grayson Allen|Brandon Miller|Ryan Kalkbrenner|Christian Anderson,8.0,13.0,9.0,5.0,239.0
+2026-10-21,0022600087,CHA,1626220-1628960-1641750-1642883-1643515,Royce O'Neale|Grayson Allen|Ryan Kalkbrenner|Sion James|Christian Anderson,1.0,2.0,0.0,0.0,7.0
+2026-10-21,0022600087,CHA,1626220-1631217-1641706-1642883-1643515,Royce O'Neale|Moussa Diabaté|Brandon Miller|Sion James|Christian Anderson,7.0,6.0,8.0,7.0,232.0
+2026-10-21,0022600087,CHA,1628960-1629675-1631217-1641706-1643515,Grayson Allen|Naz Reid|Moussa Diabaté|Brandon Miller|Christian Anderson,1.0,0.0,1.0,2.0,42.0
+2026-10-21,0022600087,CHA,1629675-1631217-1641706-1642883-1643515,Naz Reid|Moussa Diabaté|Brandon Miller|Sion James|Christian Anderson,2.0,2.0,3.0,4.0,67.0
+2026-10-21,0022600087,CHA,203471-1626220-1628960-1629675-1641750,Dennis Schröder|Royce O'Neale|Grayson Allen|Naz Reid|Ryan Kalkbrenner,7.0,11.0,7.0,5.0,161.0
+2026-10-21,0022600087,CHA,203471-1626220-1628960-1631217-1641706,Dennis Schröder|Royce O'Neale|Grayson Allen|Moussa Diabaté|Brandon Miller,2.0,3.0,1.0,2.0,41.0
+2026-10-21,0022600087,CHA,203471-1626220-1628960-1631217-1642883,Dennis Schröder|Royce O'Neale|Grayson Allen|Moussa Diabaté|Sion James,5.0,4.0,4.0,5.0,112.0
+2026-10-21,0022600087,CHA,203471-1626220-1628960-1641706-1641750,Dennis Schröder|Royce O'Neale|Grayson Allen|Brandon Miller|Ryan Kalkbrenner,1.0,2.0,1.0,2.0,25.0
+2026-10-21,0022600087,CHA,203471-1628960-1629675-1631217-1641706,Dennis Schröder|Grayson Allen|Naz Reid|Moussa Diabaté|Brandon Miller,17.0,15.0,18.0,16.0,434.0999999999999
+2026-10-21,0022600087,CHA,203471-1628960-1629675-1641706-1641750,Dennis Schröder|Grayson Allen|Naz Reid|Brandon Miller|Ryan Kalkbrenner,3.0,4.0,2.0,2.0,78.0
+2026-10-21,0022600087,CHA,203471-1628960-1629675-1641706-1642883,Dennis Schröder|Grayson Allen|Naz Reid|Brandon Miller|Sion James,2.0,1.0,1.0,0.0,23.90000000000009
+2026-10-21,0022600087,CHA,203471-1628960-1629675-1641750-1642862,Dennis Schröder|Grayson Allen|Naz Reid|Ryan Kalkbrenner|Liam McNeeley,1.0,2.0,1.0,3.0,49.0
+2026-10-21,0022600087,CHA,203471-1628960-1629675-1641750-1642883,Dennis Schröder|Grayson Allen|Naz Reid|Ryan Kalkbrenner|Sion James,8.0,13.0,7.0,6.0,253.0
+2026-10-21,0022600087,CHA,203471-1628960-1631217-1641706-1642883,Dennis Schröder|Grayson Allen|Moussa Diabaté|Brandon Miller|Sion James,2.0,0.0,2.0,2.0,51.0
+2026-10-21,0022600087,CHA,203471-1629675-1631217-1641706-1642862,Dennis Schröder|Naz Reid|Moussa Diabaté|Brandon Miller|Liam McNeeley,4.0,5.0,4.0,4.0,123.0
+2026-10-21,0022600087,CHA,203471-1629675-1631217-1641706-1642883,Dennis Schröder|Naz Reid|Moussa Diabaté|Brandon Miller|Sion James,23.0,20.0,24.0,29.0,704.0
+2026-10-21,0022600087,CHA,203471-1629675-1641706-1641750-1642862,Dennis Schröder|Naz Reid|Brandon Miller|Ryan Kalkbrenner|Liam McNeeley,1.0,0.0,1.0,2.0,26.0
+2026-10-21,0022600088,CHI,1626181-1627741-1628380-1630200-1631159,Norman Powell|Buddy Hield|Zach Collins|Tre Jones|Leonard Miller,5.0,7.0,5.0,4.0,148.0
+2026-10-21,0022600088,CHI,1626181-1628380-1630171-1630188-1630200,Norman Powell|Zach Collins|Isaac Okoro|Jalen Smith|Tre Jones,1.0,0.0,0.0,0.0,29.0
+2026-10-21,0022600088,CHI,1626181-1628380-1630171-1630188-1630581,Norman Powell|Zach Collins|Isaac Okoro|Jalen Smith|Josh Giddey,3.0,3.0,3.0,3.0,66.0
+2026-10-21,0022600088,CHI,1626181-1628380-1630171-1630200-1631159,Norman Powell|Zach Collins|Isaac Okoro|Tre Jones|Leonard Miller,2.0,2.0,2.0,0.0,36.0
+2026-10-21,0022600088,CHI,1626181-1628380-1630188-1630200-1641824,Norman Powell|Zach Collins|Jalen Smith|Tre Jones|Matas Buzelis,5.0,7.0,4.0,0.0,88.0
+2026-10-21,0022600088,CHI,1626181-1630171-1630188-1630581-1643410,Norman Powell|Isaac Okoro|Jalen Smith|Josh Giddey|Caleb Wilson,5.0,3.0,5.0,8.0,126.29999999999995
+2026-10-21,0022600088,CHI,1626181-1630171-1630200-1631159-1643410,Norman Powell|Isaac Okoro|Tre Jones|Leonard Miller|Caleb Wilson,1.0,0.0,1.0,3.0,45.0
+2026-10-21,0022600088,CHI,1626181-1630171-1630581-1631159-1643410,Norman Powell|Isaac Okoro|Josh Giddey|Leonard Miller|Caleb Wilson,2.0,2.0,1.0,2.0,47.700000000000045
+2026-10-21,0022600088,CHI,1626181-1630188-1630581-1641824-1643410,Norman Powell|Jalen Smith|Josh Giddey|Matas Buzelis|Caleb Wilson,21.0,11.0,22.0,28.0,535.0
+2026-10-21,0022600088,CHI,1626181-1631159-1641824-1643591-1643637,Norman Powell|Leonard Miller|Matas Buzelis|Tobe Awaka|Jaylin Sellers,2.0,0.0,2.0,2.0,41.0
+2026-10-21,0022600088,CHI,1626181-1641824-1643410-1643591-1643637,Norman Powell|Matas Buzelis|Caleb Wilson|Tobe Awaka|Jaylin Sellers,6.0,8.0,6.0,6.0,173.0
+2026-10-21,0022600088,CHI,1627741-1628380-1630171-1630200-1631159,Buddy Hield|Zach Collins|Isaac Okoro|Tre Jones|Leonard Miller,6.0,2.0,5.0,7.0,151.0
+2026-10-21,0022600088,CHI,1627741-1630171-1630188-1630200-1631159,Buddy Hield|Isaac Okoro|Jalen Smith|Tre Jones|Leonard Miller,1.0,0.0,2.0,0.0,51.0
+2026-10-21,0022600088,CHI,1627741-1630171-1630188-1630200-1643410,Buddy Hield|Isaac Okoro|Jalen Smith|Tre Jones|Caleb Wilson,1.0,0.0,0.0,0.0,50.0
+2026-10-21,0022600088,CHI,1627741-1630171-1630188-1630581-1631159,Buddy Hield|Isaac Okoro|Jalen Smith|Josh Giddey|Leonard Miller,3.0,0.0,4.0,2.0,104.0
+2026-10-21,0022600088,CHI,1627741-1630171-1630188-1630581-1643410,Buddy Hield|Isaac Okoro|Jalen Smith|Josh Giddey|Caleb Wilson,1.0,2.0,1.0,2.0,29.0
+2026-10-21,0022600088,CHI,1627741-1630171-1630200-1631159-1643410,Buddy Hield|Isaac Okoro|Tre Jones|Leonard Miller|Caleb Wilson,3.0,5.0,4.0,10.0,95.0
+2026-10-21,0022600088,CHI,1627741-1630200-1631159-1642855-1643410,Buddy Hield|Tre Jones|Leonard Miller|Noa Essengue|Caleb Wilson,6.0,6.0,5.0,4.0,111.0
+2026-10-21,0022600088,CHI,1627741-1630581-1631159-1642855-1643410,Buddy Hield|Josh Giddey|Leonard Miller|Noa Essengue|Caleb Wilson,3.0,0.0,4.0,5.0,83.0
+2026-10-21,0022600088,CHI,1630171-1630188-1630581-1641824-1643410,Isaac Okoro|Jalen Smith|Josh Giddey|Matas Buzelis|Caleb Wilson,2.0,2.0,2.0,4.0,60.0
+2026-10-21,0022600088,CHI,1630171-1630581-1631159-1641824-1643410,Isaac Okoro|Josh Giddey|Leonard Miller|Matas Buzelis|Caleb Wilson,8.0,10.0,8.0,17.0,172.0
+2026-10-21,0022600088,CHI,1630581-1631159-1642855-1643591-1643637,Josh Giddey|Leonard Miller|Noa Essengue|Tobe Awaka|Jaylin Sellers,8.0,9.0,8.0,10.0,218.0
+2026-10-21,0022600088,CHI,1631159-1641824-1643410-1643591-1643637,Leonard Miller|Matas Buzelis|Caleb Wilson|Tobe Awaka|Jaylin Sellers,9.0,7.0,9.0,6.0,258.0
+2026-10-21,0022600088,CHI,1641824-1642855-1643410-1643591-1643637,Matas Buzelis|Noa Essengue|Caleb Wilson|Tobe Awaka|Jaylin Sellers,7.0,6.0,7.0,12.0,163.0
+2026-10-21,0022600088,TOR,1627751-1629628-1630193-1630567-1642266,Jakob Poeltl|RJ Barrett|Immanuel Quickley|Scottie Barnes|Ja'Kobe Walter,1.0,0.0,0.0,0.0,37.0
+2026-10-21,0022600088,TOR,1627751-1629628-1630193-1630567-1642419,Jakob Poeltl|RJ Barrett|Immanuel Quickley|Scottie Barnes|Jamison Battle,5.0,9.0,5.0,0.0,139.0
+2026-10-21,0022600088,TOR,1627751-1629628-1642266-1642347-1642867,Jakob Poeltl|RJ Barrett|Ja'Kobe Walter|Jamal Shead|Collin Murray-Boyles,4.0,4.0,5.0,2.0,127.0
+2026-10-21,0022600088,TOR,1627751-1630193-1630567-1642266-1643512,Jakob Poeltl|Immanuel Quickley|Scottie Barnes|Ja'Kobe Walter|Allen Graves,2.0,3.0,2.0,0.0,42.0
+2026-10-21,0022600088,TOR,1627751-1630567-1642266-1642347-1643512,Jakob Poeltl|Scottie Barnes|Ja'Kobe Walter|Jamal Shead|Allen Graves,4.0,2.0,3.0,2.0,84.0
+2026-10-21,0022600088,TOR,1629628-1630193-1642266-1642419-1642867,RJ Barrett|Immanuel Quickley|Ja'Kobe Walter|Jamison Battle|Collin Murray-Boyles,3.0,6.0,2.0,2.0,80.79999999999995
+2026-10-21,0022600088,TOR,1629628-1642266-1642347-1642867-1643512,RJ Barrett|Ja'Kobe Walter|Jamal Shead|Collin Murray-Boyles|Allen Graves,5.0,10.0,5.0,6.0,147.0
+2026-10-21,0022600088,TOR,1630193-1630567-1642266-1642347-1642867,Immanuel Quickley|Scottie Barnes|Ja'Kobe Walter|Jamal Shead|Collin Murray-Boyles,2.0,3.0,2.0,0.0,62.0
+2026-10-21,0022600088,TOR,1630193-1630567-1642266-1642419-1642867,Immanuel Quickley|Scottie Barnes|Ja'Kobe Walter|Jamison Battle|Collin Murray-Boyles,8.0,18.0,8.0,11.0,166.20000000000005
+2026-10-21,0022600088,TOR,1630567-1642266-1642347-1642867-1643512,Scottie Barnes|Ja'Kobe Walter|Jamal Shead|Collin Murray-Boyles|Allen Graves,3.0,2.0,3.0,0.0,67.0
+2026-10-21,0022600088,TOR,1631218-1642266-1642347-1642419-1643512,Trayce Jackson-Davis|Ja'Kobe Walter|Jamal Shead|Jamison Battle|Allen Graves,7.0,6.0,8.0,10.0,193.0
+2026-10-21,0022600088,TOR,202695-1627751-1629628-1630193-1630567,Kawhi Leonard|Jakob Poeltl|RJ Barrett|Immanuel Quickley|Scottie Barnes,27.0,29.0,29.0,25.0,676.0
+2026-10-21,0022600088,TOR,202695-1627751-1629628-1630193-1642867,Kawhi Leonard|Jakob Poeltl|RJ Barrett|Immanuel Quickley|Collin Murray-Boyles,1.0,2.0,1.0,2.0,29.0
+2026-10-21,0022600088,TOR,202695-1627751-1629628-1642347-1642867,Kawhi Leonard|Jakob Poeltl|RJ Barrett|Jamal Shead|Collin Murray-Boyles,0.0,0.0,0.0,0.0,24.0
+2026-10-21,0022600088,TOR,202695-1627751-1630193-1630567-1642266,Kawhi Leonard|Jakob Poeltl|Immanuel Quickley|Scottie Barnes|Ja'Kobe Walter,5.0,6.0,5.0,7.0,115.5
+2026-10-21,0022600088,TOR,202695-1627751-1630193-1642266-1643512,Kawhi Leonard|Jakob Poeltl|Immanuel Quickley|Ja'Kobe Walter|Allen Graves,1.0,0.0,1.0,2.0,34.5
+2026-10-21,0022600088,TOR,202695-1629628-1630193-1630567-1642867,Kawhi Leonard|RJ Barrett|Immanuel Quickley|Scottie Barnes|Collin Murray-Boyles,7.0,7.0,7.0,5.0,173.0
+2026-10-21,0022600088,TOR,202695-1629628-1630193-1642867-1643512,Kawhi Leonard|RJ Barrett|Immanuel Quickley|Collin Murray-Boyles|Allen Graves,4.0,8.0,4.0,1.0,114.0
+2026-10-21,0022600088,TOR,202695-1629628-1642347-1642867-1643512,Kawhi Leonard|RJ Barrett|Jamal Shead|Collin Murray-Boyles|Allen Graves,1.0,2.0,0.0,0.0,28.0
+2026-10-21,0022600088,TOR,202695-1630193-1631218-1642266-1642419,Kawhi Leonard|Immanuel Quickley|Trayce Jackson-Davis|Ja'Kobe Walter|Jamison Battle,1.0,3.0,2.0,1.0,25.0
+2026-10-21,0022600088,TOR,202695-1631218-1642266-1642347-1642419,Kawhi Leonard|Trayce Jackson-Davis|Ja'Kobe Walter|Jamal Shead|Jamison Battle,3.0,5.0,2.0,2.0,58.0
+2026-10-21,0022600088,TOR,202695-1642266-1642347-1642867-1643512,Kawhi Leonard|Ja'Kobe Walter|Jamal Shead|Collin Murray-Boyles|Allen Graves,5.0,2.0,6.0,7.0,159.0
+2026-10-21,0022600088,TOR,203937-1631218-1642918-1643512-1643558,Kyle Anderson|Trayce Jackson-Davis|Alijah Martin|Allen Graves|Jaden Bradley,11.0,8.0,11.0,7.0,299.0
+2026-10-21,0022600089,MEM,1629660-1641713-1642366-1642907-1643409,Ty Jerome|GG Jackson|Quinten Post|Cedric Coward|Cameron Boozer,10.0,15.0,9.0,10.0,211.0999999999999
+2026-10-21,0022600089,MEM,1629660-1641713-1642377-1642907-1643409,Ty Jerome|GG Jackson|Jaylen Wells|Cedric Coward|Cameron Boozer,1.0,2.0,2.0,3.0,29.90000000000009
+2026-10-21,0022600089,MEM,1629660-1641744-1642377-1642907-1643409,Ty Jerome|Zach Edey|Jaylen Wells|Cedric Coward|Cameron Boozer,38.0,52.0,39.0,35.0,1141.0
+2026-10-21,0022600089,MEM,1630590-1642285-1642366-1642377-1643409,Scotty Pippen Jr.|Cam Spencer|Quinten Post|Jaylen Wells|Cameron Boozer,1.0,2.0,2.0,2.0,57.0
+2026-10-21,0022600089,MEM,203924-1629660-1630590-1641713-1642366,Jerami Grant|Ty Jerome|Scotty Pippen Jr.|GG Jackson|Quinten Post,3.0,2.0,3.0,5.0,110.0
+2026-10-21,0022600089,MEM,203924-1629660-1630590-1641744-1643409,Jerami Grant|Ty Jerome|Scotty Pippen Jr.|Zach Edey|Cameron Boozer,3.0,4.0,3.0,2.0,124.0
+2026-10-21,0022600089,MEM,203924-1629660-1641713-1642366-1642907,Jerami Grant|Ty Jerome|GG Jackson|Quinten Post|Cedric Coward,8.0,7.0,7.0,6.0,209.0
+2026-10-21,0022600089,MEM,203924-1629660-1641713-1642907-1643409,Jerami Grant|Ty Jerome|GG Jackson|Cedric Coward|Cameron Boozer,3.0,3.0,3.0,2.0,78.0
+2026-10-21,0022600089,MEM,203924-1630590-1641713-1642285-1642366,Jerami Grant|Scotty Pippen Jr.|GG Jackson|Cam Spencer|Quinten Post,18.0,14.0,20.0,25.0,483.0
+2026-10-21,0022600089,MEM,203924-1630590-1642285-1642366-1642377,Jerami Grant|Scotty Pippen Jr.|Cam Spencer|Quinten Post|Jaylen Wells,4.0,3.0,3.0,2.0,92.0
+2026-10-21,0022600089,MEM,203924-1630590-1642285-1642377-1643409,Jerami Grant|Scotty Pippen Jr.|Cam Spencer|Jaylen Wells|Cameron Boozer,15.0,19.0,13.0,11.0,345.0
+2026-10-21,0022600089,UTA,1628374-1628991-1629004-1641718-1642846,Lauri Markkanen|Jaren Jackson Jr.|Svi Mykhailiuk|Keyonte George|Ace Bailey,4.0,4.0,3.0,0.0,106.0
+2026-10-21,0022600089,UTA,1628374-1628991-1629004-1642268-1642846,Lauri Markkanen|Jaren Jackson Jr.|Svi Mykhailiuk|Isaiah Collier|Ace Bailey,6.0,9.0,7.0,7.0,162.0
+2026-10-21,0022600089,UTA,1628374-1628991-1629004-1642846-1643408,Lauri Markkanen|Jaren Jackson Jr.|Svi Mykhailiuk|Ace Bailey|Darryn Peterson,8.0,6.0,8.0,8.0,222.0
+2026-10-21,0022600089,UTA,1628374-1628991-1629006-1641718-1643408,Lauri Markkanen|Jaren Jackson Jr.|Josh Okogie|Keyonte George|Darryn Peterson,0.0,0.0,1.0,1.0,10.0
+2026-10-21,0022600089,UTA,1628374-1628991-1629637-1641718-1643408,Lauri Markkanen|Jaren Jackson Jr.|Jaxson Hayes|Keyonte George|Darryn Peterson,19.0,17.0,18.0,23.0,548.0
+2026-10-21,0022600089,UTA,1628374-1628991-1641718-1641729-1643408,Lauri Markkanen|Jaren Jackson Jr.|Keyonte George|Brice Sensabaugh|Darryn Peterson,9.0,13.0,8.0,10.0,264.0
+2026-10-21,0022600089,UTA,1628374-1629004-1629637-1641718-1642846,Lauri Markkanen|Svi Mykhailiuk|Jaxson Hayes|Keyonte George|Ace Bailey,3.0,2.0,3.0,5.0,94.0
+2026-10-21,0022600089,UTA,1628374-1629004-1629637-1642268-1642846,Lauri Markkanen|Svi Mykhailiuk|Jaxson Hayes|Isaiah Collier|Ace Bailey,2.0,3.0,1.0,2.0,29.90000000000009
+2026-10-21,0022600089,UTA,1628374-1629004-1642268-1642271-1642846,Lauri Markkanen|Svi Mykhailiuk|Isaiah Collier|Kyle Filipowski|Ace Bailey,11.0,13.0,10.0,12.0,212.0
+2026-10-21,0022600089,UTA,1628374-1629006-1629637-1641718-1643408,Lauri Markkanen|Josh Okogie|Jaxson Hayes|Keyonte George|Darryn Peterson,4.0,2.0,4.0,5.0,120.0
+2026-10-21,0022600089,UTA,1628374-1629006-1641718-1642846-1643408,Lauri Markkanen|Josh Okogie|Keyonte George|Ace Bailey|Darryn Peterson,5.0,7.0,5.0,4.0,185.0
+2026-10-21,0022600089,UTA,1628374-1629637-1641718-1641729-1642846,Lauri Markkanen|Jaxson Hayes|Keyonte George|Brice Sensabaugh|Ace Bailey,3.0,2.0,3.0,7.0,70.0
+2026-10-21,0022600089,UTA,1628374-1629637-1641718-1641729-1643408,Lauri Markkanen|Jaxson Hayes|Keyonte George|Brice Sensabaugh|Darryn Peterson,3.0,7.0,4.0,2.0,83.0
+2026-10-21,0022600089,UTA,1628374-1629637-1641718-1642846-1643408,Lauri Markkanen|Jaxson Hayes|Keyonte George|Ace Bailey|Darryn Peterson,3.0,2.0,4.0,3.0,75.0
+2026-10-21,0022600089,UTA,1628991-1629004-1629637-1642268-1642846,Jaren Jackson Jr.|Svi Mykhailiuk|Jaxson Hayes|Isaiah Collier|Ace Bailey,2.0,0.0,2.0,5.0,63.0
+2026-10-21,0022600089,UTA,1628991-1629637-1641718-1641729-1643408,Jaren Jackson Jr.|Jaxson Hayes|Keyonte George|Brice Sensabaugh|Darryn Peterson,3.0,2.0,3.0,4.0,107.0
+2026-10-21,0022600089,UTA,1628991-1629637-1641718-1642846-1643408,Jaren Jackson Jr.|Jaxson Hayes|Keyonte George|Ace Bailey|Darryn Peterson,2.0,0.0,2.0,2.0,54.0
+2026-10-21,0022600089,UTA,1628991-1629637-1641729-1642268-1643408,Jaren Jackson Jr.|Jaxson Hayes|Brice Sensabaugh|Isaiah Collier|Darryn Peterson,6.0,3.0,5.0,11.0,149.0
+2026-10-21,0022600089,UTA,1629004-1629006-1641729-1642268-1642271,Svi Mykhailiuk|Josh Okogie|Brice Sensabaugh|Isaiah Collier|Kyle Filipowski,3.0,2.0,4.0,3.0,92.0
+2026-10-21,0022600089,UTA,1629004-1629637-1642268-1642271-1642846,Svi Mykhailiuk|Jaxson Hayes|Isaiah Collier|Kyle Filipowski|Ace Bailey,7.0,9.0,8.0,7.0,185.0999999999999
+2026-10-21,0022600089,UTA,1629006-1641729-1642268-1642271-1643408,Josh Okogie|Brice Sensabaugh|Isaiah Collier|Kyle Filipowski|Darryn Peterson,1.0,0.0,1.0,2.0,49.0
+2026-10-21,0022600090,IND,1626162-1626204-1627783-1630169-1631245,Kelly Oubre Jr.|Larry Nance Jr.|Pascal Siakam|Tyrese Haliburton|Quenton Jackson,5.0,0.0,6.0,8.0,145.0
+2026-10-21,0022600090,IND,1626162-1626204-1630167-1630169-1641767,Kelly Oubre Jr.|Larry Nance Jr.|Obi Toppin|Tyrese Haliburton|Ben Sheppard,2.0,3.0,2.0,2.0,59.0
+2026-10-21,0022600090,IND,1626162-1627783-1627826-1629614-1630169,Kelly Oubre Jr.|Pascal Siakam|Ivica Zubac|Andrew Nembhard|Tyrese Haliburton,29.0,35.0,28.0,34.0,793.0
+2026-10-21,0022600090,IND,1626162-1627783-1627826-1629614-1631245,Kelly Oubre Jr.|Pascal Siakam|Ivica Zubac|Andrew Nembhard|Quenton Jackson,5.0,6.0,6.0,3.0,116.19999999999982
+2026-10-21,0022600090,IND,1626162-1627783-1627826-1630169-1631245,Kelly Oubre Jr.|Pascal Siakam|Ivica Zubac|Tyrese Haliburton|Quenton Jackson,6.0,12.0,6.0,6.0,183.0
+2026-10-21,0022600090,IND,1626162-1627783-1629614-1630167-1631245,Kelly Oubre Jr.|Pascal Siakam|Andrew Nembhard|Obi Toppin|Quenton Jackson,6.0,7.0,5.0,3.0,160.89999999999998
+2026-10-21,0022600090,IND,1626162-1627826-1629614-1630167-1631245,Kelly Oubre Jr.|Ivica Zubac|Andrew Nembhard|Obi Toppin|Quenton Jackson,2.0,2.0,3.0,4.0,72.0
+2026-10-21,0022600090,IND,1626162-1627826-1629614-1630167-1641716,Kelly Oubre Jr.|Ivica Zubac|Andrew Nembhard|Obi Toppin|Jarace Walker,5.0,7.0,5.0,4.0,135.0
+2026-10-21,0022600090,IND,1626204-1630167-1630169-1631245-1641716,Larry Nance Jr.|Obi Toppin|Tyrese Haliburton|Quenton Jackson|Jarace Walker,5.0,0.0,5.0,4.0,110.0
+2026-10-21,0022600090,IND,1627783-1627826-1629614-1630167-1630169,Pascal Siakam|Ivica Zubac|Andrew Nembhard|Obi Toppin|Tyrese Haliburton,6.0,13.0,5.0,10.0,171.0
+2026-10-21,0022600090,IND,1627783-1627826-1629614-1630169-1631245,Pascal Siakam|Ivica Zubac|Andrew Nembhard|Tyrese Haliburton|Quenton Jackson,2.0,2.0,2.0,2.0,68.80000000000018
+2026-10-21,0022600090,IND,1627783-1627826-1629614-1630169-1641716,Pascal Siakam|Ivica Zubac|Andrew Nembhard|Tyrese Haliburton|Jarace Walker,4.0,6.0,3.0,8.0,92.0
+2026-10-21,0022600090,IND,1627783-1629614-1630167-1630169-1641716,Pascal Siakam|Andrew Nembhard|Obi Toppin|Tyrese Haliburton|Jarace Walker,1.0,0.0,0.0,0.0,3.099999999999909
+2026-10-21,0022600090,IND,1627783-1629614-1630167-1631245-1641716,Pascal Siakam|Andrew Nembhard|Obi Toppin|Quenton Jackson|Jarace Walker,3.0,5.0,4.0,4.0,75.90000000000009
+2026-10-21,0022600090,IND,1627783-1629614-1630167-1641716-1641767,Pascal Siakam|Andrew Nembhard|Obi Toppin|Jarace Walker|Ben Sheppard,12.0,13.0,11.0,15.0,308.1
+2026-10-21,0022600090,IND,1627826-1629614-1630167-1630169-1641716,Ivica Zubac|Andrew Nembhard|Obi Toppin|Tyrese Haliburton|Jarace Walker,0.0,0.0,1.0,0.0,24.0
+2026-10-21,0022600090,IND,1627826-1630167-1630169-1641716-1641767,Ivica Zubac|Obi Toppin|Tyrese Haliburton|Jarace Walker|Ben Sheppard,12.0,12.0,13.0,13.0,363.0
+2026-10-21,0022600090,NOP,1627749-1629627-1629673-1630529-1642274,Dejounte Murray|Zion Williamson|Jordan Poole|Herbert Jones|Yves Missi,2.0,4.0,1.0,0.0,24.0
+2026-10-21,0022600090,NOP,1627749-1629627-1629673-1630529-1642852,Dejounte Murray|Zion Williamson|Jordan Poole|Herbert Jones|Derik Queen,8.0,8.0,8.0,0.0,204.0
+2026-10-21,0022600090,NOP,1627749-1629627-1630180-1630530-1642274,Dejounte Murray|Zion Williamson|Saddiq Bey|Trey Murphy III|Yves Missi,16.0,23.0,17.0,18.0,465.0
+2026-10-21,0022600090,NOP,1627749-1629627-1630529-1630530-1642274,Dejounte Murray|Zion Williamson|Herbert Jones|Trey Murphy III|Yves Missi,1.0,0.0,1.0,0.0,27.0
+2026-10-21,0022600090,NOP,1627749-1629627-1630530-1631097-1642274,Dejounte Murray|Zion Williamson|Trey Murphy III|Bennedict Mathurin|Yves Missi,1.0,0.0,0.0,0.0,24.0
+2026-10-21,0022600090,NOP,1627749-1629627-1630530-1642274-1642847,Dejounte Murray|Zion Williamson|Trey Murphy III|Yves Missi|Jeremiah Fears,40.0,44.0,39.0,59.0,1088.0
+2026-10-21,0022600090,NOP,1627749-1630180-1630529-1631097-1642852,Dejounte Murray|Saddiq Bey|Herbert Jones|Bennedict Mathurin|Derik Queen,4.0,2.0,5.0,9.0,108.0
+2026-10-21,0022600090,NOP,1627749-1630180-1630530-1631097-1642274,Dejounte Murray|Saddiq Bey|Trey Murphy III|Bennedict Mathurin|Yves Missi,4.0,4.0,4.0,5.0,121.0
+2026-10-21,0022600090,NOP,1629627-1629673-1630529-1631097-1642852,Zion Williamson|Jordan Poole|Herbert Jones|Bennedict Mathurin|Derik Queen,4.0,4.0,4.0,5.0,96.0
+2026-10-21,0022600090,NOP,1629673-1630180-1630529-1631097-1642852,Jordan Poole|Saddiq Bey|Herbert Jones|Bennedict Mathurin|Derik Queen,19.0,24.0,20.0,23.0,555.0
+2026-10-21,0022600090,NOP,1630180-1630530-1631097-1642274-1642847,Saddiq Bey|Trey Murphy III|Bennedict Mathurin|Yves Missi|Jeremiah Fears,2.0,2.0,2.0,2.0,46.0
+2026-10-21,0022600090,NOP,1630180-1630530-1631097-1642847-1642852,Saddiq Bey|Trey Murphy III|Bennedict Mathurin|Jeremiah Fears|Derik Queen,4.0,5.0,4.0,2.0,122.0
+2026-10-21,0022600091,DAL,1629023-1630230-1631108-1631204-1642258,P.J. Washington|Naji Marshall|Max Christie|Marcus Sasser|Zaccharie Risacher,3.0,3.0,3.0,2.0,109.0
+2026-10-21,0022600091,DAL,1629023-1630230-1631108-1642258-1642843,P.J. Washington|Naji Marshall|Max Christie|Zaccharie Risacher|Cooper Flagg,5.0,10.0,6.0,9.0,161.0
+2026-10-21,0022600091,DAL,1629023-1630230-1631108-1642843-1643516,P.J. Washington|Naji Marshall|Max Christie|Cooper Flagg|Morez Johnson Jr.,3.0,3.0,3.0,3.0,79.0
+2026-10-21,0022600091,DAL,1629023-1630230-1631204-1642258-1643516,P.J. Washington|Naji Marshall|Marcus Sasser|Zaccharie Risacher|Morez Johnson Jr.,12.0,14.0,12.0,17.0,305.0
+2026-10-21,0022600091,DAL,1629023-1630230-1631204-1643516-1643547,P.J. Washington|Naji Marshall|Marcus Sasser|Morez Johnson Jr.|Sergio de Larrea,4.0,4.0,4.0,8.0,120.0
+2026-10-21,0022600091,DAL,1629023-1631204-1642258-1643516-1643547,P.J. Washington|Marcus Sasser|Zaccharie Risacher|Morez Johnson Jr.|Sergio de Larrea,1.0,0.0,2.0,2.0,31.0
+2026-10-21,0022600091,DAL,1629023-1631204-1642843-1643516-1643547,P.J. Washington|Marcus Sasser|Cooper Flagg|Morez Johnson Jr.|Sergio de Larrea,1.0,0.0,2.0,6.0,49.0
+2026-10-21,0022600091,DAL,1629655-1630230-1631108-1642258-1642843,Daniel Gafford|Naji Marshall|Max Christie|Zaccharie Risacher|Cooper Flagg,2.0,3.0,1.0,3.0,63.0
+2026-10-21,0022600091,DAL,1629655-1630230-1631204-1642258-1642843,Daniel Gafford|Naji Marshall|Marcus Sasser|Zaccharie Risacher|Cooper Flagg,4.0,9.0,5.0,5.0,174.0
+2026-10-21,0022600091,DAL,1629655-1631108-1631204-1642258-1642843,Daniel Gafford|Max Christie|Marcus Sasser|Zaccharie Risacher|Cooper Flagg,2.0,2.0,2.0,2.0,55.0
+2026-10-21,0022600091,DAL,1630230-1630619-1631108-1631204-1642258,Naji Marshall|Moussa Cisse|Max Christie|Marcus Sasser|Zaccharie Risacher,2.0,3.0,1.0,3.0,41.0
+2026-10-21,0022600091,DAL,1630230-1630619-1631204-1642258-1643547,Naji Marshall|Moussa Cisse|Marcus Sasser|Zaccharie Risacher|Sergio de Larrea,3.0,4.0,3.0,3.0,109.0
+2026-10-21,0022600091,DAL,1630230-1631204-1642258-1642843-1643516,Naji Marshall|Marcus Sasser|Zaccharie Risacher|Cooper Flagg|Morez Johnson Jr.,2.0,2.0,2.0,0.0,58.0
+2026-10-21,0022600091,DAL,1630230-1631204-1642258-1643516-1643547,Naji Marshall|Marcus Sasser|Zaccharie Risacher|Morez Johnson Jr.|Sergio de Larrea,3.0,2.0,2.0,3.0,52.0
+2026-10-21,0022600091,DAL,1631108-1631204-1642258-1642843-1643516,Max Christie|Marcus Sasser|Zaccharie Risacher|Cooper Flagg|Morez Johnson Jr.,2.0,0.0,3.0,4.0,49.0
+2026-10-21,0022600091,DAL,202681-1629023-1629655-1631108-1642843,Kyrie Irving|P.J. Washington|Daniel Gafford|Max Christie|Cooper Flagg,18.0,21.0,18.0,23.0,553.0
+2026-10-21,0022600091,DAL,202681-1629023-1630230-1631108-1642843,Kyrie Irving|P.J. Washington|Naji Marshall|Max Christie|Cooper Flagg,11.0,8.0,10.0,16.0,289.4000000000001
+2026-10-21,0022600091,DAL,202681-1629023-1630230-1631108-1643516,Kyrie Irving|P.J. Washington|Naji Marshall|Max Christie|Morez Johnson Jr.,3.0,0.0,3.0,2.0,87.0
+2026-10-21,0022600091,DAL,202681-1629023-1631108-1642258-1643547,Kyrie Irving|P.J. Washington|Max Christie|Zaccharie Risacher|Sergio de Larrea,1.0,0.0,1.0,2.0,50.0
+2026-10-21,0022600091,DAL,202681-1629655-1630230-1631108-1642843,Kyrie Irving|Daniel Gafford|Naji Marshall|Max Christie|Cooper Flagg,2.0,0.0,2.0,3.0,76.59999999999991
+2026-10-21,0022600091,DAL,202681-1629655-1631108-1642258-1642843,Kyrie Irving|Daniel Gafford|Max Christie|Zaccharie Risacher|Cooper Flagg,4.0,2.0,3.0,4.0,99.0
+2026-10-21,0022600091,DAL,202681-1629655-1631204-1642258-1642843,Kyrie Irving|Daniel Gafford|Marcus Sasser|Zaccharie Risacher|Cooper Flagg,11.0,20.0,10.0,8.0,270.0
+2026-10-21,0022600091,HOU,201142-1627832-1630578-1631095-1641708,Kevin Durant|Fred VanVleet|Alperen Sengun|Jabari Smith Jr.|Amen Thompson,21.0,26.0,22.0,24.0,671.0
+2026-10-21,0022600091,HOU,201142-203935-1627832-1630578-1631095,Kevin Durant|Marcus Smart|Fred VanVleet|Alperen Sengun|Jabari Smith Jr.,11.0,17.0,10.0,9.0,318.79999999999995
+2026-10-21,0022600091,HOU,201142-203935-1627832-1630578-1641708,Kevin Durant|Marcus Smart|Fred VanVleet|Alperen Sengun|Amen Thompson,8.0,12.0,7.0,2.0,220.0
+2026-10-21,0022600091,HOU,201142-203935-1627832-1631095-1631106,Kevin Durant|Marcus Smart|Fred VanVleet|Jabari Smith Jr.|Tari Eason,4.0,5.0,5.0,5.0,104.0
+2026-10-21,0022600091,HOU,201142-203935-1627832-1631095-1641708,Kevin Durant|Marcus Smart|Fred VanVleet|Jabari Smith Jr.|Amen Thompson,9.0,9.0,9.0,13.0,265.20000000000005
+2026-10-21,0022600091,HOU,201142-203935-1630578-1641708-1642263,Kevin Durant|Marcus Smart|Alperen Sengun|Amen Thompson|Reed Sheppard,6.0,10.0,7.0,8.0,167.0
+2026-10-21,0022600091,HOU,201142-203935-203991-1641708-1642263,Kevin Durant|Marcus Smart|Clint Capela|Amen Thompson|Reed Sheppard,2.0,0.0,3.0,7.0,70.0
+2026-10-21,0022600091,HOU,201142-203935-203992-1630578-1631095,Kevin Durant|Marcus Smart|Bogdan Bogdanović|Alperen Sengun|Jabari Smith Jr.,4.0,8.0,4.0,4.0,120.0
+2026-10-21,0022600091,HOU,201142-203991-1627832-1631095-1641708,Kevin Durant|Clint Capela|Fred VanVleet|Jabari Smith Jr.|Amen Thompson,1.0,0.0,0.0,0.0,9.0
+2026-10-21,0022600091,HOU,201142-203992-1627832-1630578-1631095,Kevin Durant|Bogdan Bogdanović|Fred VanVleet|Alperen Sengun|Jabari Smith Jr.,4.0,8.0,4.0,7.0,174.0
+2026-10-21,0022600091,HOU,201142-203992-1630578-1641708-1642263,Kevin Durant|Bogdan Bogdanović|Alperen Sengun|Amen Thompson|Reed Sheppard,4.0,3.0,4.0,7.0,126.0
+2026-10-21,0022600091,HOU,203935-1627832-1631095-1641708-1642384,Marcus Smart|Fred VanVleet|Jabari Smith Jr.|Amen Thompson|Isaiah Crawford,1.0,2.0,0.0,0.0,12.0
+2026-10-21,0022600091,HOU,203935-1631095-1631106-1641708-1642263,Marcus Smart|Jabari Smith Jr.|Tari Eason|Amen Thompson|Reed Sheppard,3.0,4.0,2.0,0.0,81.0
+2026-10-21,0022600091,HOU,203935-1631095-1641708-1642384-1643570,Marcus Smart|Jabari Smith Jr.|Amen Thompson|Isaiah Crawford|Bruce Thornton,1.0,3.0,2.0,3.0,41.0
+2026-10-21,0022600091,HOU,203935-203991-1631095-1641708-1642263,Marcus Smart|Clint Capela|Jabari Smith Jr.|Amen Thompson|Reed Sheppard,6.0,5.0,6.0,11.0,137.0
+2026-10-21,0022600091,HOU,203935-203991-203992-1631095-1642263,Marcus Smart|Clint Capela|Bogdan Bogdanović|Jabari Smith Jr.|Reed Sheppard,2.0,3.0,3.0,2.0,52.0
+2026-10-21,0022600091,HOU,203991-203992-1631095-1641708-1642263,Clint Capela|Bogdan Bogdanović|Jabari Smith Jr.|Amen Thompson|Reed Sheppard,8.0,10.0,8.0,4.0,203.0
+2026-10-21,0022600091,HOU,203992-1630256-1642263-1642384-1643570,Bogdan Bogdanović|Jae'Sean Tate|Reed Sheppard|Isaiah Crawford|Bruce Thornton,3.0,3.0,3.0,4.0,109.0
+2026-10-21,0022600092,PHX,1626164-1628415-1628970-1630224-1642863,Devin Booker|Dillon Brooks|Miles Bridges|Jalen Green|Khaman Maluach,21.0,18.0,20.0,39.0,721.0
+2026-10-21,0022600092,PHX,1626164-1628415-1628970-1630692-1631221,Devin Booker|Dillon Brooks|Miles Bridges|Jordan Goodwin|Collin Gillespie,0.0,0.0,1.0,0.0,16.40000000000009
+2026-10-21,0022600092,PHX,1626164-1628415-1628970-1630692-1642863,Devin Booker|Dillon Brooks|Miles Bridges|Jordan Goodwin|Khaman Maluach,5.0,7.0,4.0,5.0,126.0
+2026-10-21,0022600092,PHX,1626164-1628415-1630224-1631221-1641871,Devin Booker|Dillon Brooks|Jalen Green|Collin Gillespie|Duop Reath,3.0,2.0,3.0,2.0,59.0
+2026-10-21,0022600092,PHX,1626164-1628415-1630224-1642345-1642346,Devin Booker|Dillon Brooks|Jalen Green|Oso Ighodaro|Ryan Dunn,2.0,2.0,2.0,3.0,86.0
+2026-10-21,0022600092,PHX,1626164-1628415-1630692-1631221-1641871,Devin Booker|Dillon Brooks|Jordan Goodwin|Collin Gillespie|Duop Reath,7.0,7.0,7.0,11.0,191.5999999999999
+2026-10-21,0022600092,PHX,1626164-1628415-1630692-1631221-1642345,Devin Booker|Dillon Brooks|Jordan Goodwin|Collin Gillespie|Oso Ighodaro,2.0,0.0,3.0,4.0,84.0
+2026-10-21,0022600092,PHX,1626164-1628415-1630692-1642346-1642863,Devin Booker|Dillon Brooks|Jordan Goodwin|Ryan Dunn|Khaman Maluach,2.0,0.0,3.0,7.0,60.0
+2026-10-21,0022600092,PHX,1626164-1628970-1630224-1630692-1642345,Devin Booker|Miles Bridges|Jalen Green|Jordan Goodwin|Oso Ighodaro,3.0,6.0,3.0,4.0,79.5
+2026-10-21,0022600092,PHX,1626164-1628970-1630224-1630692-1642346,Devin Booker|Miles Bridges|Jalen Green|Jordan Goodwin|Ryan Dunn,0.0,0.0,1.0,0.0,4.5
+2026-10-21,0022600092,PHX,1626164-1628970-1630224-1630692-1642863,Devin Booker|Miles Bridges|Jalen Green|Jordan Goodwin|Khaman Maluach,3.0,2.0,3.0,6.0,105.0
+2026-10-21,0022600092,PHX,1626164-1628970-1630224-1631221-1642345,Devin Booker|Miles Bridges|Jalen Green|Collin Gillespie|Oso Ighodaro,2.0,2.0,2.0,3.0,43.799999999999955
+2026-10-21,0022600092,PHX,1626164-1628970-1630692-1631221-1642345,Devin Booker|Miles Bridges|Jordan Goodwin|Collin Gillespie|Oso Ighodaro,7.0,6.0,7.0,11.0,190.0
+2026-10-21,0022600092,PHX,1628415-1630224-1631221-1642345-1642346,Dillon Brooks|Jalen Green|Collin Gillespie|Oso Ighodaro|Ryan Dunn,10.0,10.0,9.0,4.0,259.0
+2026-10-21,0022600092,PHX,1628970-1630224-1630692-1631221-1642345,Miles Bridges|Jalen Green|Jordan Goodwin|Collin Gillespie|Oso Ighodaro,5.0,4.0,5.0,8.0,134.20000000000005
+2026-10-21,0022600092,PHX,1628970-1630692-1631221-1642346-1642853,Miles Bridges|Jordan Goodwin|Collin Gillespie|Ryan Dunn|Rasheer Fleming,9.0,3.0,9.0,7.0,299.0
+2026-10-21,0022600092,PHX,1630311-1631123-1641871-1642853-1643520,Pat Spencer|Jamaree Bouyea|Duop Reath|Rasheer Fleming|Koa Peat,11.0,13.0,11.0,7.0,276.0
+2026-10-21,0022600092,PHX,1630311-1631123-1642346-1642853-1643520,Pat Spencer|Jamaree Bouyea|Ryan Dunn|Rasheer Fleming|Koa Peat,4.0,1.0,5.0,3.0,145.0
+2026-10-21,0022600092,POR,1630249-1630695-1630703-1631321-1642905,Vít Krejčí|Micah Potter|Scoot Henderson|Sidy Cissoko|Yang Hansen,9.0,7.0,9.0,3.0,299.0
+2026-10-21,0022600092,POR,1630249-1630695-1631321-1642905-1643257,Vít Krejčí|Micah Potter|Sidy Cissoko|Yang Hansen|Jayson Kent,16.0,10.0,15.0,14.0,421.0
+2026-10-21,0022600092,POR,201950-1629057-1629630-1630249-1641739,Jrue Holiday|Robert Williams III|Ja Morant|Vít Krejčí|Toumani Camara,7.0,12.0,8.0,9.0,205.0
+2026-10-21,0022600092,POR,201950-1629057-1629630-1630703-1631321,Jrue Holiday|Robert Williams III|Ja Morant|Scoot Henderson|Sidy Cissoko,4.0,5.0,3.0,2.0,96.0
+2026-10-21,0022600092,POR,201950-1629057-1630703-1631321-1641739,Jrue Holiday|Robert Williams III|Scoot Henderson|Sidy Cissoko|Toumani Camara,3.0,2.0,3.0,2.0,59.0
+2026-10-21,0022600092,POR,201950-1629630-1630166-1641739-1642270,Jrue Holiday|Ja Morant|Deni Avdija|Toumani Camara|Donovan Clingan,7.0,13.0,5.0,4.0,216.0
+2026-10-21,0022600092,POR,201950-1629630-1630703-1631321-1642270,Jrue Holiday|Ja Morant|Scoot Henderson|Sidy Cissoko|Donovan Clingan,2.0,4.0,2.0,2.0,47.0
+2026-10-21,0022600092,POR,201950-1629630-1631321-1641739-1642270,Jrue Holiday|Ja Morant|Sidy Cissoko|Toumani Camara|Donovan Clingan,2.0,5.0,4.0,4.0,106.0
+2026-10-21,0022600092,POR,201950-203081-1629057-1630166-1630703,Jrue Holiday|Damian Lillard|Robert Williams III|Deni Avdija|Scoot Henderson,7.0,9.0,6.0,5.0,179.0
+2026-10-21,0022600092,POR,201950-203081-1629057-1630166-1641739,Jrue Holiday|Damian Lillard|Robert Williams III|Deni Avdija|Toumani Camara,2.0,3.0,1.0,0.0,67.0
+2026-10-21,0022600092,POR,201950-203081-1629057-1630703-1631321,Jrue Holiday|Damian Lillard|Robert Williams III|Scoot Henderson|Sidy Cissoko,9.0,15.0,9.0,8.0,240.0
+2026-10-21,0022600092,POR,201950-203081-1630166-1641739-1642270,Jrue Holiday|Damian Lillard|Deni Avdija|Toumani Camara|Donovan Clingan,0.0,0.0,1.0,0.0,21.0
+2026-10-21,0022600092,POR,203081-1629057-1629630-1630166-1630249,Damian Lillard|Robert Williams III|Ja Morant|Deni Avdija|Vít Krejčí,1.0,0.0,0.0,0.0,4.5
+2026-10-21,0022600092,POR,203081-1629057-1629630-1630166-1631321,Damian Lillard|Robert Williams III|Ja Morant|Deni Avdija|Sidy Cissoko,2.0,2.0,3.0,6.0,65.5
+2026-10-21,0022600092,POR,203081-1629630-1630166-1631321-1642270,Damian Lillard|Ja Morant|Deni Avdija|Sidy Cissoko|Donovan Clingan,1.0,2.0,0.0,0.0,14.0
+2026-10-21,0022600092,POR,203081-1629630-1630166-1641739-1642270,Damian Lillard|Ja Morant|Deni Avdija|Toumani Camara|Donovan Clingan,17.0,31.0,18.0,14.0,602.0
+2026-10-21,0022600092,POR,203081-1630166-1630703-1631321-1642270,Damian Lillard|Deni Avdija|Scoot Henderson|Sidy Cissoko|Donovan Clingan,4.0,2.0,5.0,7.0,157.0
+2026-10-21,0022600092,POR,203081-1630166-1630703-1641739-1642270,Damian Lillard|Deni Avdija|Scoot Henderson|Toumani Camara|Donovan Clingan,5.0,2.0,4.0,3.0,81.0
+2026-10-21,0022600093,LAC,1627739-1627884-1629060-1629636-1630543,Kris Dunn|Derrick Jones Jr.|Rui Hachimura|Darius Garland|Isaiah Jackson,24.0,34.0,24.0,26.0,694.0
+2026-10-21,0022600093,LAC,1627739-1629060-1629636-1630543-1643413,Kris Dunn|Rui Hachimura|Darius Garland|Isaiah Jackson|Keaton Wagler,2.0,0.0,2.0,2.0,45.0
+2026-10-21,0022600093,LAC,1627884-1629060-1629636-1630543-1643413,Derrick Jones Jr.|Rui Hachimura|Darius Garland|Isaiah Jackson|Keaton Wagler,5.0,5.0,5.0,6.0,153.0
+2026-10-21,0022600093,LAC,1629060-1629636-1641711-1642394-1643413,Rui Hachimura|Darius Garland|Gradey Dick|Baba Miller|Keaton Wagler,6.0,7.0,7.0,9.0,130.0
+2026-10-21,0022600093,LAC,1629618-1642353-1642394-1642920-1643568,Jalen Pickett|Cam Christie|Baba Miller|Kobe Sanders|Nick Martinelli,4.0,5.0,4.0,2.0,118.0
+2026-10-21,0022600093,LAC,1629636-1641711-1642394-1642920-1643413,Darius Garland|Gradey Dick|Baba Miller|Kobe Sanders|Keaton Wagler,4.0,5.0,4.0,4.0,113.0
+2026-10-21,0022600093,LAC,201572-1627739-1627884-1629060-1629636,Brook Lopez|Kris Dunn|Derrick Jones Jr.|Rui Hachimura|Darius Garland,9.0,7.0,8.0,5.0,233.0
+2026-10-21,0022600093,LAC,201572-1627739-1627884-1629060-1643413,Brook Lopez|Kris Dunn|Derrick Jones Jr.|Rui Hachimura|Keaton Wagler,3.0,5.0,3.0,3.0,104.0
+2026-10-21,0022600093,LAC,201572-1627739-1627884-1629636-1642920,Brook Lopez|Kris Dunn|Derrick Jones Jr.|Darius Garland|Kobe Sanders,3.0,0.0,3.0,2.0,101.0
+2026-10-21,0022600093,LAC,201572-1627739-1629060-1641711-1643413,Brook Lopez|Kris Dunn|Rui Hachimura|Gradey Dick|Keaton Wagler,8.0,6.0,8.0,7.0,275.0
+2026-10-21,0022600093,LAC,201572-1627739-1641711-1642920-1643413,Brook Lopez|Kris Dunn|Gradey Dick|Kobe Sanders|Keaton Wagler,6.0,8.0,7.0,3.0,159.0
+2026-10-21,0022600093,LAC,201572-1627884-1629060-1629636-1643413,Brook Lopez|Derrick Jones Jr.|Rui Hachimura|Darius Garland|Keaton Wagler,5.0,7.0,5.0,2.0,122.0
+2026-10-21,0022600093,LAC,201572-1627884-1629636-1642920-1643413,Brook Lopez|Derrick Jones Jr.|Darius Garland|Kobe Sanders|Keaton Wagler,6.0,9.0,6.0,5.0,131.0
+2026-10-21,0022600093,LAC,201572-1629060-1641711-1642920-1643413,Brook Lopez|Rui Hachimura|Gradey Dick|Kobe Sanders|Keaton Wagler,5.0,7.0,5.0,5.0,138.0
+2026-10-21,0022600093,LAC,201572-1629636-1641711-1642920-1643413,Brook Lopez|Darius Garland|Gradey Dick|Kobe Sanders|Keaton Wagler,5.0,5.0,5.0,6.0,162.0
+2026-10-21,0022600093,LAC,201572-1629636-1642394-1642920-1643413,Brook Lopez|Darius Garland|Baba Miller|Kobe Sanders|Keaton Wagler,2.0,3.0,1.0,0.0,42.0
+2026-10-21,0022600093,LAC,201572-1641711-1642394-1642920-1643413,Brook Lopez|Gradey Dick|Baba Miller|Kobe Sanders|Keaton Wagler,7.0,8.0,8.0,9.0,160.0
+2026-10-21,0022600093,SAC,1627734-1630173-1631099-1643411-1643567,Domantas Sabonis|Precious Achiuwa|Keegan Murray|Darius Acuff Jr.|Emanuel Sharp,5.0,4.0,4.0,0.0,118.0
+2026-10-21,0022600093,SAC,1627734-1630173-1631342-1642363-1643567,Domantas Sabonis|Precious Achiuwa|Daeqwon Plowden|Nique Clifford|Emanuel Sharp,0.0,0.0,1.0,1.0,12.0
+2026-10-21,0022600093,SAC,1627734-1630173-1631342-1643411-1643567,Domantas Sabonis|Precious Achiuwa|Daeqwon Plowden|Darius Acuff Jr.|Emanuel Sharp,2.0,3.0,1.0,2.0,40.0
+2026-10-21,0022600093,SAC,1630173-1631099-1642367-1643411-1643567,Precious Achiuwa|Keegan Murray|Jonathan Mogbo|Darius Acuff Jr.|Emanuel Sharp,1.0,3.0,1.0,1.0,31.0
+2026-10-21,0022600093,SAC,1630173-1631342-1642284-1642363-1643567,Precious Achiuwa|Daeqwon Plowden|Alex Karaban|Nique Clifford|Emanuel Sharp,9.0,7.0,9.0,11.0,315.0
+2026-10-21,0022600093,SAC,1630173-1631342-1642363-1642367-1643567,Precious Achiuwa|Daeqwon Plowden|Nique Clifford|Jonathan Mogbo|Emanuel Sharp,1.0,0.0,1.0,0.0,23.600000000000023
+2026-10-21,0022600093,SAC,1630173-1631342-1642367-1643411-1643567,Precious Achiuwa|Daeqwon Plowden|Jonathan Mogbo|Darius Acuff Jr.|Emanuel Sharp,2.0,0.0,3.0,6.0,67.0
+2026-10-21,0022600093,SAC,1630173-1642363-1642367-1643411-1643567,Precious Achiuwa|Nique Clifford|Jonathan Mogbo|Darius Acuff Jr.|Emanuel Sharp,7.0,6.0,7.0,11.0,220.0999999999999
+2026-10-21,0022600093,SAC,203897-1627734-1629631-1631099-1643411,Zach LaVine|Domantas Sabonis|De'Andre Hunter|Keegan Murray|Darius Acuff Jr.,36.0,29.0,37.0,48.0,1063.4
+2026-10-21,0022600093,SAC,203897-1627734-1629631-1631342-1643411,Zach LaVine|Domantas Sabonis|De'Andre Hunter|Daeqwon Plowden|Darius Acuff Jr.,3.0,2.0,3.0,5.0,78.0
+2026-10-21,0022600093,SAC,203897-1627734-1630173-1631099-1642363,Zach LaVine|Domantas Sabonis|Precious Achiuwa|Keegan Murray|Nique Clifford,1.0,2.0,2.0,0.0,55.0
+2026-10-21,0022600093,SAC,203897-1627734-1630173-1631099-1643411,Zach LaVine|Domantas Sabonis|Precious Achiuwa|Keegan Murray|Darius Acuff Jr.,15.0,18.0,15.0,13.0,420.0
+2026-10-21,0022600093,SAC,203897-1627734-1630173-1631342-1642363,Zach LaVine|Domantas Sabonis|Precious Achiuwa|Daeqwon Plowden|Nique Clifford,5.0,9.0,4.0,2.0,91.0
+2026-10-21,0022600093,SAC,203897-1627734-1630173-1642363-1643567,Zach LaVine|Domantas Sabonis|Precious Achiuwa|Nique Clifford|Emanuel Sharp,5.0,2.0,5.0,7.0,122.0
+2026-10-21,0022600093,SAC,203897-1627734-1631099-1643411-1643567,Zach LaVine|Domantas Sabonis|Keegan Murray|Darius Acuff Jr.|Emanuel Sharp,2.0,2.0,2.0,2.0,14.599999999999907
+2026-10-21,0022600093,SAC,203897-1629631-1630173-1643411-1643567,Zach LaVine|De'Andre Hunter|Precious Achiuwa|Darius Acuff Jr.|Emanuel Sharp,3.0,0.0,2.0,2.0,42.90000000000009
+2026-10-21,0022600093,SAC,203897-1630173-1631342-1642363-1642367,Zach LaVine|Precious Achiuwa|Daeqwon Plowden|Nique Clifford|Jonathan Mogbo,7.0,9.0,6.0,8.0,136.39999999999998
+2026-10-21,0022600093,SAC,203897-1630173-1631342-1642363-1643567,Zach LaVine|Precious Achiuwa|Daeqwon Plowden|Nique Clifford|Emanuel Sharp,1.0,0.0,1.0,2.0,30.0
+2026-10-22,0022600006,CLE,1626209-1628378-1628386-1630241-1642281,Mario Hezonja|Donovan Mitchell|Jarrett Allen|Sam Merrill|Jaylon Tyson,17.0,22.0,17.0,12.0,475.0
+2026-10-22,0022600006,CLE,1626209-1628378-1630241-1630596-1642281,Mario Hezonja|Donovan Mitchell|Sam Merrill|Evan Mobley|Jaylon Tyson,15.0,16.0,15.0,17.0,430.0
+2026-10-22,0022600006,CLE,201935-1626209-1628386-1631212-1641854,James Harden|Mario Hezonja|Jarrett Allen|Peyton Watson|Craig Porter Jr.,0.0,0.0,1.0,2.0,36.0
+2026-10-22,0022600006,CLE,201935-1626209-1630241-1630596-1642281,James Harden|Mario Hezonja|Sam Merrill|Evan Mobley|Jaylon Tyson,4.0,3.0,5.0,4.0,101.0
+2026-10-22,0022600006,CLE,201935-1626209-1630596-1631212-1641854,James Harden|Mario Hezonja|Evan Mobley|Peyton Watson|Craig Porter Jr.,2.0,0.0,2.0,5.0,76.0
+2026-10-22,0022600006,CLE,201935-1628378-1628386-1630241-1631212,James Harden|Donovan Mitchell|Jarrett Allen|Sam Merrill|Peyton Watson,3.0,0.0,3.0,6.0,94.0
+2026-10-22,0022600006,CLE,201935-1628378-1628386-1630596-1631212,James Harden|Donovan Mitchell|Jarrett Allen|Evan Mobley|Peyton Watson,33.0,29.0,32.0,38.0,853.0
+2026-10-22,0022600006,CLE,201935-1628378-1630241-1630596-1631212,James Harden|Donovan Mitchell|Sam Merrill|Evan Mobley|Peyton Watson,3.0,4.0,3.0,4.0,44.0
+2026-10-22,0022600006,CLE,201935-1628378-1630241-1630596-1641854,James Harden|Donovan Mitchell|Sam Merrill|Evan Mobley|Craig Porter Jr.,2.0,3.0,1.0,0.0,47.0
+2026-10-22,0022600006,CLE,201935-1628378-1630596-1631212-1642281,James Harden|Donovan Mitchell|Evan Mobley|Peyton Watson|Jaylon Tyson,7.0,7.0,7.0,10.0,168.0
+2026-10-22,0022600006,CLE,201935-1628386-1631212-1641854-1642878,James Harden|Jarrett Allen|Peyton Watson|Craig Porter Jr.|Tyrese Proctor,12.0,10.0,11.0,5.0,235.0
+2026-10-22,0022600006,CLE,201935-1630241-1630596-1631212-1642281,James Harden|Sam Merrill|Evan Mobley|Peyton Watson|Jaylon Tyson,10.0,9.0,11.0,9.0,265.0
+2026-10-22,0022600006,CLE,201935-1630596-1631212-1641854-1642878,James Harden|Evan Mobley|Peyton Watson|Craig Porter Jr.|Tyrese Proctor,1.0,3.0,2.0,2.0,56.0
+2026-10-22,0022600006,PHI,203484-1627759-1629014-1630178-1641737,Kentavious Caldwell-Pope|Jaylen Brown|Anfernee Simons|Tyrese Maxey|Adem Bona,16.0,9.0,15.0,21.0,438.0
+2026-10-22,0022600006,PHI,203484-1627759-1630178-1641737-1642845,Kentavious Caldwell-Pope|Jaylen Brown|Tyrese Maxey|Adem Bona|VJ Edgecombe,5.0,8.0,6.0,2.0,180.0
+2026-10-22,0022600006,PHI,203484-203954-1627759-1630178-1642845,Kentavious Caldwell-Pope|Joel Embiid|Jaylen Brown|Tyrese Maxey|VJ Edgecombe,5.0,11.0,3.0,0.0,142.0
+2026-10-22,0022600006,PHI,203954-1627759-1629014-1630178-1642845,Joel Embiid|Jaylen Brown|Anfernee Simons|Tyrese Maxey|VJ Edgecombe,5.0,2.0,6.0,6.0,118.0
+2026-10-22,0022600006,PHI,2544-203484-1627759-1630178-1641737,LeBron James|Kentavious Caldwell-Pope|Jaylen Brown|Tyrese Maxey|Adem Bona,6.0,6.0,6.0,10.0,168.0
+2026-10-22,0022600006,PHI,2544-203484-1629014-1641737-1642845,LeBron James|Kentavious Caldwell-Pope|Anfernee Simons|Adem Bona|VJ Edgecombe,1.0,2.0,1.0,2.0,31.0
+2026-10-22,0022600006,PHI,2544-203484-203954-1627759-1630178,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Jaylen Brown|Tyrese Maxey,6.0,7.0,6.0,2.0,169.0
+2026-10-22,0022600006,PHI,2544-203484-203954-1627759-1642845,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Jaylen Brown|VJ Edgecombe,1.0,0.0,2.0,3.0,47.0
+2026-10-22,0022600006,PHI,2544-203484-203954-1629014-1642845,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Anfernee Simons|VJ Edgecombe,6.0,3.0,5.0,9.0,149.0
+2026-10-22,0022600006,PHI,2544-203484-203954-1630178-1642845,LeBron James|Kentavious Caldwell-Pope|Joel Embiid|Tyrese Maxey|VJ Edgecombe,6.0,6.0,8.0,7.0,171.0
+2026-10-22,0022600006,PHI,2544-203954-1627759-1630178-1642845,LeBron James|Joel Embiid|Jaylen Brown|Tyrese Maxey|VJ Edgecombe,42.0,51.0,41.0,33.0,1001.0
+2026-10-22,0022600006,PHI,2544-203954-1629014-1630178-1631133,LeBron James|Joel Embiid|Anfernee Simons|Tyrese Maxey|Jabari Walker,4.0,4.0,3.0,4.0,112.0
+2026-10-22,0022600006,PHI,2544-203954-1629014-1631133-1642845,LeBron James|Joel Embiid|Anfernee Simons|Jabari Walker|VJ Edgecombe,7.0,5.0,7.0,7.0,154.0
+2026-10-22,0022600007,DEN,1641747-1642350-1642948-1643624-1643813,DaRon Holmes II|Trevon Brazile|Ryan Nembhard|Bryce Hopkins|Alpha Diallo,3.0,8.0,3.0,3.0,103.0
+2026-10-22,0022600007,DEN,201942-1626145-1628963-1629661-1642350,DeMar DeRozan|Tyus Jones|Marvin Bagley III|Cameron Johnson|Trevon Brazile,2.0,2.0,1.0,0.0,19.0
+2026-10-22,0022600007,DEN,201942-1627750-1628963-1629661-1642350,DeMar DeRozan|Jamal Murray|Marvin Bagley III|Cameron Johnson|Trevon Brazile,5.0,3.0,5.0,4.0,159.0
+2026-10-22,0022600007,DEN,201942-203932-1626145-1628963-1643813,DeMar DeRozan|Aaron Gordon|Tyus Jones|Marvin Bagley III|Alpha Diallo,8.0,8.0,8.0,4.0,234.0
+2026-10-22,0022600007,DEN,201942-203932-1627750-1628963-1643813,DeMar DeRozan|Aaron Gordon|Jamal Murray|Marvin Bagley III|Alpha Diallo,7.0,4.0,8.0,6.0,246.0
+2026-10-22,0022600007,DEN,201942-203932-203999-1626145-1631128,DeMar DeRozan|Aaron Gordon|Nikola Jokić|Tyus Jones|Christian Braun,4.0,2.0,4.0,6.0,110.0
+2026-10-22,0022600007,DEN,201942-203932-203999-1627750-1631128,DeMar DeRozan|Aaron Gordon|Nikola Jokić|Jamal Murray|Christian Braun,15.0,10.0,14.0,18.0,446.20000000000005
+2026-10-22,0022600007,DEN,201942-203999-1626145-1631128-1642350,DeMar DeRozan|Nikola Jokić|Tyus Jones|Christian Braun|Trevon Brazile,2.0,0.0,1.0,2.0,36.0
+2026-10-22,0022600007,DEN,201942-203999-1626145-1642350-1643813,DeMar DeRozan|Nikola Jokić|Tyus Jones|Trevon Brazile|Alpha Diallo,5.0,5.0,5.0,5.0,164.20000000000005
+2026-10-22,0022600007,DEN,201942-203999-1627750-1631128-1642350,DeMar DeRozan|Nikola Jokić|Jamal Murray|Christian Braun|Trevon Brazile,9.0,6.0,8.0,5.0,273.0
+2026-10-22,0022600007,DEN,201942-203999-1627750-1631128-1643813,DeMar DeRozan|Nikola Jokić|Jamal Murray|Christian Braun|Alpha Diallo,0.0,0.0,1.0,0.0,4.7999999999999545
+2026-10-22,0022600007,DEN,203932-203999-1627750-1629661-1631128,Aaron Gordon|Nikola Jokić|Jamal Murray|Cameron Johnson|Christian Braun,13.0,19.0,14.0,19.0,436.0
+2026-10-22,0022600007,DEN,203932-203999-1627750-1631128-1643813,Aaron Gordon|Nikola Jokić|Jamal Murray|Christian Braun|Alpha Diallo,9.0,10.0,8.0,11.0,296.0
+2026-10-22,0022600007,DEN,203999-1626145-1631128-1642350-1643813,Nikola Jokić|Tyus Jones|Christian Braun|Trevon Brazile|Alpha Diallo,1.0,0.0,1.0,2.0,8.799999999999955
+2026-10-22,0022600007,DEN,203999-1627750-1629661-1631128-1642350,Nikola Jokić|Jamal Murray|Cameron Johnson|Christian Braun|Trevon Brazile,2.0,3.0,3.0,4.0,66.0
+2026-10-22,0022600007,DEN,203999-1627750-1631128-1642350-1643813,Nikola Jokić|Jamal Murray|Christian Braun|Trevon Brazile|Alpha Diallo,9.0,4.0,10.0,7.0,278.0
+2026-10-22,0022600007,OKC,1627936-1628392-1628983-1631096-1631114,Alex Caruso|Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams,5.0,9.0,4.0,3.0,178.0
+2026-10-22,0022600007,OKC,1627936-1628392-1628983-1631096-1641717,Alex Caruso|Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Cason Wallace,2.0,3.0,2.0,1.0,37.0
+2026-10-22,0022600007,OKC,1627936-1628392-1631096-1631114-1642349,Alex Caruso|Isaiah Hartenstein|Chet Holmgren|Jalen Williams|Ajay Mitchell,1.0,0.0,2.0,1.0,24.0
+2026-10-22,0022600007,OKC,1627936-1628392-1631114-1642272-1642349,Alex Caruso|Isaiah Hartenstein|Jalen Williams|Jared McCain|Ajay Mitchell,0.0,0.0,0.0,0.0,18.0
+2026-10-22,0022600007,OKC,1627936-1628983-1631096-1631119-1642349,Alex Caruso|Shai Gilgeous-Alexander|Chet Holmgren|Jaylin Williams|Ajay Mitchell,3.0,4.0,2.0,3.0,66.0
+2026-10-22,0022600007,OKC,1627936-1628983-1631114-1631119-1642349,Alex Caruso|Shai Gilgeous-Alexander|Jalen Williams|Jaylin Williams|Ajay Mitchell,3.0,0.0,3.0,0.0,88.0
+2026-10-22,0022600007,OKC,1627936-1628983-1631114-1642272-1642349,Alex Caruso|Shai Gilgeous-Alexander|Jalen Williams|Jared McCain|Ajay Mitchell,1.0,0.0,0.0,0.0,4.7999999999999545
+2026-10-22,0022600007,OKC,1627936-1628983-1631119-1641717-1642349,Alex Caruso|Shai Gilgeous-Alexander|Jaylin Williams|Cason Wallace|Ajay Mitchell,1.0,2.0,2.0,0.0,36.0
+2026-10-22,0022600007,OKC,1627936-1628983-1631119-1642272-1642349,Alex Caruso|Shai Gilgeous-Alexander|Jaylin Williams|Jared McCain|Ajay Mitchell,10.0,13.0,11.0,7.0,301.0
+2026-10-22,0022600007,OKC,1627936-1631114-1631119-1642272-1643530,Alex Caruso|Jalen Williams|Jaylin Williams|Jared McCain|Aday Mara,5.0,4.0,5.0,3.0,159.0
+2026-10-22,0022600007,OKC,1627936-1631114-1642272-1642349-1643530,Alex Caruso|Jalen Williams|Jared McCain|Ajay Mitchell|Aday Mara,9.0,6.0,9.0,6.0,265.0
+2026-10-22,0022600007,OKC,1628392-1628983-1631096-1631114-1641717,Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Cason Wallace,29.0,33.0,29.0,34.0,916.2
+2026-10-22,0022600007,OKC,1628392-1628983-1631096-1641717-1642349,Isaiah Hartenstein|Shai Gilgeous-Alexander|Chet Holmgren|Cason Wallace|Ajay Mitchell,6.0,7.0,6.0,5.0,193.0
+2026-10-22,0022600007,OKC,1628983-1631096-1631114-1631119-1641717,Shai Gilgeous-Alexander|Chet Holmgren|Jalen Williams|Jaylin Williams|Cason Wallace,3.0,2.0,3.0,3.0,106.0
+2026-10-22,0022600007,OKC,1628983-1631096-1631119-1641717-1642349,Shai Gilgeous-Alexander|Chet Holmgren|Jaylin Williams|Cason Wallace|Ajay Mitchell,5.0,6.0,5.0,2.0,151.0
+2026-10-22,0022600007,OKC,1629026-1631114-1642272-1642349-1643530,Kenrich Williams|Jalen Williams|Jared McCain|Ajay Mitchell|Aday Mara,8.0,4.0,8.0,8.0,234.0
+2026-10-22,0022600007,OKC,1629026-1642272-1642892-1642964-1643530,Kenrich Williams|Jared McCain|Bennett Stirtz|Brooks Barnhizer|Aday Mara,3.0,3.0,3.0,8.0,103.0

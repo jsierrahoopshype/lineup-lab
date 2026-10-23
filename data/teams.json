@@ -1,0 +1,212 @@
+[
+ {
+  "abbr": "ATL",
+  "nba_id": 1610612737,
+  "name": "Atlanta Hawks",
+  "short": "Atlanta",
+  "slug": "hawks"
+ },
+ {
+  "abbr": "BOS",
+  "nba_id": 1610612738,
+  "name": "Boston Celtics",
+  "short": "Boston",
+  "slug": "celtics"
+ },
+ {
+  "abbr": "BKN",
+  "nba_id": 1610612751,
+  "name": "Brooklyn Nets",
+  "short": "Brooklyn",
+  "slug": "nets"
+ },
+ {
+  "abbr": "CHA",
+  "nba_id": 1610612766,
+  "name": "Charlotte Hornets",
+  "short": "Charlotte",
+  "slug": "hornets"
+ },
+ {
+  "abbr": "CHI",
+  "nba_id": 1610612741,
+  "name": "Chicago Bulls",
+  "short": "Chicago",
+  "slug": "bulls"
+ },
+ {
+  "abbr": "CLE",
+  "nba_id": 1610612739,
+  "name": "Cleveland Cavaliers",
+  "short": "Cleveland",
+  "slug": "cavaliers"
+ },
+ {
+  "abbr": "DET",
+  "nba_id": 1610612765,
+  "name": "Detroit Pistons",
+  "short": "Detroit",
+  "slug": "pistons"
+ },
+ {
+  "abbr": "IND",
+  "nba_id": 1610612754,
+  "name": "Indiana Pacers",
+  "short": "Indiana",
+  "slug": "pacers"
+ },
+ {
+  "abbr": "MIA",
+  "nba_id": 1610612748,
+  "name": "Miami Heat",
+  "short": "Miami",
+  "slug": "heat"
+ },
+ {
+  "abbr": "MIL",
+  "nba_id": 1610612749,
+  "name": "Milwaukee Bucks",
+  "short": "Milwaukee",
+  "slug": "bucks"
+ },
+ {
+  "abbr": "NYK",
+  "nba_id": 1610612752,
+  "name": "New York Knicks",
+  "short": "New York",
+  "slug": "knicks"
+ },
+ {
+  "abbr": "ORL",
+  "nba_id": 1610612753,
+  "name": "Orlando Magic",
+  "short": "Orlando",
+  "slug": "magic"
+ },
+ {
+  "abbr": "PHI",
+  "nba_id": 1610612755,
+  "name": "Philadelphia 76ers",
+  "short": "Philadelphia",
+  "slug": "76ers"
+ },
+ {
+  "abbr": "TOR",
+  "nba_id": 1610612761,
+  "name": "Toronto Raptors",
+  "short": "Toronto",
+  "slug": "raptors"
+ },
+ {
+  "abbr": "WAS",
+  "nba_id": 1610612764,
+  "name": "Washington Wizards",
+  "short": "Washington",
+  "slug": "wizards"
+ },
+ {
+  "abbr": "DAL",
+  "nba_id": 1610612742,
+  "name": "Dallas Mavericks",
+  "short": "Dallas",
+  "slug": "mavericks"
+ },
+ {
+  "abbr": "DEN",
+  "nba_id": 1610612743,
+  "name": "Denver Nuggets",
+  "short": "Denver",
+  "slug": "nuggets"
+ },
+ {
+  "abbr": "GSW",
+  "nba_id": 1610612744,
+  "name": "Golden State Warriors",
+  "short": "Golden State",
+  "slug": "warriors"
+ },
+ {
+  "abbr": "HOU",
+  "nba_id": 1610612745,
+  "name": "Houston Rockets",
+  "short": "Houston",
+  "slug": "rockets"
+ },
+ {
+  "abbr": "LAC",
+  "nba_id": 1610612746,
+  "name": "LA Clippers",
+  "short": "LA Clippers",
+  "slug": "clippers"
+ },
+ {
+  "abbr": "LAL",
+  "nba_id": 1610612747,
+  "name": "Los Angeles Lakers",
+  "short": "LA Lakers",
+  "slug": "lakers"
+ },
+ {
+  "abbr": "MEM",
+  "nba_id": 1610612763,
+  "name": "Memphis Grizzlies",
+  "short": "Memphis",
+  "slug": "grizzlies"
+ },
+ {
+  "abbr": "MIN",
+  "nba_id": 1610612750,
+  "name": "Minnesota Timberwolves",
+  "short": "Minnesota",
+  "slug": "timberwolves"
+ },
+ {
+  "abbr": "NOP",
+  "nba_id": 1610612740,
+  "name": "New Orleans Pelicans",
+  "short": "New Orleans",
+  "slug": "pelicans"
+ },
+ {
+  "abbr": "OKC",
+  "nba_id": 1610612760,
+  "name": "Oklahoma City Thunder",
+  "short": "Oklahoma City",
+  "slug": "thunder"
+ },
+ {
+  "abbr": "PHX",
+  "nba_id": 1610612756,
+  "name": "Phoenix Suns",
+  "short": "Phoenix",
+  "slug": "suns"
+ },
+ {
+  "abbr": "POR",
+  "nba_id": 1610612757,
+  "name": "Portland Trail Blazers",
+  "short": "Portland",
+  "slug": "trail-blazers"
+ },
+ {
+  "abbr": "SAC",
+  "nba_id": 1610612758,
+  "name": "Sacramento Kings",
+  "short": "Sacramento",
+  "slug": "kings"
+ },
+ {
+  "abbr": "SAS",
+  "nba_id": 1610612759,
+  "name": "San Antonio Spurs",
+  "short": "San Antonio",
+  "slug": "spurs"
+ },
+ {
+  "abbr": "UTA",
+  "nba_id": 1610612762,
+  "name": "Utah Jazz",
+  "short": "Utah",
+  "slug": "jazz"
+ }
+]
