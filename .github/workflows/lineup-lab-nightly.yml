@@ -52,6 +52,10 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python build/lineup_lab_update.py
 
+      # Portraits for players new to the data (only the missing ones).
+      - name: Faces
+        run: python build/lineup_lab_faces.py --fetch
+
       - name: Build
         run: python build/lineup_lab_build.py
 
