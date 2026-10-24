@@ -332,18 +332,6 @@ def last_name(n):
     return w[-1] if w else n
 
 
-def short_names(ids):
-    """Last names for a row; players sharing one in the row get an initial."""
-    ln = [last_name(NAMES.get(p, p)) for p in ids]
-    out = []
-    for p, l in zip(ids, ln):
-        if ln.count(l) > 1:
-            out.append(NAMES.get(p, p)[0] + '. ' + l)
-        else:
-            out.append(l)
-    return out
-
-
 def build_players(lineups, duos):
     """Per-player minutes by season and team, career minutes, slugs and which
     pages are indexable."""
@@ -420,14 +408,25 @@ def face(pid, size):
     return f'<span class="ph" style="--s:{size}px">{inner}</span>'
 
 
+def split_name(full):
+    """'Shai Gilgeous-Alexander' -> ('Shai', 'Gilgeous-Alexander');
+    'Gary Trent Jr.' -> ('Gary', 'Trent Jr.'); one-word names -> ('', name)."""
+    last = last_name(full)
+    first = full[:len(full) - len(last)].strip() if full.endswith(last) else ''
+    return first, last
+
+
 def people(ids, size=40, cls='who'):
-    sn = short_names(ids)
+    """Faces with the full name under each: first name on a small line, last
+    name below it."""
     items = []
-    for p, s in zip(ids, sn):
+    for p in ids:
         full = NAMES.get(p, p)
-        cls_ = 'ln lnl' if len(s) > 10 else 'ln'
-        items.append(f'<li><a href="{player_url(p)}" title="{esc(full)}" aria-label="{esc(full)}">'
-                     f'{face(p, size)}<span class="{cls_}">{esc(s)}</span></a></li>')
+        first, last = split_name(full)
+        # --n (name length) lets the CSS shrink a long name to fit its column
+        items.append(f'<li><a href="{player_url(p)}" title="{esc(full)}">'
+                     f'{face(p, size)}<span class="fn" style="--n:{max(len(first), 4)}">{esc(first) or "&nbsp;"}</span>'
+                     f'<span class="ln" style="--n:{max(len(last), 4)}">{esc(last)}</span></a></li>')
     return f'<ul class="{cls}">' + ''.join(items) + '</ul>'
 
 
@@ -458,11 +457,24 @@ def team_season_url(code, season):
     return f'{SITE}/{franchise(code)["slug"]}/{season_label(season)}/'
 
 
-def num_block(r):
+def num_block(r, sample=False):
+    """Net rating, top right of a card. sample=True adds possessions and
+    minutes under it, for the compact season-by-season rows that have no
+    meta line."""
     t, cls = fmt_net(r['net'])
-    tag = '<span class="tag">Small sample</span>' if r['poss'] < SMALL_SAMPLE else ''
-    return (f'<div class="num"><span class="net {cls}">{t}</span><span class="lbl">Net rating</span>'
-            f'<span class="smp">{n0(r["poss"])} poss · {n0(r["secs"] / 60)} min</span>{tag}</div>')
+    smp = (f'<span class="smp">{n0(r["poss"])} poss · {n0(r["secs"] / 60)} min</span>' if sample else '')
+    return f'<div class="num"><span class="net {cls}">{t}</span><span class="lbl">net rating</span>{smp}</div>'
+
+
+def meta(r, extra=''):
+    """The line under the faces: sample, Off/Def, then any extra, and a
+    Small sample warning when the sample is thin."""
+    parts = [f'{n0(r["poss"])} poss', f'{n0(r["secs"] / 60)} min',
+             f'Off {r1(r["ortg"])}', f'Def {r1(r["drtg"])}']
+    if extra:
+        parts.append(extra)
+    tag = ' <span class="ss">Small sample</span>' if r['poss'] < SMALL_SAMPLE else ''
+    return '<p class="sub">' + ' · '.join(f'<span class="nw">{x}</span>' for x in parts) + tag + '</p>'
 
 
 _SEASON_RE = re.compile(r'(\d{4}-\d\d)')
@@ -483,14 +495,9 @@ def lineup_row(r, i, show_team=True, extra_cls='', swaps=True):
     rid = 'l-' + '-'.join(ids) + (f'-{r["season"]}' if show_team else '')
     head = f'<span class="rk">{i}</span>'
     g = int(r['games']) if 'games' in r and not pd.isna(r.get('games')) else None
-    stats = (f'Off {r1(r["ortg"])} · Def {r1(r["drtg"])}'
-             + (f' · {g} game{"" if g == 1 else "s"} together' if g else ''))
+    sub = meta(r, f'{g} game{"" if g == 1 else "s"}' if g else '')
     if show_team:
         head += team_line(r['team'], r['season'])
-        sub = f'<p class="sub">{stats}</p>'
-    else:
-        head += f'<span class="tm sub">{stats}</span>'
-        sub = ''
     det = ''
     if swaps and 'team' in r and 'season' in r:
         sw = swaps_for(r)
@@ -517,12 +524,7 @@ def duo_row(r, i, show_team=True, extra_cls='', label=None):
         head += f'<span class="tm">{logo(SLUG_TEAM[r["slug"]]["abbr"])}<span>{nobr(label)}</span></span>'
     elif show_team:
         head += team_line(r['team'], r['season'])
-    stats = f'Off {r1(r["ortg"])} · Def {r1(r["drtg"])}'
-    if label is None and not show_team:
-        head += f'<span class="tm sub">{stats}</span>'
-        sub = ''
-    else:
-        sub = f'<p class="sub">{stats}</p>'
+    sub = meta(r)
     return (f'<li class="row duo {extra_cls}"><div class="rh">{head}{num_block(r)}</div>'
             f'{people(ids, 52, "who two")}{sub}</li>')
 
@@ -534,7 +536,7 @@ def career_row(r, i, abbr):
                else f'{season_label(r["first"])} to {season_label(r["last"])}')
     head = (f'<span class="rk">{i}</span><a class="tm" href="{SITE}/{t["slug"]}/">{logo(abbr)}'
             f'<span>{esc(t["name"])}, {seasons}</span></a>')
-    sub = f'<p class="sub">Off {r1(r["ortg"])} · Def {r1(r["drtg"])} · all seasons combined</p>'
+    sub = meta(r, 'all seasons combined')
     return f'<li class="row"><div class="rh">{head}{num_block(r)}</div>{people(ids)}{sub}</li>'
 
 
@@ -632,7 +634,7 @@ a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
 :focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
 .hdr h1{font-size:1.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.3rem}
 .subtitle{color:var(--text-secondary);font-size:.84rem;margin-bottom:.7rem;max-width:60rem}
-.stamp{font-family:'JetBrains Mono',monospace;font-size:.74rem}
+.stamp{font-variant-numeric:tabular-nums;font-size:.74rem}
 .lnav{display:flex;gap:.3rem;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 1.1rem;padding-bottom:.1rem}
 .lnav a{flex:0 0 auto;font-size:.8rem;font-weight:600;color:var(--text);padding:.45rem .75rem;border-radius:999px;
 border:1px solid var(--border);background:var(--surface);min-height:36px;display:inline-flex;align-items:center}
@@ -651,37 +653,39 @@ ol.rows.clip>li.x{display:none}
 .rh>h3{flex:1;padding-top:.15rem}
 .tm.sub{font-weight:400;padding-top:.3rem}
 .nw{white-space:nowrap}
-.rk{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--text-secondary);min-width:1.4rem;padding-top:.15rem}
+.rk{font-variant-numeric:tabular-nums;font-size:.74rem;color:var(--text-secondary);min-width:1.4rem;padding-top:.15rem}
 .tm{display:flex;align-items:center;gap:.4rem;font-weight:600;font-size:.82rem;line-height:1.25;color:var(--text);min-width:0;flex:1;padding-top:.05rem}
 @media(max-width:420px){.tm{font-size:.78rem}}
 .tm span{overflow-wrap:anywhere}.lg{width:22px;height:22px;flex-shrink:0}
 a.tm:hover{color:var(--accent);text-decoration:none}
 .num{display:flex;flex-direction:column;align-items:flex-end;text-align:right;margin-left:auto;flex-shrink:0;order:2}
-.net{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-weight:700;font-size:1.15rem;line-height:1.1}
-.lbl{font-size:.62rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
-.smp{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text);margin-top:.1rem;white-space:nowrap}
-.tag{display:inline-block;margin-top:.2rem;font-size:.62rem;font-weight:700;color:#8a5a00;background:#fff4d6;
-border:1px solid #f0d68a;border-radius:6px;padding:0 .35rem}
+.net{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.3rem;line-height:1.05;letter-spacing:-.02em}
+.lbl{font-size:.64rem;color:var(--text-secondary);font-weight:500}
+.smp{font-variant-numeric:tabular-nums;font-size:.68rem;color:var(--text-secondary);white-space:nowrap}
+.ss{color:#9a6400;font-weight:600;white-space:nowrap}
 .pos{color:var(--green)}.neg{color:var(--red)}.dash{color:var(--text-secondary)}
-ul.who{list-style:none;display:flex;gap:.35rem;margin:.55rem 0 .3rem}
-ul.who li{flex:1 1 0;min-width:0;max-width:72px}
-ul.who.two li{max-width:110px;flex:0 1 110px}
+ul.who{list-style:none;display:flex;gap:.35rem;margin:.5rem 0 .35rem}
+ul.who li{flex:1 1 0;min-width:0;max-width:96px;container-type:inline-size}
+ul.who.two li{max-width:120px;flex:0 1 120px}
 ul.who a{display:flex;flex-direction:column;align-items:center;color:var(--text);text-align:center}
 ul.who a:hover{text-decoration:none;color:var(--accent)}
-.ln{font-size:.7rem;line-height:1.2;margin-top:.2rem;max-width:100%;overflow-wrap:normal;word-break:normal}
-.ln.lnl{font-size:.6rem}
-@media(max-width:420px){.ln{font-size:.64rem}.ln.lnl{font-size:.55rem}}
-.two .ln{font-size:.8rem;font-weight:600}
+/* names: a set size, or smaller when the name is too long for its column
+   (100cqi = the column's width; about .62em per letter) */
+.fn{--f:.62rem;font-size:min(var(--f),calc(100cqi / (var(--n) * .62)));line-height:1.15;color:var(--text-secondary);
+margin-top:.25rem;max-width:100%;white-space:nowrap}
+.ln{--f:.72rem;font-size:min(var(--f),calc(100cqi / (var(--n) * .64)));font-weight:600;line-height:1.15;max-width:100%;white-space:nowrap}
+@media(max-width:420px){.fn{--f:.58rem}.ln{--f:.66rem}}
+.two .fn{--f:.7rem}.two .ln{--f:.82rem}
 .ph{width:var(--s);height:var(--s);border-radius:50%;background:var(--ph);overflow:hidden;flex-shrink:0;
 display:flex;align-items:center;justify-content:center}
 .ph img{width:100%;height:100%;display:block}
 .ini{font-weight:700;color:#55555c;font-size:calc(var(--s) * .34)}
-.sub{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:.7rem;color:var(--text-secondary)}
+.sub{font-variant-numeric:tabular-nums;font-size:.72rem;color:var(--text-secondary);line-height:1.45}
 details.det{margin-top:.45rem;border-top:1px solid var(--surface-hover);padding-top:.4rem}
 details.det summary{cursor:pointer;font-size:.76rem;font-weight:600;color:var(--accent);min-height:28px;display:flex;align-items:center}
 ul.swaps{list-style:none;display:grid;gap:.3rem}
 ul.swaps li{display:flex;justify-content:space-between;gap:.6rem;font-size:.78rem;align-items:baseline}
-ul.swaps .sv{font-family:'JetBrains Mono',monospace;font-size:.72rem;white-space:nowrap}
+ul.swaps .sv{font-variant-numeric:tabular-nums;font-size:.72rem;white-space:nowrap}
 .showall{margin-top:.55rem;font:inherit;font-size:.8rem;font-weight:600;color:var(--accent);background:var(--surface);
 border:1px solid var(--border);border-radius:999px;padding:.45rem 1rem;cursor:pointer;min-height:40px}
 .tablist{display:none}
@@ -712,15 +716,16 @@ border-radius:10px;padding:.5rem .55rem;font-size:.8rem;font-weight:600;color:va
 .swapg table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:.4rem}
 .swapg th{text-align:left;font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-secondary);font-weight:700;padding:.2rem .3rem}
 .swapg td{padding:.35rem .3rem;border-top:1px solid var(--surface-hover);vertical-align:middle}
-.swapg td.n{text-align:right;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.swapg td.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
 .swapg td.p{display:flex;align-items:center;gap:.4rem}
+@media(max-width:360px){.swapg table{font-size:.72rem}.swapg th,.swapg td{padding-left:.15rem;padding-right:.15rem}}
 ol.ssn{list-style:none;display:grid;gap:.4rem}
 ol.ssn>li{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.5rem .65rem}
 .ssh{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap;font-size:.84rem}
 .ssh b{font-weight:700}.ssh .meta{font-size:.74rem;color:var(--text-secondary)}
 .ssb{display:flex;align-items:center;gap:.6rem;margin-top:.3rem;flex-wrap:wrap}
 .ssb ul.who{margin:0;flex:1 1 220px;max-width:340px}
-.ssb ul.who .ln{font-size:.64rem}
+.ssb ul.who .ln{--f:.64rem}.ssb ul.who .fn{--f:.56rem}
 .ssb .num{margin-left:auto}
 .how{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.75rem .9rem}
 .how dt{font-weight:700;font-size:.84rem;margin-top:.6rem}.how dt:first-child{margin-top:0}
@@ -764,9 +769,7 @@ def shell(path, title, desc, h1, subtitle, body, active=None, noindex=False):
     url = SITE + path
     rob = '<meta name="robots" content="noindex,follow">\n' if noindex else ''
     fonts = (f"@font-face{{font-family:'DM Sans';src:url({SITE}/fonts/dm-sans-latin.woff2?v={v}) format('woff2');"
-             "font-weight:100 1000;font-style:normal;font-display:swap}"
-             f"@font-face{{font-family:'JetBrains Mono';src:url({SITE}/fonts/jetbrains-mono-latin.woff2?v={v}) format('woff2');"
-             "font-weight:100 800;font-style:normal;font-display:swap}")
+             "font-weight:100 1000;font-style:normal;font-display:swap}")
     nav = local_nav(active) if active is not None else ''
     return f"""<!doctype html>
 <html lang="en">
@@ -929,7 +932,7 @@ def swap_html(groups):
 def summary_card(title, r, duo=False):
     ids = [r['p1'], r['p2']] if duo else r['lineup'].split('-')
     return (f'<div class="row"><div class="rh"><h3>{esc(title)}</h3>{num_block(r)}</div>'
-            f'{people(ids, 36)}</div>')
+            f'{people(ids, 36)}{meta(r)}</div>')
 
 
 def page_team_season(ctx, code, season):
@@ -1016,7 +1019,7 @@ def page_team(ctx, slug):
                 f'<span class="meta">{int(rec["wins"])}-{int(rec["losses"])} · min {tl:,} poss</span></div>')
         if len(b):
             r = b.iloc[0]
-            body = f'<div class="ssb">{people(r["lineup"].split("-"), 26)}{num_block(r)}</div>'
+            body = f'<div class="ssb">{people(r["lineup"].split("-"), 26)}{num_block(r, True)}</div>'
         else:
             body = '<p class="note">No lineup reached the minimum yet.</p>'
         items.append(f'<li>{head}{body}</li>')
@@ -1190,7 +1193,7 @@ def page_player(ctx, pid):
         if len(b):
             r = b.iloc[0]
             body = (f'<div class="ssb"><span class="note" style="margin:0">Best with</span>'
-                    f'{people([r["mate"]], 26)}{num_block(r)}</div>')
+                    f'{people([r["mate"]], 26)}{num_block(r, True)}</div>')
         else:
             body = f'<p class="note" style="margin:.2rem 0 0">No teammate reached {T_PLAYER_SEASON_DUO} possessions together.</p>'
         items.append(f'<li>{head}{body}</li>')

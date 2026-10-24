@@ -1,14 +1,18 @@
 """Uniform player portraits for Lineup Lab.
 
 The nba-headshots cutouts (players/headshots/face/, transparent PNG, 256px)
-are framed differently by era: recent photos fill the square, older ones show
-the player smaller with more chest. This finds the face in each cutout and
-crops every one the same way (face the same size and in the same place), so
-active and retired players look alike in the cards' circles.
+are framed differently by era: recent photos show shoulders and jersey, most
+older ones (about 6 in 10 files) stop at the chin or neck. This finds the face
+in each cutout, crops every one the same way (face the same size and in the
+same place) and ends every portrait at the same line under the chin with a soft
+edge, so active and retired players look alike in the cards' circles: a head
+on the grey circle, never a jersey for some and a floating head for others.
+The few source photos that still have their studio background (no cutout) keep
+it, filling the circle, since a head cut out of a rectangle looks worse.
 
 Output: docs/faces/<nba_id>.webp, 160px, transparent background (the page
 draws the light grey circle). Only files whose source changed are redone
-(data/faces_state.json keeps a hash per source file).
+(data/faces_state.json keeps a hash per source file and the CROP_V used).
 
 Usage:
   python build/lineup_lab_faces.py <folder with the face/*.png cutouts>
@@ -33,10 +37,16 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, 'docs', 'faces')
 STATE = os.path.join(ROOT, 'data', 'faces_state.json')
 SIZE = 160
-FACE_FRAC = 0.40      # detected face box width as a share of the output width
-FACE_Y = 0.44         # face box centre, from the top, as a share of the height
-MAX_FACE_FRAC = 0.56  # zoom in no further than this to avoid an empty band at the bottom
-MAX_FACE_FRAC_OUTLINE = 0.42  # outline-only crops: keep heads the same size, allow some grey under the chin
+FACE_FRAC = 0.62  # detected face box width as a share of the output width
+FACE_Y = 0.52     # face box centre, from the top, as a share of the height
+# Where every portrait ends: this many face-box widths below the face centre,
+# fading out over FADE widths. Measured on the 1,884 cutouts: the ones that
+# stop at the neck end 0.45 to 0.69 widths below the centre (middle 0.59), so
+# 0.64 keeps chins and beards and hides any jersey.
+CUT = 0.64
+FADE = 0.10
+# Bump when the framing above changes: every portrait is then redone.
+CROP_V = 2
 
 CASCADE = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 # Second opinion for photos the first detector misses (headbands, tight
@@ -102,22 +112,24 @@ def fallback_box(alpha):
     return (int(cx - w / 2), int(cy - w / 2), w, w)
 
 
-def crop(rgba, box, max_frac=MAX_FACE_FRAC):
-    alpha = rgba[:, :, 3]
+def has_background(alpha):
+    """True when the source is a plain photo, not a cutout (opaque corners)."""
+    return float(np.mean([alpha[2, 2], alpha[2, -3], alpha[-3, 2], alpha[-3, -3]])) > 128
+
+
+def crop(rgba, box):
     x, y, w, h = box
     fw = max(w, h)
     cx, cy = x + w / 2, y + h / 2
+    if not has_background(rgba[:, :, 3]):
+        # same soft line under the chin for every cutout
+        a = rgba[:, :, 3].astype(np.float32)
+        rows = np.arange(a.shape[0], dtype=np.float32)[:, None]
+        a *= np.clip((cy + CUT * fw - rows) / (FADE * fw), 0, 1)
+        rgba = rgba.copy()
+        rgba[:, :, 3] = a.astype(np.uint8)
     side = fw / FACE_FRAC
-    # Keep the crop's bottom inside the cutout (no empty band under the
-    # shoulders): if it would run past the last opaque row, zoom in, up to
-    # MAX_FACE_FRAC.
-    rows = np.where(alpha.max(axis=1) > 32)[0]
-    bottom = rows[-1] if len(rows) else rgba.shape[0]
     top = cy - side * FACE_Y
-    if top + side > bottom + 1:
-        need = (bottom + 1 - cy) / (1 - FACE_Y)
-        side = max(min(side, need), fw / max_frac)
-        top = cy - side * FACE_Y
     left = cx - side / 2
     im = Image.fromarray(rgba, 'RGBA')
     # crop with transparent padding outside the source
@@ -153,7 +165,7 @@ def main(src):
                 os.remove(out)
             state[pid] = {'hash': h, 'stem': stem, 'how': 'placeholder'}
             continue
-        if state.get(pid, {}).get('hash') == h and os.path.exists(out):
+        if state.get(pid, {}).get('hash') == h and state[pid].get('v') == CROP_V and os.path.exists(out):
             skipped += 1
             continue
         rgba = np.array(Image.open(f).convert('RGBA'))
@@ -164,8 +176,8 @@ def main(src):
             how = 'outline'
         if box is None:
             continue
-        crop(rgba, box, MAX_FACE_FRAC if how == 'face' else MAX_FACE_FRAC_OUTLINE).save(out, 'WEBP', quality=82, method=6)
-        state[pid] = {'hash': h, 'stem': stem, 'how': how}
+        crop(rgba, box).save(out, 'WEBP', quality=82, method=6)
+        state[pid] = {'hash': h, 'stem': stem, 'how': how, 'v': CROP_V}
         done += 1
         found += how == 'face'
         fell += how == 'outline'
