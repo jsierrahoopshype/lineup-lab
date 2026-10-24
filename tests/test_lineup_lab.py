@@ -109,7 +109,10 @@ class Units(unittest.TestCase):
 class Site(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.pages = sorted(p for p in glob.glob(os.path.join(DOCS, '**', 'index.html'), recursive=True))
+        # headshot-test/ is a temporary noindex page for picking a portrait
+        # style; it is not part of the section and not in the sitemap.
+        cls.pages = sorted(p for p in glob.glob(os.path.join(DOCS, '**', 'index.html'), recursive=True)
+                           if os.sep + 'headshot-test' + os.sep not in p)
         with open(os.path.join(DOCS, 'sitemap.xml')) as f:
             cls.sitemap = f.read()
 
@@ -142,6 +145,13 @@ class Site(unittest.TestCase):
             s = f.read()
         self.assertIn('id="hottest"', s)
         self.assertIn('Ramiro Bentes', s)
+
+    def test_headshot_test_page_is_noindex_and_not_in_sitemap(self):
+        p = os.path.join(DOCS, 'headshot-test', 'index.html')
+        if os.path.exists(p):
+            with open(p, encoding='utf-8') as f:
+                self.assertIn('content="noindex"', f.read())
+            self.assertNotIn('headshot-test', self.sitemap)
 
     def test_404_is_noindex(self):
         with open(os.path.join(DOCS, '404.html'), encoding='utf-8') as f:
