@@ -133,35 +133,62 @@ class Site(unittest.TestCase):
             self.assertNotIn('github.io/lineup-lab', s, p)
             self.assertIn('name="viewport"', s, p)
             self.assertEqual(s.count('<h1>'), 1, p)
-            self.assertIn(f'<loc>{want}</loc>', self.sitemap, p)
+            if 'content="noindex' in s:
+                # hidden player pages: never in the sitemap
+                self.assertIn('/player/', p)
+                self.assertNotIn(f'<loc>{want}</loc>', self.sitemap, p)
+            else:
+                self.assertIn(f'<loc>{want}</loc>', self.sitemap, p)
 
     def test_sitemap_has_dates_and_only_pages(self):
         locs = re.findall(r'<url><loc>([^<]+)</loc><lastmod>(\d{4}-\d\d-\d\d)</lastmod></url>', self.sitemap)
-        self.assertEqual(len(locs), len(self.pages))
-        self.assertNotIn('404', self.sitemap)
+        indexable = 0
+        for p in self.pages:
+            with open(p, encoding='utf-8') as f:
+                indexable += 'content="noindex' not in f.read()
+        self.assertEqual(len(locs), indexable)
+        self.assertNotIn('404.html', self.sitemap)
 
-    def test_index_has_hottest(self):
+    def test_index_has_recent_and_no_negative_best(self):
         with open(os.path.join(DOCS, 'index.html'), encoding='utf-8') as f:
             s = f.read()
-        self.assertIn('id="hottest"', s)
+        self.assertIn('id="recent"', s)
         self.assertIn('Ramiro Bentes', s)
+        block = s.split('id="recent"', 1)[1].split('</section>', 1)[0]
+        self.assertNotIn('class="net neg"', block)
+
+    def test_player_pages_staged_indexing(self):
+        players = [p for p in self.pages if os.sep + 'player' + os.sep in p]
+        self.assertGreater(len(players), 2000)
+        indexed = 0
+        for p in players:
+            with open(p, encoding='utf-8') as f:
+                indexed += 'content="noindex' not in f.read()
+        self.assertLessEqual(indexed, B.PLAYER_INDEX_LIMIT)
+        self.assertGreater(indexed, 100)
+
+    def test_names_link_to_player_pages(self):
+        with open(os.path.join(DOCS, 'warriors', '2016-17', 'index.html'), encoding='utf-8') as f:
+            s = f.read()
+        self.assertIn('href="https://hoopsmatic.com/lineups/player/stephen-curry-201939/"', s)
+        self.assertIn('One player changes', s)
 
     def test_headshot_test_page_is_noindex_and_not_in_sitemap(self):
         p = os.path.join(DOCS, 'headshot-test', 'index.html')
         if os.path.exists(p):
             with open(p, encoding='utf-8') as f:
-                self.assertIn('content="noindex"', f.read())
+                self.assertIn('content="noindex', f.read())
             self.assertNotIn('headshot-test', self.sitemap)
 
     def test_404_is_noindex(self):
         with open(os.path.join(DOCS, '404.html'), encoding='utf-8') as f:
-            self.assertIn('content="noindex"', f.read())
+            self.assertIn('content="noindex', f.read())
 
     def test_known_lineup_on_alltime(self):
         with open(os.path.join(DOCS, 'all-time', 'index.html'), encoding='utf-8') as f:
             s = f.read()
-        self.assertIn('2007-08 Boston Celtics', s)
-        self.assertIn('1996-97 Utah Jazz', s)
+        self.assertIn('<span class="nw">2007-08</span> Boston Celtics', s)
+        self.assertIn('<span class="nw">1996-97</span> Utah Jazz', s)
 
 
 if __name__ == '__main__':

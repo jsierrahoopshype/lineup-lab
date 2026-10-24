@@ -1,18 +1,26 @@
 """Build Lineup Lab: every NBA five-man lineup and duo since 1996-97.
 
 Reads only what is in this repo (data/raw, data/current, data/teams.json,
-data/headshots.json) and writes the static site into docs/, which GitHub Pages
-serves and the hoopsmatic.com Worker proxies at https://hoopsmatic.com/lineups/.
+docs/faces) and writes the static site into docs/, which GitHub Pages serves
+and the hoopsmatic.com Worker proxies at https://hoopsmatic.com/lineups/.
 No network access here; the download step is lineup_lab_update.py.
 
 Pages (all canonical on hoopsmatic.com):
-  /lineups/                       hottest lineups this week, teams, seasons, method
-  /lineups/all-time/              best and worst single-season lineups, most minutes ever
-  /lineups/duos/                  best single-season duos, most minutes ever, this season
+  /lineups/                       best lineups of the last 30 days and the season, teams, seasons, method
+  /lineups/all-time/              best and worst single-season lineups, most minutes together
+  /lineups/duos/                  this season's duos, best single-season duos, most minutes together
   /lineups/season/<1999-00>/      league leaders for one season
-  /lineups/<team>/                one franchise, best lineup every season
-  /lineups/<team>/<1999-00>/      one team-season
+  /lineups/<team>/                one franchise: best ever, most minutes, every season
+  /lineups/<team>/<1999-00>/      one team-season: summary, tabs, "one player changes"
+  /lineups/players/               every player with 2,000+ minutes in the data
+  /lineups/player/<name>-<id>/    one player: best teammates, season by season, lineups
   /lineups/sitemap.xml            per-URL <lastmod> that moves only when that page changes
+
+Player pages: every player has one so every name is a link, but only players
+with PLAYER_INDEX_MIN career minutes AND within the top PLAYER_INDEX_LIMIT by
+minutes are indexable and in the sitemap; the rest are noindex. Raise
+PLAYER_INDEX_LIMIT to open more once Search Console shows the first batch
+indexed.
 
 Season numbers inside the code follow the source: 2027 means 2026-27.
 """
@@ -22,7 +30,9 @@ import html
 import itertools
 import json
 import os
+import re
 import sys
+import unicodedata
 
 import numpy as np
 import pandas as pd
@@ -32,7 +42,6 @@ DATA = os.path.join(ROOT, 'data')
 OUT = os.path.join(ROOT, 'docs')
 SITE = 'https://hoopsmatic.com/lineups'
 HS = 'https://jsierrahoopshype.github.io/nba-headshots'
-SILHOUETTE = HS + '/fallbacks/player_silhouette.svg'
 FIRST_SEASON = 1997
 FORGE = 'https://forge.hoopsmatic.com/'
 
@@ -44,18 +53,23 @@ T_TEAM_LINEUP = 150      # team-season page, best and worst lineups
 T_TEAM_DUO = 400         # team-season page, best duos
 T_SEASON_LINEUP = 300    # season page, league-wide lineups
 T_SEASON_DUO = 800       # season page, league-wide duos
-T_FRANCHISE = 500        # team hub, franchise best ever (finished seasons only)
+T_FRANCHISE = 500        # team hub, highest-rated (finished seasons only)
 T_ALLTIME_LINEUP = 1000  # all-time single-season lineups
 T_ALLTIME_DUO = 2500     # all-time single-season duos
-HOT_MIN_POSS = 30        # hottest lineups, in the window
-HOT_MIN_COUNT = 5        # fewer qualifiers than this widens the window
+T_PLAYER_DUO = 1000      # player page, best teammates across his career
+T_PLAYER_SEASON_DUO = 300    # player page, best teammate in one season
+T_PLAYER_LINEUP = 300    # player page, best lineups he was in (one season)
+RECENT_DAYS = 30         # "last 30 days", rolling
+RECENT_MINS = (100, 50, 30)  # tried in order until RECENT_MIN_COUNT qualify
+RECENT_MIN_COUNT = 3
+T_SWAP = 30              # "one player changes": each lineup needs this many possessions
+SMALL_SAMPLE = 200       # fewer possessions than this get the "Small sample" tag
+PLAYER_INDEX_MIN = 2000  # career minutes in the data for an indexable player page
+PLAYER_INDEX_LIMIT = 500  # stage 1: only the top 500 of those by minutes
 
-# Codes the source uses for seasons before a move or rename, mapped to the
-# franchise's current abbreviation (NBA franchise history: the 1988-2002
-# Charlotte Hornets belong to today's Hornets; New Orleans 2002-2013 is the
-# Pelicans).
 HISTORIC = {'CHH': 'CHA', 'NOH': 'NOP', 'NOK': 'NOP', 'NJN': 'BKN', 'SEA': 'OKC', 'VAN': 'MEM'}
 MONTHS = ['Jan.', 'Feb.', 'March', 'April', 'May', 'June', 'July', 'Aug.', 'Sept.', 'Oct.', 'Nov.', 'Dec.']
+SUFFIXES = {'Jr.', 'Jr', 'Sr.', 'Sr', 'II', 'III', 'IV', 'V'}
 
 esc = html.escape
 
@@ -95,6 +109,21 @@ def team_name(code, season):
     if code == 'WAS' and season == 1997:
         return 'Washington Bullets'
     return TEAMS[code]['name']
+
+
+HIST_NICK = {'CHH': 'Hornets', 'NOH': 'Hornets', 'NOK': 'Hornets', 'NJN': 'Nets',
+             'SEA': 'SuperSonics', 'VAN': 'Grizzlies'}
+
+
+def nickname(code, season):
+    if code in HIST_NICK:
+        return HIST_NICK[code]
+    if code == 'CHA' and season <= 2014:
+        return 'Bobcats'
+    if code == 'WAS' and season == 1997:
+        return 'Bullets'
+    t = TEAMS[code]
+    return t['name'].replace(t['short'], '', 1).strip() or t['name']
 
 
 def season_label(y):
@@ -183,12 +212,7 @@ def read_current(season, names):
 
 
 def load_seasons():
-    """Returns (lineups, records, current_games, cur, names).
-
-    lineups: one row per season, team code and lineup with totals and games.
-    records: one row per season and team code, with wins, losses and games.
-    current_games: the season in progress, one row per game, team and lineup.
-    """
+    """Returns (lineups, records, current_games, cur, names)."""
     with open(os.path.join(DATA, 'current', 'season.txt')) as f:
         cur = int(f.read().strip())
     names = {}
@@ -203,7 +227,6 @@ def load_seasons():
                     opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), games=('game_id', 'nunique')))
         g['season'] = s
         frames.append(g)
-        # A game's score is the sum of its stints, overtime included.
         sc = d.groupby(['team', 'game_id'], as_index=False)[['pts', 'opp_pts']].sum()
         sc['w'] = (sc['pts'] > sc['opp_pts']).astype(int)
         r = sc.groupby('team', as_index=False).agg(games=('game_id', 'nunique'), wins=('w', 'sum'))
@@ -247,7 +270,7 @@ def duos_of(lineups):
 def rank(df, n, asc=False):
     """Best (or worst) by net rating; ties go to more possessions, then the key."""
     keycol = 'lineup' if 'lineup' in df.columns else 'p1'
-    d = df.sort_values(['net', 'poss', keycol], ascending=[asc, False, True])
+    d = df[df['net'].notna()].sort_values(['net', 'poss', keycol], ascending=[asc, False, True])
     return d.head(n)
 
 
@@ -261,59 +284,166 @@ def scaled(full, played, floor):
     return max(floor, int(round(full * min(1.0, played / 82.0))))
 
 
-def hottest(cur_games, cur):
-    """The best lineups over the last 7 days of games (14, then the season, if
-    too few qualify). Returns (rows, start_iso, end_iso, min_poss, widened)."""
+def window(cur_games, cur, start):
+    w = cur_games[cur_games['game_date'] >= start]
+    g = (w.groupby(['team', 'lineup'], as_index=False)
+           .agg(poss=('poss', 'sum'), pts=('pts', 'sum'), opp_poss=('opp_poss', 'sum'),
+                opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), games=('game_id', 'nunique')))
+    g = add_ratings(g)
+    g['season'] = cur
+    g['slug'] = g['team'].map(lambda c: franchise(c)['slug'])
+    return g
+
+
+def recent(cur_games, cur):
+    """Best lineups of the last RECENT_DAYS days (rolling, ending on the latest
+    game date), positive net ratings only. The minimum is the first of
+    RECENT_MINS that lets RECENT_MIN_COUNT lineups qualify, else the last.
+    Returns dict(rows, start, end, min, whole_season) or None."""
     if cur_games is None or cur_games.empty:
         return None
     end = cur_games['game_date'].max()
-    end_d = dt.date.fromisoformat(end)
     first = cur_games['game_date'].min()
-    for days in (7, 14, None):
-        start = first if days is None else max(first, (end_d - dt.timedelta(days=days - 1)).isoformat())
-        w = cur_games[(cur_games['game_date'] >= start) & (cur_games['game_date'] <= end)]
-        g = (w.groupby(['team', 'lineup'], as_index=False)
-               .agg(poss=('poss', 'sum'), pts=('pts', 'sum'), opp_poss=('opp_poss', 'sum'),
-                    opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), games=('game_id', 'nunique')))
-        g = add_ratings(g)
-        g['season'] = cur
-        g['slug'] = g['team'].map(lambda c: franchise(c)['slug'])
-        q = g[g['poss'] >= HOT_MIN_POSS]
-        if len(q) >= HOT_MIN_COUNT or days is None:
-            return rank(q, 10), start, end, HOT_MIN_POSS, days
+    start = max(first, (dt.date.fromisoformat(end) - dt.timedelta(days=RECENT_DAYS - 1)).isoformat())
+    g = window(cur_games, cur, start)
+    g = g[g['net'] > 0]
+    for m in RECENT_MINS:
+        q = g[g['poss'] >= m]
+        if len(q) >= RECENT_MIN_COUNT:
+            break
+    return dict(rows=rank(q, 10), start=start, end=end, min=m, whole_season=(start == first))
 
 
-# ── html ──────────────────────────────────────────────────────────────────
+# ── players ───────────────────────────────────────────────────────────────
 
-def load_headshots():
-    p = os.path.join(DATA, 'headshots.json')
-    if not os.path.exists(p):
-        return {}
-    with open(p) as f:
-        return json.load(f)
+def ascii_slug(s):
+    s = unicodedata.normalize('NFKD', s).encode('ascii', 'ignore').decode()
+    return re.sub(r'[^a-z0-9]+', '-', s.lower()).strip('-')
 
 
-HEADSHOTS = load_headshots()
+def player_url(pid):
+    return f'{SITE}/player/{PSLUG[pid]}/'
 
 
-def face(pid, name):
-    stem = HEADSHOTS.get(pid)
-    src = f'{HS}/players/headshots/face2-160/{stem}.webp' if stem else SILHOUETTE
-    return (f'<img src="{src}" alt="" title="{esc(name)}" width="40" height="40" loading="lazy" '
-            f'decoding="async" onerror="this.onerror=null;this.src=\'{SILHOUETTE}\'">')
+def last_name(n):
+    w = n.split()
+    if len(w) >= 3 and w[-1] in SUFFIXES:
+        return ' '.join(w[-2:])
+    return w[-1] if w else n
+
+
+def short_names(ids):
+    """Last names for a row; players sharing one in the row get an initial."""
+    ln = [last_name(NAMES.get(p, p)) for p in ids]
+    out = []
+    for p, l in zip(ids, ln):
+        if ln.count(l) > 1:
+            out.append(NAMES.get(p, p)[0] + '. ' + l)
+        else:
+            out.append(l)
+    return out
+
+
+def build_players(lineups, duos):
+    """Per-player minutes by season and team, career minutes, slugs and which
+    pages are indexable."""
+    ex = lineups[['season', 'team', 'lineup', 'secs']].copy()
+    ex['pid'] = ex['lineup'].str.split('-')
+    ex = ex.explode('pid')
+    ps = ex.groupby(['pid', 'season', 'team'], as_index=False)['secs'].sum()
+    car = ps.groupby('pid')['secs'].sum() / 60
+    slugs = {}
+    for pid in car.index:
+        slugs[pid] = f'{ascii_slug(NAMES.get(pid, pid)) or "player"}-{pid}'
+    eligible = car[car >= PLAYER_INDEX_MIN].sort_values(ascending=False)
+    indexed = set(eligible.index[:PLAYER_INDEX_LIMIT])
+    lin_idx = {k: v.to_numpy() for k, v in ex.groupby('pid').groups.items()}
+    d1 = duos.groupby('p1').groups
+    d2 = duos.groupby('p2').groups
+    duo_idx = {}
+    for k, v in itertools.chain(d1.items(), d2.items()):
+        duo_idx.setdefault(k, []).append(v.to_numpy())
+    duo_idx = {k: np.unique(np.concatenate(v)) for k, v in duo_idx.items()}
+    return ps, car, slugs, indexed, set(eligible.index), lin_idx, duo_idx
+
+
+# ── one player changes ────────────────────────────────────────────────────
+
+def swap_index(lineups):
+    """(season, team, four ids) -> list of (fifth id, row) for lineups with at
+    least T_SWAP possessions."""
+    idx = {}
+    q = lineups[lineups['poss'] >= T_SWAP]
+    for r in q.itertuples(index=False):
+        ids = r.lineup.split('-')
+        for i in range(5):
+            four = tuple(ids[:i] + ids[i + 1:])
+            idx.setdefault((r.season, r.team, four), []).append((ids[i], r))
+    return idx
+
+
+def swaps_for(r):
+    """Other lineups of the same team-season sharing four of r's players."""
+    ids = r['lineup'].split('-')
+    out = []
+    for i in range(5):
+        four = tuple(ids[:i] + ids[i + 1:])
+        for fifth, o in SWAPS.get((r['season'], r['team'], four), []):
+            if fifth != ids[i]:
+                out.append((ids[i], fifth, o))
+    out.sort(key=lambda t: -t[2].poss)
+    return out[:6]
+
+
+# ── html pieces ───────────────────────────────────────────────────────────
+
+def load_faces():
+    d = os.path.join(OUT, 'faces')
+    return {f[:-5] for f in os.listdir(d) if f.endswith('.webp')} if os.path.isdir(d) else set()
+
+
+FACES = load_faces()
+
+
+def initials(n):
+    w = [x for x in n.replace('.', ' ').split() if x not in SUFFIXES]
+    return (w[0][0] + (w[-1][0] if len(w) > 1 else '')).upper() if w else '?'
+
+
+def face(pid, size):
+    n = NAMES.get(pid, pid)
+    if pid in FACES:
+        inner = (f'<img src="{SITE}/faces/{pid}.webp?v={FACE_V}" alt="" width="{size}" height="{size}" '
+                 f'loading="lazy" decoding="async">')
+    else:
+        inner = f'<span class="ini">{esc(initials(n))}</span>'
+    return f'<span class="ph" style="--s:{size}px">{inner}</span>'
+
+
+def people(ids, size=40, cls='who'):
+    sn = short_names(ids)
+    items = []
+    for p, s in zip(ids, sn):
+        full = NAMES.get(p, p)
+        cls_ = 'ln lnl' if len(s) > 10 else 'ln'
+        items.append(f'<li><a href="{player_url(p)}" title="{esc(full)}" aria-label="{esc(full)}">'
+                     f'{face(p, size)}<span class="{cls_}">{esc(s)}</span></a></li>')
+    return f'<ul class="{cls}">' + ''.join(items) + '</ul>'
 
 
 def logo(code, size=22):
-    return (f'<img src="{HS}/teams/logos/current/svg/{franchise(code)["nba_id"]}.svg" alt="" '
+    return (f'<img class="lg" src="{HS}/teams/logos/current/svg/{franchise(code)["nba_id"]}.svg" alt="" '
             f'width="{size}" height="{size}" loading="lazy">')
 
 
-def net_html(v):
+def fmt_net(v):
     if v is None or (isinstance(v, float) and np.isnan(v)):
-        return '<span class="net dash">n/a</span>'
-    cls = 'pos' if v > 0.05 else 'neg' if v < -0.05 else 'dash'
-    sign = '+' if v > 0.05 else '−' if v < -0.05 else ''
-    return f'<span class="net {cls}" title="Net rating">{sign}{abs(v):.1f}</span>'
+        return 'n/a', 'dash'
+    if v > 0.05:
+        return f'+{v:.1f}', 'pos'
+    if v < -0.05:
+        return f'−{abs(v):.1f}', 'neg'
+    return '0.0', 'dash'
 
 
 def n0(v):
@@ -328,71 +458,128 @@ def team_season_url(code, season):
     return f'{SITE}/{franchise(code)["slug"]}/{season_label(season)}/'
 
 
-def stat_line(r, games=True):
-    parts = [f'Off {r1(r["ortg"])}', f'Def {r1(r["drtg"])}',
-             f'{n0(r["secs"] / 60)} min', f'{n0(r["poss"])} poss']
-    if games and 'games' in r and not pd.isna(r['games']):
-        g = int(r['games'])
-        parts.append(f'{g} game' + ('' if g == 1 else 's'))
-    return ' · '.join(parts)
+def num_block(r):
+    t, cls = fmt_net(r['net'])
+    tag = '<span class="tag">Small sample</span>' if r['poss'] < SMALL_SAMPLE else ''
+    return (f'<div class="num"><span class="net {cls}">{t}</span><span class="lbl">Net rating</span>'
+            f'<span class="smp">{n0(r["poss"])} poss · {n0(r["secs"] / 60)} min</span>{tag}</div>')
 
 
-def lineup_card(r, names, i, show_team=True):
+_SEASON_RE = re.compile(r'(\d{4}-\d\d)')
+
+
+def nobr(text):
+    """Escape, and keep each season label (2022-23) on one line."""
+    return _SEASON_RE.sub(r'<span class="nw">\1</span>', esc(text))
+
+
+def team_line(code, season, label=None):
+    return (f'<a class="tm" href="{team_season_url(code, season)}">{logo(code)}'
+            f'<span>{nobr(label or (season_label(season) + " " + team_name(code, season)))}</span></a>')
+
+
+def lineup_row(r, i, show_team=True, extra_cls='', swaps=True):
     ids = r['lineup'].split('-')
-    nm = [names.get(p, p) for p in ids]
-    top = f'<span class="rk">{i}</span>'
+    rid = 'l-' + '-'.join(ids) + (f'-{r["season"]}' if show_team else '')
+    head = f'<span class="rk">{i}</span>'
+    g = int(r['games']) if 'games' in r and not pd.isna(r.get('games')) else None
+    stats = (f'Off {r1(r["ortg"])} · Def {r1(r["drtg"])}'
+             + (f' · {g} game{"" if g == 1 else "s"} together' if g else ''))
     if show_team:
-        top += (f'<a class="tm" href="{team_season_url(r["team"], r["season"])}">{logo(r["team"])}'
-                f'<span>{season_label(r["season"])} {esc(team_name(r["team"], r["season"]))}</span></a>')
+        head += team_line(r['team'], r['season'])
+        sub = f'<p class="sub">{stats}</p>'
     else:
-        top += '<span class="tm sp"></span>'
-    return ('<li class="lu"><div class="lu-top">' + top + net_html(r['net']) + '</div>'
-            '<div class="faces">' + ''.join(face(p, n) for p, n in zip(ids, nm)) + '</div>'
-            f'<p class="nm">{esc(", ".join(nm))}</p>'
-            f'<p class="st">{stat_line(r)}</p></li>')
+        head += f'<span class="tm sub">{stats}</span>'
+        sub = ''
+    det = ''
+    if swaps and 'team' in r and 'season' in r:
+        sw = swaps_for(r)
+        if sw:
+            items = []
+            for out_p, in_p, o in sw:
+                t, cls = fmt_net(o.net)
+                items.append(f'<li><span><a href="{player_url(in_p)}">{esc(NAMES.get(in_p, in_p))}</a> '
+                             f'instead of <a href="{player_url(out_p)}">{esc(NAMES.get(out_p, out_p))}</a></span>'
+                             f'<span class="sv"><b class="{cls}">{t}</b> {n0(o.poss)} poss</span></li>')
+            det = (f'<details class="det"><summary>One player changes ({len(sw)})</summary>'
+                   f'<p class="note">The same team and season, four of these five on the floor and one different.</p>'
+                   f'<ul class="swaps">{"".join(items)}</ul></details>')
+    return (f'<li class="row {extra_cls}" id="{rid}"><div class="rh">{head}{num_block(r)}</div>'
+            f'{people(ids)}{sub}{det}</li>')
 
 
-def duo_card(r, names, i, show_team=True):
+def duo_row(r, i, show_team=True, extra_cls='', label=None):
+    """label: a plain heading (with the franchise logo) instead of the
+    team-season link, for rows that span several seasons."""
     ids = [r['p1'], r['p2']]
-    nm = [names.get(p, p) for p in ids]
-    top = f'<span class="rk">{i}</span>'
-    if show_team:
-        top += (f'<a class="tm" href="{team_season_url(r["team"], r["season"])}">{logo(r["team"])}'
-                f'<span>{season_label(r["season"])} {esc(team_name(r["team"], r["season"]))}</span></a>')
+    head = f'<span class="rk">{i}</span>'
+    if label is not None:
+        head += f'<span class="tm">{logo(SLUG_TEAM[r["slug"]]["abbr"])}<span>{nobr(label)}</span></span>'
+    elif show_team:
+        head += team_line(r['team'], r['season'])
+    stats = f'Off {r1(r["ortg"])} · Def {r1(r["drtg"])}'
+    if label is None and not show_team:
+        head += f'<span class="tm sub">{stats}</span>'
+        sub = ''
     else:
-        top += '<span class="tm sp"></span>'
-    return ('<li class="lu"><div class="lu-top">' + top + net_html(r['net']) + '</div>'
-            '<div class="faces">' + ''.join(face(p, n) for p, n in zip(ids, nm)) + '</div>'
-            f'<p class="nm">{esc(" and ".join(nm))}</p>'
-            f'<p class="st">{stat_line(r, games=False)}</p></li>')
+        sub = f'<p class="sub">{stats}</p>'
+    return (f'<li class="row duo {extra_cls}"><div class="rh">{head}{num_block(r)}</div>'
+            f'{people(ids, 52, "who two")}{sub}</li>')
 
 
-def career_card(r, names, i):
-    """A lineup across every season one franchise used it."""
+def career_row(r, i, abbr):
     ids = r['lineup'].split('-')
-    nm = [names.get(p, p) for p in ids]
-    t = TEAMS[r['abbr']]
+    t = TEAMS[abbr]
     seasons = (season_label(r['first']) if r['first'] == r['last']
                else f'{season_label(r["first"])} to {season_label(r["last"])}')
-    return ('<li class="lu"><div class="lu-top">'
-            f'<span class="rk">{i}</span><a class="tm" href="{SITE}/{t["slug"]}/">{logo(r["abbr"])}'
-            f'<span>{esc(t["name"])}, {seasons}</span></a>' + net_html(r['net']) + '</div>'
-            '<div class="faces">' + ''.join(face(p, n) for p, n in zip(ids, nm)) + '</div>'
-            f'<p class="nm">{esc(", ".join(nm))}</p>'
-            f'<p class="st">{stat_line(r, games=False)}</p></li>')
+    head = (f'<span class="rk">{i}</span><a class="tm" href="{SITE}/{t["slug"]}/">{logo(abbr)}'
+            f'<span>{esc(t["name"])}, {seasons}</span></a>')
+    sub = f'<p class="sub">Off {r1(r["ortg"])} · Def {r1(r["drtg"])} · all seasons combined</p>'
+    return f'<li class="row"><div class="rh">{head}{num_block(r)}</div>{people(ids)}{sub}</li>'
 
 
-def cards(rows, fn, names, **kw):
-    if rows is None or len(rows) == 0:
-        return '<p class="note">Not enough possessions yet.</p>'
-    return ('<ol class="cards">' +
-            ''.join(fn(r, names, i + 1, **kw) for i, (_, r) in enumerate(rows.iterrows())) + '</ol>')
+_list_n = [0]
+
+
+def rows(df, fn, show=None, **kw):
+    """An <ol> of rows. With show=N, rows past N get class x and a "Show all"
+    button reveals them (all rows are in the HTML for readers without JS and
+    for search engines)."""
+    if df is None or len(df) == 0:
+        return '<p class="note empty">Not enough possessions yet.</p>'
+    _list_n[0] += 1
+    lid = f'list{_list_n[0]}'
+    items = []
+    for i, (_, r) in enumerate(df.iterrows()):
+        cls = 'x' if show and i >= show else ''
+        items.append(fn(r, i + 1, extra_cls=cls, **kw))
+    btn = (f'<button type="button" class="showall" data-more="{lid}" hidden>Show all {len(df)}</button>'
+           if show and len(df) > show else '')
+    return f'<ol class="rows" id="{lid}">' + ''.join(items) + '</ol>' + btn
 
 
 def block(title, note, inner, anchor=None):
     a = f' id="{anchor}"' if anchor else ''
     n = f'<p class="note">{note}</p>' if note else ''
-    return f'<section class="block"{a}><div class="block-head"><h2>{title}</h2></div>{n}{inner}</section>'
+    return f'<section class="block"{a}><h2>{title}</h2>{n}{inner}</section>'
+
+
+_tab_n = [0]
+
+
+def tabs(panels):
+    """panels: list of (label, note, html). Without JS every panel shows, each
+    under its own heading; with JS they become tabs."""
+    _tab_n[0] += 1
+    tid = f't{_tab_n[0]}'
+    btns = ''.join(f'<button type="button" role="tab" id="{tid}b{i}" aria-controls="{tid}p{i}" '
+                   f'aria-selected="{"true" if i == 0 else "false"}">{esc(lbl)}</button>'
+                   for i, (lbl, _, _) in enumerate(panels))
+    body = ''.join(f'<div role="tabpanel" id="{tid}p{i}" aria-labelledby="{tid}b{i}">'
+                   f'<h2 class="ph2">{esc(lbl)}</h2>'
+                   + (f'<p class="note">{note}</p>' if note else '') + html_ + '</div>'
+                   for i, (lbl, note, html_) in enumerate(panels))
+    return f'<div class="tabs" data-tabs><div role="tablist" class="tablist">{btns}</div>{body}</div>'
 
 
 def chips(items):
@@ -400,7 +587,21 @@ def chips(items):
         f'<a class="chip{" active" if act else ""}" href="{u}">{esc(t)}</a>' for t, u, act in items) + '</div>'
 
 
-NET_NOTE = 'Net rating: points scored minus points allowed per 100 possessions.'
+def local_nav(active):
+    cur = CTX['cur']
+    items = [('Overview', f'{SITE}/', 'overview'),
+             ('This season', f'{SITE}/season/{season_label(cur)}/', 'season'),
+             ('Teams', f'{SITE}/#teams', 'teams'),
+             ('Players', f'{SITE}/players/', 'players'),
+             ('All-time', f'{SITE}/all-time/', 'alltime'),
+             ('Duos', f'{SITE}/duos/', 'duos')]
+    cur_attr = ' aria-current="page"'
+    return ('<nav class="lnav" aria-label="Lineups sections">' + ''.join(
+        f'<a href="{u}"{cur_attr if k == active else ""}>{t}</a>' for t, u, k in items) + '</nav>')
+
+
+NET_NOTE = 'Net rating: points scored minus points allowed per 100 possessions. Off: points scored per 100 (higher is better). Def: points allowed per 100 (lower is better).'
+SMALL_NOTE = f'"Small sample" marks fewer than {SMALL_SAMPLE} possessions.'
 
 
 def font_v():
@@ -411,66 +612,162 @@ def font_v():
     return h.hexdigest()[:10]
 
 
+def faces_v():
+    p = os.path.join(DATA, 'faces_state.json')
+    if not os.path.exists(p):
+        return '0'
+    with open(p, 'rb') as f:
+        return hashlib.sha256(f.read()).hexdigest()[:10]
+
+
 CSS = """
 :root{--bg:#f5f5f7;--surface:#fff;--surface-hover:#f0f0f2;--border:#d1d1d6;--text:#1d1d1f;
---text-secondary:#6e6e73;--accent:#3b82f6;--green:#1d8a40;--red:#d12c2c}
+--text-secondary:#5f5f66;--accent:#3b82f6;--green:#1d8a40;--red:#d12c2c;--ph:#e8e8ed}
 *{margin:0;padding:0;box-sizing:border-box}
 html{font-size:115%;-webkit-text-size-adjust:100%}
 body{font-family:'DM Sans',-apple-system,BlinkMacSystemFont,sans-serif;background:var(--bg);color:var(--text);
 min-height:100vh;line-height:1.5;-webkit-font-smoothing:antialiased;overflow-x:hidden}
 .container{max-width:980px;margin:0 auto;padding:1rem 16px 3rem}
 a{color:var(--accent);text-decoration:none}a:hover{text-decoration:underline}
-.hdr h1{font-size:1.15rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.35rem}
-.subtitle{color:var(--text-secondary);font-size:.82rem;margin-bottom:1.1rem;max-width:60rem}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:4px}
+.hdr h1{font-size:1.2rem;font-weight:700;letter-spacing:-.03em;margin-bottom:.3rem}
+.subtitle{color:var(--text-secondary);font-size:.84rem;margin-bottom:.7rem;max-width:60rem}
 .stamp{font-family:'JetBrains Mono',monospace;font-size:.74rem}
-.block{margin-bottom:1.5rem}
-.block-head h2{font-size:.95rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.3rem}
-.note{font-size:.76rem;color:var(--text-secondary);margin-bottom:.5rem}
-.lede{font-size:.86rem;margin-bottom:.9rem;max-width:60rem}
-ol.cards{list-style:none;display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem}
-@media(min-width:720px){ol.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
-.lu{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.6rem .75rem;min-width:0}
-.lu-top{display:flex;align-items:center;gap:.5rem;min-width:0}
-.rk{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--text-secondary);min-width:1.3rem}
-.tm{display:flex;align-items:center;gap:.4rem;font-weight:600;font-size:.8rem;color:var(--text);min-width:0;flex:1}
-.tm span{overflow-wrap:anywhere}.tm img{width:22px;height:22px;flex-shrink:0}
+.lnav{display:flex;gap:.3rem;overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 1.1rem;padding-bottom:.1rem}
+.lnav a{flex:0 0 auto;font-size:.8rem;font-weight:600;color:var(--text);padding:.45rem .75rem;border-radius:999px;
+border:1px solid var(--border);background:var(--surface);min-height:36px;display:inline-flex;align-items:center}
+.lnav a[aria-current]{background:var(--text);border-color:var(--text);color:#fff}
+.lnav a:hover{text-decoration:none;border-color:var(--accent)}
+.block{margin-bottom:1.6rem}
+.block>h2,.ph2{font-size:1rem;font-weight:700;letter-spacing:-.01em;margin-bottom:.25rem}
+.note{font-size:.78rem;color:var(--text-secondary);margin-bottom:.55rem}
+.lede{font-size:.9rem;margin-bottom:1rem;max-width:62rem}
+ol.rows{list-style:none;display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem}
+@media(min-width:760px){ol.rows{grid-template-columns:repeat(2,minmax(0,1fr))}}
+ol.rows.clip>li.x{display:none}
+.row{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.65rem .75rem .6rem;min-width:0}
+.row:target{border-color:var(--accent);box-shadow:0 0 0 2px var(--accent)}
+.rh{display:flex;align-items:flex-start;gap:.5rem;min-width:0;flex-wrap:wrap}
+.rh>h3{flex:1;padding-top:.15rem}
+.tm.sub{font-weight:400;padding-top:.3rem}
+.nw{white-space:nowrap}
+.rk{font-family:'JetBrains Mono',monospace;font-size:.74rem;color:var(--text-secondary);min-width:1.4rem;padding-top:.15rem}
+.tm{display:flex;align-items:center;gap:.4rem;font-weight:600;font-size:.82rem;line-height:1.25;color:var(--text);min-width:0;flex:1;padding-top:.05rem}
+@media(max-width:420px){.tm{font-size:.78rem}}
+.tm span{overflow-wrap:anywhere}.lg{width:22px;height:22px;flex-shrink:0}
 a.tm:hover{color:var(--accent);text-decoration:none}
-.net{font-family:'JetBrains Mono',monospace;font-weight:700;font-size:1rem;margin-left:auto;white-space:nowrap}
+.num{display:flex;flex-direction:column;align-items:flex-end;text-align:right;margin-left:auto;flex-shrink:0;order:2}
+.net{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-weight:700;font-size:1.15rem;line-height:1.1}
+.lbl{font-size:.62rem;color:var(--text-secondary);text-transform:uppercase;letter-spacing:.05em;font-weight:600}
+.smp{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--text);margin-top:.1rem;white-space:nowrap}
+.tag{display:inline-block;margin-top:.2rem;font-size:.62rem;font-weight:700;color:#8a5a00;background:#fff4d6;
+border:1px solid #f0d68a;border-radius:6px;padding:0 .35rem}
 .pos{color:var(--green)}.neg{color:var(--red)}.dash{color:var(--text-secondary)}
-.faces{display:flex;flex-wrap:wrap;gap:.3rem;margin:.5rem 0 .35rem}
-.faces img{width:40px;height:40px;border-radius:50%;background:#e5e5ea;object-fit:cover;flex-shrink:0}
-.nm{font-size:.84rem;line-height:1.35;overflow-wrap:anywhere}
-.st{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--text-secondary);margin-top:.25rem;overflow-wrap:anywhere}
+ul.who{list-style:none;display:flex;gap:.35rem;margin:.55rem 0 .3rem}
+ul.who li{flex:1 1 0;min-width:0;max-width:72px}
+ul.who.two li{max-width:110px;flex:0 1 110px}
+ul.who a{display:flex;flex-direction:column;align-items:center;color:var(--text);text-align:center}
+ul.who a:hover{text-decoration:none;color:var(--accent)}
+.ln{font-size:.7rem;line-height:1.2;margin-top:.2rem;max-width:100%;overflow-wrap:normal;word-break:normal}
+.ln.lnl{font-size:.6rem}
+@media(max-width:420px){.ln{font-size:.64rem}.ln.lnl{font-size:.55rem}}
+.two .ln{font-size:.8rem;font-weight:600}
+.ph{width:var(--s);height:var(--s);border-radius:50%;background:var(--ph);overflow:hidden;flex-shrink:0;
+display:flex;align-items:center;justify-content:center}
+.ph img{width:100%;height:100%;display:block}
+.ini{font-weight:700;color:#55555c;font-size:calc(var(--s) * .34)}
+.sub{font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;font-size:.7rem;color:var(--text-secondary)}
+details.det{margin-top:.45rem;border-top:1px solid var(--surface-hover);padding-top:.4rem}
+details.det summary{cursor:pointer;font-size:.76rem;font-weight:600;color:var(--accent);min-height:28px;display:flex;align-items:center}
+ul.swaps{list-style:none;display:grid;gap:.3rem}
+ul.swaps li{display:flex;justify-content:space-between;gap:.6rem;font-size:.78rem;align-items:baseline}
+ul.swaps .sv{font-family:'JetBrains Mono',monospace;font-size:.72rem;white-space:nowrap}
+.showall{margin-top:.55rem;font:inherit;font-size:.8rem;font-weight:600;color:var(--accent);background:var(--surface);
+border:1px solid var(--border);border-radius:999px;padding:.45rem 1rem;cursor:pointer;min-height:40px}
+.tablist{display:none}
+.tabs.js .tablist{display:flex;gap:.3rem;flex-wrap:wrap;margin-bottom:.6rem}
+.tabs.js .ph2{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+.tabs:not(.js) [role=tabpanel]{margin-bottom:1.4rem}
+.tablist button{font:inherit;font-size:.82rem;font-weight:600;padding:.45rem .85rem;border-radius:999px;border:1px solid var(--border);
+background:var(--surface);color:var(--text);cursor:pointer;min-height:40px}
+.tablist button[aria-selected=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.summary{display:grid;grid-template-columns:minmax(0,1fr);gap:.5rem;margin-bottom:1.4rem}
+@media(min-width:760px){.summary{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.summary .row{padding:.55rem .65rem}
+.summary h3{font-size:.72rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-secondary);font-weight:700;margin-bottom:.1rem}
 .chips{display:flex;flex-wrap:wrap;gap:.4rem}
-.chip{display:inline-block;border:1px solid var(--border);background:var(--surface);border-radius:999px;
-padding:.28rem .7rem;font-size:.76rem;color:var(--text);white-space:nowrap}
+.chip{display:inline-flex;align-items:center;min-height:34px;border:1px solid var(--border);background:var(--surface);border-radius:999px;
+padding:.25rem .75rem;font-size:.78rem;color:var(--text);max-width:100%}
 .chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
 a.chip:hover{text-decoration:none;border-color:var(--accent)}
 .teams{list-style:none;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.4rem}
 @media(min-width:560px){.teams{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(min-width:860px){.teams{grid-template-columns:repeat(5,minmax(0,1fr))}}
 .teams a{display:flex;align-items:center;gap:.45rem;background:var(--surface);border:1px solid var(--border);
-border-radius:10px;padding:.45rem .55rem;font-size:.8rem;font-weight:600;color:var(--text);min-width:0}
+border-radius:10px;padding:.5rem .55rem;font-size:.8rem;font-weight:600;color:var(--text);min-width:0;min-height:44px}
 .teams a span{overflow-wrap:anywhere}.teams img{width:24px;height:24px;flex-shrink:0}
 .teams a:hover{text-decoration:none;border-color:var(--accent)}
-.how{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .85rem}
-.how dt{font-weight:700;font-size:.82rem;margin-top:.55rem}.how dt:first-child{margin-top:0}
-.how dd{font-size:.8rem;color:var(--text-secondary)}
+.swapg{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .8rem;margin-bottom:.6rem}
+.swapg .who{margin-top:.2rem}
+.swapg table{width:100%;border-collapse:collapse;font-size:.8rem;margin-top:.4rem}
+.swapg th{text-align:left;font-size:.64rem;text-transform:uppercase;letter-spacing:.05em;color:var(--text-secondary);font-weight:700;padding:.2rem .3rem}
+.swapg td{padding:.35rem .3rem;border-top:1px solid var(--surface-hover);vertical-align:middle}
+.swapg td.n{text-align:right;font-family:'JetBrains Mono',monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+.swapg td.p{display:flex;align-items:center;gap:.4rem}
+ol.ssn{list-style:none;display:grid;gap:.4rem}
+ol.ssn>li{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:.5rem .65rem}
+.ssh{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem;flex-wrap:wrap;font-size:.84rem}
+.ssh b{font-weight:700}.ssh .meta{font-size:.74rem;color:var(--text-secondary)}
+.ssb{display:flex;align-items:center;gap:.6rem;margin-top:.3rem;flex-wrap:wrap}
+.ssb ul.who{margin:0;flex:1 1 220px;max-width:340px}
+.ssb ul.who .ln{font-size:.64rem}
+.ssb .num{margin-left:auto}
+.how{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.75rem .9rem}
+.how dt{font-weight:700;font-size:.84rem;margin-top:.6rem}.how dt:first-child{margin-top:0}
+.how dd{font-size:.82rem;color:var(--text-secondary)}
 .more{display:flex;flex-wrap:wrap;gap:.4rem}
-.ssn{font-size:.86rem;font-weight:700;margin:.9rem 0 .35rem}.ssn:first-child{margin-top:0}
-.ssn .note{display:inline;font-weight:400;margin:0}
+.az{columns:2 13rem;column-gap:1rem;list-style:none}
+.az li{break-inside:avoid;font-size:.84rem;padding:.2rem 0}
+.az .yrs{font-size:.72rem;color:var(--text-secondary)}
+.find{width:100%;max-width:26rem;font:inherit;font-size:.9rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:10px;margin-bottom:.8rem;background:var(--surface)}
 .foot{text-align:center;font-size:.8125rem;line-height:1.6;color:var(--text-secondary);padding:1.5rem 1rem 0}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+"""
+
+JS = """
+(function(){
+  document.querySelectorAll('[data-tabs]').forEach(function(t){
+    var b=t.querySelectorAll('[role=tab]'),p=t.querySelectorAll('[role=tabpanel]');
+    function sel(i){b.forEach(function(x,j){x.setAttribute('aria-selected',j===i?'true':'false');x.tabIndex=j===i?0:-1;p[j].hidden=j!==i;});}
+    b.forEach(function(x,i){x.addEventListener('click',function(){sel(i);});
+      x.addEventListener('keydown',function(e){var k=e.key==='ArrowRight'?1:e.key==='ArrowLeft'?-1:0;if(k){var n=(i+k+b.length)%b.length;sel(n);b[n].focus();}});});
+    t.classList.add('js');sel(0);
+  });
+  document.querySelectorAll('[data-more]').forEach(function(btn){
+    var l=document.getElementById(btn.getAttribute('data-more'));l.classList.add('clip');btn.hidden=false;
+    btn.addEventListener('click',function(){l.classList.remove('clip');btn.hidden=true;});
+  });
+  var f=document.getElementById('find');
+  if(f){var items=document.querySelectorAll('.az li');f.addEventListener('input',function(){var q=f.value.toLowerCase().normalize('NFD').replace(/[\\u0300-\\u036f]/g,'');
+    items.forEach(function(li){li.hidden=q&&li.getAttribute('data-n').indexOf(q)<0;});});}
+  var h=decodeURIComponent(location.hash.slice(1));
+  if(h){var el=document.getElementById(h);if(el){
+    var pan=el.closest('[role=tabpanel]');if(pan){var bt=document.getElementById(pan.getAttribute('aria-labelledby'));if(bt)bt.click();}
+    var ol=el.closest('ol.clip');if(ol){ol.classList.remove('clip');var sb=document.querySelector('[data-more="'+ol.id+'"]');if(sb)sb.hidden=true;}
+    var d=el.querySelector('details');if(d)d.open=true;el.scrollIntoView({block:'center'});}}
+})();
 """
 
 
-def shell(path, title, desc, h1, subtitle, body, noindex=False):
+def shell(path, title, desc, h1, subtitle, body, active=None, noindex=False):
     v = FONT_V
     url = SITE + path
-    rob = '<meta name="robots" content="noindex">\n' if noindex else ''
+    rob = '<meta name="robots" content="noindex,follow">\n' if noindex else ''
     fonts = (f"@font-face{{font-family:'DM Sans';src:url({SITE}/fonts/dm-sans-latin.woff2?v={v}) format('woff2');"
              "font-weight:100 1000;font-style:normal;font-display:swap}"
              f"@font-face{{font-family:'JetBrains Mono';src:url({SITE}/fonts/jetbrains-mono-latin.woff2?v={v}) format('woff2');"
              "font-weight:100 800;font-style:normal;font-display:swap}")
+    nav = local_nav(active) if active is not None else ''
     return f"""<!doctype html>
 <html lang="en">
 <head>
@@ -493,12 +790,14 @@ def shell(path, title, desc, h1, subtitle, body, noindex=False):
 <div class="container">
 <div class="hdr"><h1>{esc(h1)}</h1></div>
 <p class="subtitle">{subtitle}</p>
+{nav}
 {body}
 <footer class="foot">
 <p>Anything wrong? Email us at <a href="mailto:hoopsmatic@hoopsmatic.com">hoopsmatic@hoopsmatic.com</a></p>
 <p>For business inquiries, contact us at <a href="mailto:ads@hoopsmatic.com">ads@hoopsmatic.com</a></p>
 </footer>
 </div>
+<script>{JS}</script>
 </body>
 </html>
 """
@@ -513,56 +812,128 @@ def links_block(items):
     return block('More lineups', None, '<div class="more">' + chips([(t, u, False) for t, u in items]) + '</div>')
 
 
+def names_and(ids):
+    nm = [NAMES.get(p, p) for p in ids]
+    return ', '.join(nm[:-1]) + ' and ' + nm[-1] if len(nm) > 1 else nm[0]
+
+
+def net_words(v):
+    t, _ = fmt_net(v)
+    return t
+
+
 # ── pages ─────────────────────────────────────────────────────────────────
 
 def page_index(ctx):
-    names, cur, lineups, hot, end = ctx['names'], ctx['cur'], ctx['lineups'], ctx['hot'], ctx['end']
+    cur, L, rec = ctx['cur'], ctx['lineups'], ctx['recent']
     parts = []
-    if hot:
-        rows, start, stop, mp, days = hot
-        if days == 7:
-            title = 'Hottest lineups this week'
-        elif days == 14:
-            title = 'Hottest lineups of the last two weeks'
+    C = L[L['season'] == cur]
+    played = float(ctx['records'][ctx['records']['season'] == cur]['games'].mean())
+    ts = scaled(T_SEASON_LINEUP, played, 30)
+    season_best = rank(C[(C['poss'] >= ts) & (C['net'] > 0)], 10)
+    if rec:
+        span = ap_day(rec['start']) if rec['start'] == rec['end'] else f'{ap_day(rec["start"])} to {ap_day(rec["end"])}'
+        if rec['whole_season']:
+            title = f'Best lineups of {season_label(cur)} so far'
+            note = (f'Games from {span}: the season is less than {RECENT_DAYS} days old, so the last {RECENT_DAYS} days are the whole season. '
+                    f'Minimum {rec["min"]} possessions, positive net ratings only. {SMALL_NOTE}')
         else:
-            title = f'Hottest lineups of {season_label(cur)} so far'
-        span = ap_day(start) if start == stop else f'{ap_day(start)} to {ap_day(stop)}'
-        note = (f'The best five-man units in games from {span}, minimum {mp} possessions. '
-                f'Refreshed every day of the season. {NET_NOTE}')
-        parts.append(block(title, note, cards(rows, lineup_card, names), 'hottest'))
+            title = f'Best lineups, last {RECENT_DAYS} days'
+            note = (f'Games from {span}. Minimum {rec["min"]} possessions, positive net ratings only. '
+                    f'Updated every day of the season. {SMALL_NOTE}')
+        parts.append(block(title, note, rows(rec['rows'], lineup_row, show=3), 'recent'))
+        if not rec['whole_season']:
+            parts.append(block(f'Best lineups of {season_label(cur)}',
+                               f'The whole season so far. Minimum {ts:,} possessions (it grows with games played), positive net ratings only.',
+                               rows(season_best, lineup_row, show=3), 'season'))
+    mu = by_minutes(C, 1)
+    if len(mu):
+        parts.append(block(f'Most-used lineup of {season_label(cur)}', 'The five who have played the most minutes together this season.',
+                           rows(mu, lineup_row)))
     teams = sorted(TEAMS.values(), key=lambda t: t['name'])
     tiles = ''.join(
         f'<li><a href="{SITE}/{t["slug"]}/"><img src="{HS}/teams/logos/current/svg/{t["nba_id"]}.svg" alt="" '
         f'width="24" height="24" loading="lazy"><span>{esc(t["name"])}</span></a></li>' for t in teams)
-    parts.append(block('Every team, every season', 'The best lineup each team had in every season since 1996-97.',
-                       f'<ul class="teams">{tiles}</ul>'))
+    parts.append(block('Every team, every season', 'Each franchise’s best lineups since 1996-97, and every season’s full lineup page.',
+                       f'<ul class="teams">{tiles}</ul>', 'teams'))
     seasons = [(season_label(s), f'{SITE}/season/{season_label(s)}/', s == cur) for s in range(cur, FIRST_SEASON - 1, -1)]
     parts.append(block('League leaders by season', None, chips(seasons)))
-    parts.append(block('All-time', None, '<div class="more">' + chips([
-        ('Best lineups ever', f'{SITE}/all-time/', False),
-        ('Best duos ever', f'{SITE}/duos/', False),
-        (f'{season_label(cur)} leaders', f'{SITE}/season/{season_label(cur)}/', False),
-        ('Build your own five in Lineup Forge', FORGE, False)]) + '</div>'))
+    parts.append(block('Explore', None, '<div class="more">' + chips([
+        ('Highest-rated lineups since 1996-97', f'{SITE}/all-time/', False),
+        ('Best duos', f'{SITE}/duos/', False),
+        ('Players', f'{SITE}/players/', False),
+        ('Build your own five in Lineup Forge (separate tool)', FORGE, False)]) + '</div>'))
     how = f"""<dl class="how">
 <dt>Lineup</dt><dd>Five players on the floor together for one team. Every stretch of a game where the same five stayed on the court counts toward it.</dd>
-<dt>Net rating</dt><dd>Points the lineup scored per 100 possessions (Off) minus points it allowed per 100 possessions (Def). +10 means it outscored opponents by 10 points every 100 trips. Garbage time is included.</dd>
-<dt>Minimums</dt><dd>A small sample can make any five look great, so each list needs a number of possessions, shown above it. For the season in progress the minimum grows with the games played, so early lists fill up and later ones tighten.</dd>
-<dt>Duos</dt><dd>Two players, counted whenever both were in the same five, whoever the other three were.</dd>
-<dt>Hottest lineups</dt><dd>The last seven days with games. If fewer than {HOT_MIN_COUNT} lineups reach {HOT_MIN_POSS} possessions, the window widens to 14 days, then to the season.</dd>
-<dt>Records</dt><dd>Win-loss records are added up from the same play-by-play, overtime included.</dd>
-<dt>Source</dt><dd>{CREDIT.replace(f' <a href="{SITE}/#how">How these numbers work</a>.', '')} Season {season_label(FIRST_SEASON)} onward. Updated every day of the season.</dd>
+<dt>Net rating</dt><dd>Points the lineup scored per 100 possessions (Off) minus points it allowed per 100 possessions (Def). Higher Off is better, lower Def is better. +10 means it outscored opponents by 10 points every 100 trips. Ratings are worked out from the totals, so Off minus Def can differ from the net shown by 0.1 because of rounding. Garbage time is included.</dd>
+<dt>Sample size</dt><dd>A small sample can make any five look great, so each list needs a minimum number of possessions, shown above it, and anything under {SMALL_SAMPLE} possessions is marked "Small sample." For the season in progress the minimum grows with games played. A minimum is a filter, not a guarantee that a result will last.</dd>
+<dt>Last {RECENT_DAYS} days</dt><dd>The {RECENT_DAYS} days ending on the latest game date in the data. The minimum is {RECENT_MINS[0]} possessions; early in the season, when fewer than {RECENT_MIN_COUNT} lineups reach it, it drops to {RECENT_MINS[1]}, then {RECENT_MINS[2]}, and the list says which.</dd>
+<dt>Duos</dt><dd>Team performance while both players were on the floor, whoever the other three teammates were. It is not a measure of chemistry or of either player alone.</dd>
+<dt>One player changes</dt><dd>Lineups of the same team and season that share four players and differ in one, each with at least {T_SWAP} possessions. They describe what happened; opponents, game situations and who else was available all differ, so the change of player is not shown to be the cause.</dd>
+<dt>Games and records</dt><dd>"Games together" counts the games in which that five played at least one stretch together. Team records are added up from the same play-by-play, overtime included.</dd>
+<dt>Source</dt><dd>Lineup data from <a href="https://github.com/ramirobentes/nbadatar">Ramiro Bentes</a> (<a href="https://x.com/NbaInRstats">@NbaInRstats</a>), built from NBA play-by-play. Regular season only, 1996-97 onward, updated every day of the season.</dd>
 </dl>"""
     parts.append(block('How the numbers work', None, how, 'how'))
-    stamp = f'<span class="stamp">Games through {ap_date(end)}.</span>' if end else ''
+    stamp = f'<span class="stamp">Games through {ap_date(ctx["end"])}.</span>' if ctx['end'] else ''
     sub = f'Every NBA five-man lineup and duo since 1996-97, ranked by net rating. {stamp}'
-    return shell('/', 'NBA Lineup Stats: Hottest Lineups This Week and Every Five-Man Unit Since 1996-97 | HoopsMatic',
-                 'The best NBA lineups this week, every team’s best five-man unit in every season since 1996-97, '
-                 'the best lineups and duos ever by net rating, updated every day of the season.',
-                 'NBA Lineups', sub, '\n'.join(parts))
+    return shell('/', 'NBA Lineup Stats: Best Lineups of the Last 30 Days, This Season and Since 1996-97 | HoopsMatic',
+                 'The best NBA lineups of the last 30 days and this season, every team’s lineups in every season since 1996-97, '
+                 'the best duos and the highest-rated five-man units ever by net rating.',
+                 'NBA Lineups', sub, '\n'.join(parts), active='overview')
+
+
+def swap_groups(L):
+    """Groups of four players with two or more different fifths, each with at
+    least T_SWAP possessions; the two groups with the most possessions."""
+    q = L[L['poss'] >= T_SWAP]
+    groups = {}
+    for _, r in q.iterrows():
+        ids = r['lineup'].split('-')
+        for i in range(5):
+            four = tuple(ids[:i] + ids[i + 1:])
+            groups.setdefault(four, []).append((ids[i], r))
+    good = [(k, v) for k, v in groups.items() if len(v) >= 2]
+    good.sort(key=lambda kv: -sum(r['poss'] for _, r in kv[1]))
+    out, used = [], set()
+    for k, v in good:
+        if any(len(set(k) & set(u)) >= 4 for u in used):
+            continue
+        used.add(k)
+        out.append((k, sorted(v, key=lambda t: -t[1]['poss'])[:5]))
+        if len(out) == 2:
+            break
+    return out
+
+
+def swap_html(groups):
+    if not groups:
+        return ''
+    html_ = []
+    for four, variants in groups:
+        trs = []
+        for fifth, r in variants:
+            t, cls = fmt_net(r['net'])
+            trs.append(f'<tr><td class="p">{face(fifth, 28)}<a href="{player_url(fifth)}">{esc(NAMES.get(fifth, fifth))}</a></td>'
+                       f'<td class="n"><b class="{cls}">{t}</b></td><td class="n">{n0(r["poss"])}</td>'
+                       f'<td class="n">{n0(r["secs"] / 60)}</td></tr>')
+        html_.append(f'<div class="swapg"><p class="note">These four</p>{people(list(four), 36)}'
+                     f'<table><thead><tr><th>Plus</th><th class="n" style="text-align:right">Net</th>'
+                     f'<th style="text-align:right">Poss</th><th style="text-align:right">Min</th></tr></thead>'
+                     f'<tbody>{"".join(trs)}</tbody></table></div>')
+    return block('One player changes',
+                 f'The same four players with a different fifth, each lineup with at least {T_SWAP} possessions. '
+                 'This shows what happened, not why: opponents and game situations differ.',
+                 ''.join(html_), 'changes')
+
+
+def summary_card(title, r, duo=False):
+    ids = [r['p1'], r['p2']] if duo else r['lineup'].split('-')
+    return (f'<div class="row"><div class="rh"><h3>{esc(title)}</h3>{num_block(r)}</div>'
+            f'{people(ids, 36)}</div>')
 
 
 def page_team_season(ctx, code, season):
-    names, cur, lineups, duos, records = ctx['names'], ctx['cur'], ctx['lineups'], ctx['duos'], ctx['records']
+    cur, lineups, duos, records = ctx['cur'], ctx['lineups'], ctx['duos'], ctx['records']
     L = lineups[(lineups['season'] == season) & (lineups['team'] == code)]
     D = duos[(duos['season'] == season) & (duos['team'] == code)]
     rec = records[(records['season'] == season) & (records['team'] == code)].iloc[0]
@@ -575,48 +946,65 @@ def page_team_season(ctx, code, season):
     q = L[L['poss'] >= tl]
     best = rank(q, 10)
     worst = rank(q, 5, asc=True) if len(q) >= 10 else q.iloc[0:0]
-    used = by_minutes(L, 5)
+    used = by_minutes(L, 10)
     bd = rank(D[D['poss'] >= td], 10)
-    lede = ''
+    lede = []
     if len(best):
         b = best.iloc[0]
-        nm = [names.get(p, p) for p in b['lineup'].split('-')]
-        sign = '+' if b['net'] >= 0 else '−'
-        lede = (f'<p class="lede">Their best lineup with at least {tl:,} possessions was '
-                f'{esc(", ".join(nm[:-1]))} and {esc(nm[-1])}, at {sign}{abs(b["net"]):.1f} points per 100 possessions '
-                f'over {n0(b["secs"] / 60)} minutes.</p>')
-    parts = [lede,
-             block('Best lineups', f'Minimum {tl:,} possessions. {NET_NOTE}', cards(best, lineup_card, names, show_team=False))]
+        lede.append(f'Their highest-rated lineup with at least {tl:,} possessions was {esc(names_and(b["lineup"].split("-")))}, '
+                    f'at {net_words(b["net"])} points per 100 possessions over {n0(b["secs"] / 60)} minutes.')
+    if len(used):
+        u = used.iloc[0]
+        if len(best) and u['lineup'] == best.iloc[0]['lineup']:
+            lede.append('It was also the five they used most.')
+        else:
+            pos = ''
+            if u['poss'] >= tl and len(q):
+                rk = int((q['net'] > u['net']).sum()) + 1
+                pos = f', {rk}{"st" if rk % 10 == 1 and rk != 11 else "nd" if rk % 10 == 2 and rk != 12 else "rd" if rk % 10 == 3 and rk != 13 else "th"} of {len(q)} qualifying lineups'
+            lede.append(f'The five they used most played {n0(u["secs"] / 60)} minutes at {net_words(u["net"])}{pos}.')
+    summary = ''
+    cards_ = []
+    if len(best):
+        cards_.append(summary_card('Highest-rated lineup', best.iloc[0]))
+    if len(used):
+        cards_.append(summary_card('Most-used lineup', used.iloc[0]))
+    if len(bd):
+        cards_.append(summary_card('Highest-rated duo', bd.iloc[0], duo=True))
+    if cards_:
+        summary = '<div class="summary">' + ''.join(cards_) + '</div>'
+    panels = [('Best', f'Minimum {tl:,} possessions. {NET_NOTE}', rows(best, lineup_row, show_team=False)),
+              ('Most used', 'By minutes played together. No minimum.', rows(used, lineup_row, show_team=False))]
     if len(worst):
-        parts.append(block('Worst lineups', f'Minimum {tl:,} possessions.', cards(worst, lineup_card, names, show_team=False)))
-    parts.append(block('Most-used lineups', 'By minutes played together.', cards(used, lineup_card, names, show_team=False)))
-    parts.append(block('Best duos', f'Minimum {td:,} possessions together.', cards(bd, duo_card, names, show_team=False)))
+        panels.append(('Worst', f'Minimum {tl:,} possessions.', rows(worst, lineup_row, show_team=False)))
+    panels.append(('Duos', f'Minimum {td:,} possessions together. Team performance while both were on the floor.',
+                   rows(bd, duo_row, show_team=False)))
+    parts = [f'<p class="lede">{" ".join(lede)}</p>' if lede else '', summary, tabs(panels), swap_html(swap_groups(L))]
     slug = franchise(code)['slug']
     nav = []
     seasons = sorted(lineups[lineups['slug'] == slug]['season'].unique())
     i = seasons.index(season)
     if i > 0:
-        nav.append((f'{season_label(seasons[i - 1])}', f'{SITE}/{slug}/{season_label(seasons[i - 1])}/'))
+        nav.append((season_label(seasons[i - 1]), f'{SITE}/{slug}/{season_label(seasons[i - 1])}/'))
     if i < len(seasons) - 1:
-        nav.append((f'{season_label(seasons[i + 1])}', f'{SITE}/{slug}/{season_label(seasons[i + 1])}/'))
+        nav.append((season_label(seasons[i + 1]), f'{SITE}/{slug}/{season_label(seasons[i + 1])}/'))
     nav += [(f'All {franchise(code)["name"]} seasons', f'{SITE}/{slug}/'),
-            (f'{sl} league leaders', f'{SITE}/season/{sl}/'), ('Hottest lineups this week', f'{SITE}/')]
+            (f'{sl} league leaders', f'{SITE}/season/{sl}/'), ('Best lineups, last 30 days', f'{SITE}/')]
     parts.append(links_block(nav))
     parts.append(f'<p class="note">{CREDIT}</p>')
     stamp = f' <span class="stamp">Games through {ap_date(ctx["end"])}.</span>' if season == cur and ctx['end'] else ''
-    sub = (f'Every five-man lineup the {sl} {esc(name)} ({rec_txt}) used, ranked by net rating, '
-           f'with their most-used units and best duos.{stamp}')
+    sub = (f'Team record {rec_txt}. Lineup lists need at least {tl:,} possessions, duos {td:,}.{stamp}')
     desc = (f'The best and worst lineups of the {sl} {name} ({rec_txt}) by net rating, '
             f'their most-used five-man units and their best duos.')
     return shell(f'/{slug}/{sl}/', f'{sl} {name} Lineups: Best Five-Man Units and Duos | HoopsMatic', desc,
-                 f'{sl} {name} lineups', sub, '\n'.join(parts))
+                 f'{sl} {name} lineups', sub, '\n'.join(parts), active='teams')
 
 
 def page_team(ctx, slug):
-    names, cur, lineups, records = ctx['names'], ctx['cur'], ctx['lineups'], ctx['records']
+    cur, lineups, records = ctx['cur'], ctx['lineups'], ctx['records']
     t = SLUG_TEAM[slug]
     F = lineups[lineups['slug'] == slug]
-    rows = []
+    items = []
     for season in sorted(F['season'].unique(), reverse=True):
         S = F[F['season'] == season]
         code = S['team'].iloc[0]
@@ -624,36 +1012,41 @@ def page_team(ctx, slug):
         tl = T_TEAM_LINEUP if season < cur else scaled(T_TEAM_LINEUP, int(rec['games']), 20)
         b = rank(S[S['poss'] >= tl], 1)
         sl = season_label(season)
-        head = (f'<h3 class="ssn"><a href="{SITE}/{slug}/{sl}/">{sl} {esc(team_name(code, season))}</a> '
-                f'<span class="note">({int(rec["wins"])}-{int(rec["losses"])})</span></h3>')
-        rows.append(head + (cards(b, lineup_card, names, show_team=False) if len(b) else
-                            '<p class="note">Not enough possessions yet.</p>'))
+        head = (f'<div class="ssh"><a href="{SITE}/{slug}/{sl}/"><b>{sl} {esc(team_name(code, season))}</b></a>'
+                f'<span class="meta">{int(rec["wins"])}-{int(rec["losses"])} · min {tl:,} poss</span></div>')
+        if len(b):
+            r = b.iloc[0]
+            body = f'<div class="ssb">{people(r["lineup"].split("-"), 26)}{num_block(r)}</div>'
+        else:
+            body = '<p class="note">No lineup reached the minimum yet.</p>'
+        items.append(f'<li>{head}{body}</li>')
     fin = F[(F['season'] < cur) & (F['poss'] >= T_FRANCHISE)]
     best = rank(fin, 10)
     car = (F.groupby('lineup', as_index=False)
              .agg(poss=('poss', 'sum'), pts=('pts', 'sum'), opp_poss=('opp_poss', 'sum'),
                   opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), first=('season', 'min'), last=('season', 'max')))
     car = add_ratings(car)
-    car['abbr'] = t['abbr']
-    used = by_minutes(car, 5)
+    used = by_minutes(car, 10)
     former = sorted({team_name(c, s) for c, s in zip(F['team'], F['season'])} - {t['name']})
     fm = f' Includes the {", the ".join(former)}.' if former else ''
-    parts = [block('Franchise best ever', f'Single seasons, minimum {T_FRANCHISE:,} possessions. {NET_NOTE}',
-                   cards(best, lineup_card, names)),
-             block('Most minutes together', 'Every season combined.', cards(used, career_card, names)),
-             block('Best lineup every season', 'Tap a season for its full lineup page.',
-                   '<div class="ssns">' + ''.join(rows) + '</div>'),
-             links_block([('Hottest lineups this week', f'{SITE}/'), ('Best lineups ever', f'{SITE}/all-time/'),
-                          ('Best duos ever', f'{SITE}/duos/')]),
+    panels = [('Highest-rated since 1996-97', f'Single seasons, minimum {T_FRANCHISE:,} possessions, finished seasons only. {NET_NOTE}',
+               rows(best, lineup_row, show=5)),
+              ('Most minutes together', 'The same five, every season combined.',
+               rows(used, lambda r, i, extra_cls='': career_row(r, i, t['abbr']).replace('class="row"', f'class="row {extra_cls}"'), show=5))]
+    parts = [tabs(panels),
+             block('Season by season', 'The highest-rated lineup that reached each season’s minimum. Open a season for all its lineups.',
+                   '<ol class="ssn">' + ''.join(items) + '</ol>'),
+             links_block([('Best lineups, last 30 days', f'{SITE}/'), ('Highest-rated lineups since 1996-97', f'{SITE}/all-time/'),
+                          ('Best duos', f'{SITE}/duos/')]),
              f'<p class="note">{CREDIT}</p>']
     sub = f'The best five-man lineups in {esc(t["name"])} history, season by season since 1996-97.{esc(fm)}'
     return shell(f'/{slug}/', f'{t["name"]} Lineups: Best Five-Man Units Every Season Since 1996-97 | HoopsMatic',
-                 f'The best {t["name"]} lineups ever by net rating, the five-man units they played most and their best lineup in every season since 1996-97.',
-                 f'{t["name"]} lineups', sub, '\n'.join(parts))
+                 f'The highest-rated {t["name"]} lineups since 1996-97 by net rating, the five-man units they played most and their best lineup in every season.',
+                 f'{t["name"]} lineups', sub, '\n'.join(parts), active='teams')
 
 
 def page_season(ctx, season):
-    names, cur, lineups, duos, records = ctx['names'], ctx['cur'], ctx['lineups'], ctx['duos'], ctx['records']
+    cur, lineups, duos, records = ctx['cur'], ctx['lineups'], ctx['duos'], ctx['records']
     L = lineups[lineups['season'] == season]
     D = duos[duos['season'] == season]
     played = float(records[records['season'] == season]['games'].mean())
@@ -661,87 +1054,178 @@ def page_season(ctx, season):
     td = T_SEASON_DUO if season < cur else scaled(T_SEASON_DUO, played, 80)
     q = L[L['poss'] >= tl]
     sl = season_label(season)
-    parts = [block('Best lineups', f'Minimum {tl:,} possessions. {NET_NOTE}', cards(rank(q, 25), lineup_card, names)),
-             block('Worst lineups', f'Minimum {tl:,} possessions.', cards(rank(q, 10, asc=True), lineup_card, names)),
-             block('Most-used lineups', 'By minutes played together.', cards(by_minutes(L, 10), lineup_card, names)),
-             block('Best duos', f'Minimum {td:,} possessions together.',
-                   cards(rank(D[D['poss'] >= td], 15), duo_card, names))]
+    panels = [('Best', f'Minimum {tl:,} possessions. {NET_NOTE}', rows(rank(q, 25), lineup_row, show=10)),
+              ('Most used', 'By minutes played together. No minimum.', rows(by_minutes(L, 10), lineup_row)),
+              ('Worst', f'Minimum {tl:,} possessions.', rows(rank(q, 10, asc=True), lineup_row)),
+              ('Duos', f'Minimum {td:,} possessions together. Team performance while both were on the floor.',
+               rows(rank(D[D['poss'] >= td], 15), duo_row, show=10))]
     seasons = [(season_label(s), f'{SITE}/season/{season_label(s)}/', s == season) for s in range(cur, FIRST_SEASON - 1, -1)]
-    parts.append(block('Other seasons', None, chips(seasons)))
-    parts.append(links_block([('Hottest lineups this week', f'{SITE}/'), ('Best lineups ever', f'{SITE}/all-time/'),
-                              ('Best duos ever', f'{SITE}/duos/')]))
-    parts.append(f'<p class="note">{CREDIT}</p>')
+    parts = [tabs(panels), block('Other seasons', None, chips(seasons)),
+             links_block([('Best lineups, last 30 days', f'{SITE}/'), ('Highest-rated lineups since 1996-97', f'{SITE}/all-time/'),
+                          ('Best duos', f'{SITE}/duos/')]),
+             f'<p class="note">{CREDIT}</p>']
     stamp = f' <span class="stamp">Games through {ap_date(ctx["end"])}.</span>' if season == cur and ctx['end'] else ''
     sub = f'The best and worst five-man lineups of the {sl} NBA regular season, the most-used units and the top duos.{stamp}'
     return shell(f'/season/{sl}/', f'Best NBA Lineups of {sl}: Net Rating Leaders and Top Duos | HoopsMatic',
                  f'The best and worst NBA lineups of {sl} by net rating, the most-used five-man units and the best duos of the season.',
-                 f'Best NBA lineups of {sl}', sub, '\n'.join(parts))
+                 f'Best NBA lineups of {sl}', sub, '\n'.join(parts), active='season' if season == cur else None)
 
 
 def page_alltime(ctx):
-    names, cur, lineups = ctx['names'], ctx['cur'], ctx['lineups']
+    cur, lineups = ctx['cur'], ctx['lineups']
     q = lineups[lineups['poss'] >= T_ALLTIME_LINEUP]
     car = (lineups.groupby(['slug', 'lineup'], as_index=False)
              .agg(poss=('poss', 'sum'), pts=('pts', 'sum'), opp_poss=('opp_poss', 'sum'),
                   opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), first=('season', 'min'), last=('season', 'max')))
     car = add_ratings(car)
     car['abbr'] = car['slug'].map(lambda s: SLUG_TEAM[s]['abbr'])
-    parts = [block('Best single-season lineups', f'Minimum {T_ALLTIME_LINEUP:,} possessions in one season. {NET_NOTE}',
-                   cards(rank(q, 50), lineup_card, names)),
-             block('Worst single-season lineups', f'Minimum {T_ALLTIME_LINEUP:,} possessions in one season.',
-                   cards(rank(q, 25, asc=True), lineup_card, names)),
-             block('Most minutes together', 'The same five for the same franchise, every season combined.',
-                   cards(by_minutes(car, 50), career_card, names)),
-             links_block([('Hottest lineups this week', f'{SITE}/'), ('Best duos ever', f'{SITE}/duos/'),
+    panels = [('Highest-rated', f'Single seasons since 1996-97, minimum {T_ALLTIME_LINEUP:,} possessions. {NET_NOTE} '
+                                'A historical record, not a prediction of how these lineups would do against each other.',
+               rows(rank(q, 50), lineup_row, show=10)),
+              ('Lowest-rated', f'Single seasons, minimum {T_ALLTIME_LINEUP:,} possessions.', rows(rank(q, 25, asc=True), lineup_row, show=10)),
+              ('Most minutes together', 'The same five for the same franchise, every season combined.',
+               rows(by_minutes(car, 50), lambda r, i, extra_cls='': career_row(r, i, r['abbr']).replace('class="row"', f'class="row {extra_cls}"'), show=10))]
+    parts = [tabs(panels),
+             links_block([('Best lineups, last 30 days', f'{SITE}/'), ('Best duos', f'{SITE}/duos/'),
                           (f'{season_label(cur)} leaders', f'{SITE}/season/{season_label(cur)}/')]),
              f'<p class="note">{CREDIT}</p>']
-    return shell('/all-time/', 'Best NBA Lineups Ever: Top Five-Man Units by Net Rating Since 1996-97 | HoopsMatic',
-                 'The best and worst NBA five-man lineups of every season since 1996-97 by net rating, and the lineups that played the most minutes together.',
-                 'Best NBA lineups ever', 'The best and worst five-man units of any single season since 1996-97, '
-                 'and the fives that stayed together longest.', '\n'.join(parts))
+    return shell('/all-time/', 'Highest-Rated NBA Lineups Since 1996-97: Best Five-Man Units by Net Rating | HoopsMatic',
+                 'The highest- and lowest-rated NBA five-man lineups of any season since 1996-97 by net rating, and the lineups that played the most minutes together.',
+                 'Highest-rated NBA lineups since 1996-97',
+                 'Single-season five-man units ranked by net rating, and the fives that stayed together longest.',
+                 '\n'.join(parts), active='alltime')
 
 
 def page_duos(ctx):
-    names, cur, duos = ctx['names'], ctx['cur'], ctx['duos']
+    cur, duos = ctx['cur'], ctx['duos']
     q = duos[duos['poss'] >= T_ALLTIME_DUO]
     car = (duos.groupby(['slug', 'p1', 'p2'], as_index=False)
              .agg(poss=('poss', 'sum'), pts=('pts', 'sum'), opp_poss=('opp_poss', 'sum'),
                   opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), first=('season', 'min'), last=('season', 'max')))
     car = add_ratings(car)
     by = car.sort_values(['secs', 'p1'], ascending=[False, True]).head(25)
-    items = []
-    for i, (_, r) in enumerate(by.iterrows()):
+
+    def car_row(r, i, extra_cls=''):
         t = SLUG_TEAM[r['slug']]
-        nm = [names.get(r['p1'], r['p1']), names.get(r['p2'], r['p2'])]
         seasons = (season_label(r['first']) if r['first'] == r['last']
                    else f'{season_label(r["first"])} to {season_label(r["last"])}')
-        items.append('<li class="lu"><div class="lu-top">'
-                     f'<span class="rk">{i + 1}</span><a class="tm" href="{SITE}/{t["slug"]}/">{logo(t["abbr"])}'
-                     f'<span>{esc(t["name"])}, {seasons}</span></a>' + net_html(r['net']) + '</div>'
-                     '<div class="faces">' + face(r['p1'], nm[0]) + face(r['p2'], nm[1]) + '</div>'
-                     f'<p class="nm">{esc(" and ".join(nm))}</p>'
-                     f'<p class="st">{stat_line(r, games=False)}</p></li>')
+        return duo_row(r, i, extra_cls=extra_cls, label=f'{t["name"]}, {seasons}')
     played = float(ctx['records'][ctx['records']['season'] == cur]['games'].mean())
     td = scaled(T_SEASON_DUO, played, 80)
     C = duos[(duos['season'] == cur) & (duos['poss'] >= td)]
-    parts = [block(f'Best duos of {season_label(cur)}', f'Minimum {td:,} possessions together. {NET_NOTE}',
-                   cards(rank(C, 15), duo_card, names)),
-             block('Best single-season duos ever', f'Minimum {T_ALLTIME_DUO:,} possessions together in one season.',
-                   cards(rank(q, 50), duo_card, names)),
-             block('Most minutes together', 'The same two for the same franchise, every season combined.',
-                   '<ol class="cards">' + ''.join(items) + '</ol>'),
-             links_block([('Hottest lineups this week', f'{SITE}/'), ('Best lineups ever', f'{SITE}/all-time/')]),
+    expl = 'Team performance while both players were on the floor, whoever the other three teammates were.'
+    panels = [(f'{season_label(cur)}', f'{expl} Minimum {td:,} possessions together. {NET_NOTE}', rows(rank(C, 15), duo_row, show=10)),
+              ('Best single seasons', f'{expl} Minimum {T_ALLTIME_DUO:,} possessions together in one season.', rows(rank(q, 50), duo_row, show=10)),
+              ('Most minutes together', 'The same two for the same franchise, every season combined.', rows(by, car_row, show=10))]
+    parts = [tabs(panels),
+             links_block([('Best lineups, last 30 days', f'{SITE}/'), ('Highest-rated lineups since 1996-97', f'{SITE}/all-time/'),
+                          ('Players', f'{SITE}/players/')]),
              f'<p class="note">{CREDIT}</p>']
     return shell('/duos/', 'Best NBA Duos by Net Rating Since 1996-97 | HoopsMatic',
                  'The best NBA duos by net rating: this season’s leaders, the best two-man pairings of any season since 1996-97 and the duos that played the most minutes together.',
-                 'Best NBA duos', 'Two players counted whenever both were on the floor, whoever the other three were.',
-                 '\n'.join(parts))
+                 'Best NBA duos', 'How teams did with both players on the floor, this season and since 1996-97.',
+                 '\n'.join(parts), active='duos')
+
+
+def page_players(ctx):
+    car, eligible = ctx['career'], ctx['eligible']
+    ps = ctx['player_seasons']
+    span = ps.groupby('pid')['season'].agg(['min', 'max'])
+    rows_ = []
+    for pid in sorted(eligible, key=lambda p: (last_name(NAMES.get(p, p)).lower(), NAMES.get(p, p).lower())):
+        n = NAMES.get(pid, pid)
+        a, b = span.loc[pid, 'min'], span.loc[pid, 'max']
+        yrs = season_label(a) if a == b else f'{season_label(a)} to {season_label(b)}'
+        key = ascii_slug(n).replace('-', ' ')
+        rows_.append(f'<li data-n="{esc(key)}"><a href="{player_url(pid)}">{esc(n)}</a> '
+                     f'<span class="yrs">{yrs}</span></li>')
+    inner = (f'<label for="find" class="note">Find a player</label><input id="find" class="find" type="search" '
+             f'placeholder="Type a name" autocomplete="off"><ul class="az">{"".join(rows_)}</ul>')
+    return shell('/players/', 'NBA Players: Lineups and Best Teammates Since 1996-97 | HoopsMatic',
+                 'Every NBA player with 2,000-plus minutes since 1996-97: their best teammates by net rating, season by season, and the lineups they played in.',
+                 'Players', f'Every player with at least {PLAYER_INDEX_MIN:,} minutes in lineups since 1996-97, by last name. '
+                            'Every other player’s page is linked from his name in any lineup.',
+                 block('All players', None, inner), active='players')
+
+
+def page_player(ctx, pid):
+    lineups, duos = ctx['lineups'], ctx['duos']
+    ps = ctx['player_seasons']
+    n = NAMES.get(pid, pid)
+    mine = ctx['ps_by'].get_group(pid).sort_values(['season', 'secs'], ascending=[False, False])
+    mins = mine['secs'].sum() / 60
+    first, last = int(mine['season'].min()), int(mine['season'].max())
+    yrs = season_label(first) if first == last else f'{season_label(first)} to {season_label(last)}'
+    teams_ = []
+    for code, season in zip(mine.sort_values('season')['team'], mine.sort_values('season')['season']):
+        tn = nickname(code, int(season))
+        if tn not in teams_:
+            teams_.append(tn)
+    PD = duos.loc[ctx['duo_idx'].get(pid, [])].copy()
+    PD['mate'] = np.where(PD['p1'] == pid, PD['p2'], PD['p1'])
+    car = (PD.groupby('mate', as_index=False)
+             .agg(poss=('poss', 'sum'), pts=('pts', 'sum'), opp_poss=('opp_poss', 'sum'),
+                  opp_pts=('opp_pts', 'sum'), secs=('secs', 'sum'), first=('season', 'min'), last=('season', 'max'),
+                  team=('team', 'last')))
+    car = add_ratings(car)
+    car['p1'] = pid
+    car['p2'] = car['mate']
+    best_mates = rank(car[car['poss'] >= T_PLAYER_DUO], 10)
+    most_mates = by_minutes(car, 10)
+
+    def mate_row(r, i, extra_cls=''):
+        seasons = (season_label(r['first']) if r['first'] == r['last']
+                   else f'{season_label(r["first"])} to {season_label(r["last"])}')
+        rr = dict(r)
+        rr['p1'], rr['p2'], rr['slug'] = pid, r['mate'], franchise(r['team'])['slug']
+        return duo_row(rr, i, extra_cls=extra_cls, label=seasons)
+    # season by season
+    items = []
+    for _, s in mine.iterrows():
+        season, code = int(s['season']), s['team']
+        sd = PD[(PD['season'] == season) & (PD['team'] == code) & (PD['poss'] >= T_PLAYER_SEASON_DUO)]
+        b = rank(sd, 1)
+        head = (f'<div class="ssh"><a href="{team_season_url(code, season)}"><b>{season_label(season)} '
+                f'{esc(team_name(code, season))}</b></a><span class="meta">{n0(s["secs"] / 60)} min</span></div>')
+        if len(b):
+            r = b.iloc[0]
+            body = (f'<div class="ssb"><span class="note" style="margin:0">Best with</span>'
+                    f'{people([r["mate"]], 26)}{num_block(r)}</div>')
+        else:
+            body = f'<p class="note" style="margin:.2rem 0 0">No teammate reached {T_PLAYER_SEASON_DUO} possessions together.</p>'
+        items.append(f'<li>{head}{body}</li>')
+    ML = lineups.loc[np.unique(ctx['lin_idx'].get(pid, []))]
+    best_l = rank(ML[ML['poss'] >= T_PLAYER_LINEUP], 10)
+    used_l = by_minutes(ML, 5)
+    lede = []
+    if len(best_mates):
+        b = best_mates.iloc[0]
+        lede.append(f'His highest-rated teammate with at least {T_PLAYER_DUO:,} possessions together was '
+                    f'{esc(NAMES.get(b["mate"], b["mate"]))}: {net_words(b["net"])} per 100 possessions over {n0(b["secs"] / 60)} minutes.')
+    if len(most_mates):
+        m = most_mates.iloc[0]
+        lede.append(f'He played the most minutes with {esc(NAMES.get(m["mate"], m["mate"]))} ({n0(m["secs"] / 60)}).')
+    panels = [('Best teammates', f'Career, minimum {T_PLAYER_DUO:,} possessions together. How his teams did with both on the floor. {NET_NOTE}',
+               rows(best_mates, mate_row, show=5)),
+              ('Most minutes', 'Teammates he played the most minutes with, career.', rows(most_mates, mate_row, show=5)),
+              ('Best lineups', f'Single seasons, minimum {T_PLAYER_LINEUP} possessions.', rows(best_l, lineup_row, show=5)),
+              ('Most used', 'His most-used lineups, single seasons, by minutes.', rows(used_l, lineup_row))]
+    parts = [f'<p class="lede">{" ".join(lede)}</p>' if lede else '', tabs(panels),
+             block('Season by season', f'Each team and season, with his highest-rated teammate that year (minimum {T_PLAYER_SEASON_DUO} possessions together).',
+                   '<ol class="ssn">' + ''.join(items) + '</ol>'),
+             links_block([('All players', f'{SITE}/players/'), ('Best duos', f'{SITE}/duos/'), ('Best lineups, last 30 days', f'{SITE}/')]),
+             f'<p class="note">{CREDIT}</p>']
+    sub = f'{yrs} · {", ".join(teams_)} · {n0(mins)} minutes in the data (regular season, 1996-97 onward).'
+    indexed = pid in ctx['indexed']
+    return shell(f'/player/{PSLUG[pid]}/', f'{n} Lineups: Best Teammates and Five-Man Units, {yrs} | HoopsMatic',
+                 f'{n}’s best teammates by net rating, the lineups he played in and his best partner in every season, {yrs}.',
+                 f'{n} lineups', esc(sub), '\n'.join(parts), active='players', noindex=not indexed), indexed
 
 
 def page_404():
     return shell('/404.html', 'Page not found | HoopsMatic', 'This lineup page does not exist.', 'Page not found',
-                 f'That page does not exist. Try the <a href="{SITE}/">hottest lineups this week</a> or '
-                 f'<a href="{SITE}/all-time/">the best lineups ever</a>.', '', noindex=True)
+                 f'That page does not exist. Try the <a href="{SITE}/">best lineups of the last 30 days</a> or '
+                 f'<a href="{SITE}/all-time/">the highest-rated lineups since 1996-97</a>.', '', noindex=True)
 
 
 # ── output ────────────────────────────────────────────────────────────────
@@ -780,32 +1264,51 @@ def sitemap(pages, today):
 
 
 FONT_V = None
+FACE_V = None
+NAMES = {}
+PSLUG = {}
+SWAPS = {}
+CTX = {}
 
 
 def build(today=None):
-    global FONT_V
+    global FONT_V, FACE_V, NAMES, PSLUG, SWAPS, CTX
     FONT_V = font_v()
+    FACE_V = faces_v()
     today = today or dt.datetime.now(dt.timezone.utc).date().isoformat()
     lineups, records, cur_games, cur, names = load_seasons()
+    NAMES = names
     duos = duos_of(lineups)
+    ps, career, slugs, indexed, eligible, lin_idx, duo_idx = build_players(lineups, duos)
+    PSLUG = slugs
+    SWAPS = swap_index(lineups)
     end = cur_games['game_date'].max() if cur_games is not None and len(cur_games) else None
-    ctx = dict(names=names, cur=cur, lineups=lineups, duos=duos, records=records,
-               hot=hottest(cur_games, cur), end=end)
+    CTX = dict(cur=cur, lineups=lineups, duos=duos, records=records, recent=recent(cur_games, cur), end=end,
+               player_seasons=ps, career=career, indexed=indexed, eligible=eligible,
+               lin_idx=lin_idx, duo_idx=duo_idx)
+    CTX['ps_by'] = ps.groupby('pid')
+    ctx = CTX
     pages = {}
     write('/', page_index(ctx), pages)
     write('/all-time/', page_alltime(ctx), pages)
     write('/duos/', page_duos(ctx), pages)
+    write('/players/', page_players(ctx), pages)
     for s in sorted(lineups['season'].unique()):
         write(f'/season/{season_label(s)}/', page_season(ctx, s), pages)
     for slug in sorted(SLUG_TEAM):
         write(f'/{slug}/', page_team(ctx, slug), pages)
     for (s, code) in sorted(set(zip(lineups['season'], lineups['team']))):
         write(f'/{franchise(code)["slug"]}/{season_label(s)}/', page_team_season(ctx, code, s), pages)
+    n_noindex = 0
+    for pid in sorted(slugs):
+        html_, idx = page_player(ctx, pid)
+        write(f'/player/{slugs[pid]}/', html_, pages if idx else None)
+        n_noindex += not idx
     write('/404.html', page_404(), None)
     with open(os.path.join(OUT, '.nojekyll'), 'w') as f:
         f.write('')
     sitemap(pages, today)
-    print(f'{len(pages)} pages, games through {end}')
+    print(f'{len(pages)} indexable pages, {n_noindex} noindex player pages, games through {end}')
     return ctx, pages
 
 

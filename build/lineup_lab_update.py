@@ -150,12 +150,13 @@ def refresh_current(season):
 
 
 HEADSHOTS_TREE = 'https://api.github.com/repos/jsierrahoopshype/nba-headshots/git/trees/main?recursive=1'
-HEADSHOTS_DIR = 'players/headshots/face2-160/'
+HEADSHOTS_DIR = 'players/headshots/face/'
 
 
 def refresh_headshots():
-    """data/headshots.json: NBA player id -> file stem in nba-headshots' face2-160
-    folder (uniform framing, 160px WebP). Read from the public repo's file list.
+    """data/headshots.json: NBA player id -> file stem in nba-headshots' face/
+    folder (transparent cutouts, the source for docs/faces). Read from the
+    public repo's file list.
     Uses the workflow's automatic GITHUB_TOKEN when present (higher rate limit),
     nothing otherwise. On any failure the previous file is kept."""
     import json
@@ -175,8 +176,8 @@ def refresh_headshots():
     out = {}
     for t in tree.get('tree', []):
         p = t.get('path', '')
-        if p.startswith(HEADSHOTS_DIR) and p.endswith('.webp'):
-            stem = p[len(HEADSHOTS_DIR):-5]
+        if p.startswith(HEADSHOTS_DIR) and p.endswith('.png'):
+            stem = p[len(HEADSHOTS_DIR):-4]
             pid = stem.split('-', 1)[0]
             if pid.isdigit():
                 out[pid] = stem
