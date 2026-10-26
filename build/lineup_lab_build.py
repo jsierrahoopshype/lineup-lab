@@ -60,9 +60,8 @@ T_PLAYER_DUO = 1000      # player page, best teammates across his career
 T_PLAYER_SEASON_DUO = 300    # player page, best teammate in one season
 T_PLAYER_LINEUP = 300    # player page, best lineups he was in (one season)
 RECENT_DAYS = 30         # "last 30 days", rolling
-RECENT_MINS = (100, 50, 30)  # tried in order until RECENT_MIN_COUNT qualify
-RECENT_MIN_COUNT = 3
-T_SWAP = 30              # "one player changes": each lineup needs this many possessions
+MIN_POSS = 100  # no list ever ranks a lineup or duo with fewer possessions, early season included
+T_SWAP = MIN_POSS        # "one player changes": each lineup needs this many possessions
 SMALL_SAMPLE = 200       # fewer possessions than this get the "Small sample" tag
 PLAYER_INDEX_MIN = 2000  # career minutes in the data for an indexable player page
 PLAYER_INDEX_LIMIT = 500  # stage 1: only the top 500 of those by minutes
@@ -297,8 +296,8 @@ def window(cur_games, cur, start):
 
 def recent(cur_games, cur):
     """Best lineups of the last RECENT_DAYS days (rolling, ending on the latest
-    game date), positive net ratings only. The minimum is the first of
-    RECENT_MINS that lets RECENT_MIN_COUNT lineups qualify, else the last.
+    game date), positive net ratings only, at least MIN_POSS possessions (the
+    list can be empty in the first days of a season).
     Returns dict(rows, start, end, min, whole_season) or None."""
     if cur_games is None or cur_games.empty:
         return None
@@ -307,11 +306,8 @@ def recent(cur_games, cur):
     start = max(first, (dt.date.fromisoformat(end) - dt.timedelta(days=RECENT_DAYS - 1)).isoformat())
     g = window(cur_games, cur, start)
     g = g[g['net'] > 0]
-    for m in RECENT_MINS:
-        q = g[g['poss'] >= m]
-        if len(q) >= RECENT_MIN_COUNT:
-            break
-    return dict(rows=rank(q, 10), start=start, end=end, min=m, whole_season=(start == first))
+    q = g[g['poss'] >= MIN_POSS]
+    return dict(rows=rank(q, 10), start=start, end=end, min=MIN_POSS, whole_season=(start == first))
 
 
 # ── players ───────────────────────────────────────────────────────────────
@@ -385,6 +381,25 @@ def swaps_for(r):
 
 # ── html pieces ───────────────────────────────────────────────────────────
 
+def load_heights():
+    """data/heights.json (build/lineup_lab_heights.py): NBA id -> centimetres."""
+    p = os.path.join(DATA, 'heights.json')
+    if not os.path.exists(p):
+        return {}
+    with open(p) as f:
+        return json.load(f)
+
+
+HEIGHTS = load_heights()
+UNKNOWN_HEIGHT = 200.0  # about 6-7, the middle of a lineup, for a player with no height in the source
+
+
+def by_height(ids):
+    """Shortest to tallest, which reads roughly point guard to center.
+    Ties keep their order."""
+    return sorted(ids, key=lambda p: HEIGHTS.get(p, UNKNOWN_HEIGHT))
+
+
 def load_faces():
     d = os.path.join(OUT, 'faces')
     return {f[:-5] for f in os.listdir(d) if f.endswith('.webp')} if os.path.isdir(d) else set()
@@ -417,10 +432,10 @@ def split_name(full):
 
 
 def people(ids, size=40, cls='who'):
-    """Faces with the full name under each: first name on a small line, last
-    name below it."""
+    """Faces with the full name under each (first name on a small line, last
+    name below it), shortest player first."""
     items = []
-    for p in ids:
+    for p in by_height(ids):
         full = NAMES.get(p, p)
         first, last = split_name(full)
         # --n (name length) lets the CSS shrink a long name to fit its column
@@ -816,7 +831,7 @@ def links_block(items):
 
 
 def names_and(ids):
-    nm = [NAMES.get(p, p) for p in ids]
+    nm = [NAMES.get(p, p) for p in by_height(ids)]
     return ', '.join(nm[:-1]) + ' and ' + nm[-1] if len(nm) > 1 else nm[0]
 
 
@@ -832,7 +847,7 @@ def page_index(ctx):
     parts = []
     C = L[L['season'] == cur]
     played = float(ctx['records'][ctx['records']['season'] == cur]['games'].mean())
-    ts = scaled(T_SEASON_LINEUP, played, 30)
+    ts = scaled(T_SEASON_LINEUP, played, MIN_POSS)
     season_best = rank(C[(C['poss'] >= ts) & (C['net'] > 0)], 10)
     if rec:
         span = ap_day(rec['start']) if rec['start'] == rec['end'] else f'{ap_day(rec["start"])} to {ap_day(rec["end"])}'
@@ -844,7 +859,10 @@ def page_index(ctx):
             title = f'Best lineups, last {RECENT_DAYS} days'
             note = (f'Games from {span}. Minimum {rec["min"]} possessions, positive net ratings only. '
                     f'Updated every day of the season. {SMALL_NOTE}')
-        parts.append(block(title, note, rows(rec['rows'], lineup_row, show=3), 'recent'))
+        body = (rows(rec['rows'], lineup_row, show=3) if len(rec['rows']) else
+                f'<p class="note">No five has played {MIN_POSS} possessions together with a positive net rating yet. '
+                f'Most regular starting units get there within the first two weeks.</p>')
+        parts.append(block(title, note, body, 'recent'))
         if not rec['whole_season']:
             parts.append(block(f'Best lineups of {season_label(cur)}',
                                f'The whole season so far. Minimum {ts:,} possessions (it grows with games played), positive net ratings only.',
@@ -870,11 +888,12 @@ def page_index(ctx):
 <dt>Lineup</dt><dd>Five players on the floor together for one team. Every stretch of a game where the same five stayed on the court counts toward it.</dd>
 <dt>Net rating</dt><dd>Points the lineup scored per 100 possessions (Off) minus points it allowed per 100 possessions (Def). Higher Off is better, lower Def is better. +10 means it outscored opponents by 10 points every 100 trips. Ratings are worked out from the totals, so Off minus Def can differ from the net shown by 0.1 because of rounding. Garbage time is included.</dd>
 <dt>Sample size</dt><dd>A small sample can make any five look great, so each list needs a minimum number of possessions, shown above it, and anything under {SMALL_SAMPLE} possessions is marked "Small sample." For the season in progress the minimum grows with games played. A minimum is a filter, not a guarantee that a result will last.</dd>
-<dt>Last {RECENT_DAYS} days</dt><dd>The {RECENT_DAYS} days ending on the latest game date in the data. The minimum is {RECENT_MINS[0]} possessions; early in the season, when fewer than {RECENT_MIN_COUNT} lineups reach it, it drops to {RECENT_MINS[1]}, then {RECENT_MINS[2]}, and the list says which.</dd>
+<dt>Last {RECENT_DAYS} days</dt><dd>The {RECENT_DAYS} days ending on the latest game date in the data. The minimum is {MIN_POSS} possessions, so in the first days of a season the list can be short or empty.</dd>
 <dt>Duos</dt><dd>Team performance while both players were on the floor, whoever the other three teammates were. It is not a measure of chemistry or of either player alone.</dd>
 <dt>One player changes</dt><dd>Lineups of the same team and season that share four players and differ in one, each with at least {T_SWAP} possessions. They describe what happened; opponents, game situations and who else was available all differ, so the change of player is not shown to be the cause.</dd>
 <dt>Games and records</dt><dd>"Games together" counts the games in which that five played at least one stretch together. Team records are added up from the same play-by-play, overtime included.</dd>
 <dt>Source</dt><dd>Lineup data from <a href="https://github.com/ramirobentes/nbadatar">Ramiro Bentes</a> (<a href="https://x.com/NbaInRstats">@NbaInRstats</a>), built from NBA play-by-play. Regular season only, 1996-97 onward, updated every day of the season.</dd>
+<dt>Order of the faces</dt><dd>Shortest to tallest, which reads roughly point guard to center. Heights from <a href="https://www.wikidata.org">Wikidata</a>.</dd>
 </dl>"""
     parts.append(block('How the numbers work', None, how, 'how'))
     stamp = f'<span class="stamp">Games through {ap_date(ctx["end"])}.</span>' if ctx['end'] else ''
@@ -941,8 +960,8 @@ def page_team_season(ctx, code, season):
     D = duos[(duos['season'] == season) & (duos['team'] == code)]
     rec = records[(records['season'] == season) & (records['team'] == code)].iloc[0]
     played = int(rec['games'])
-    tl = T_TEAM_LINEUP if season < cur else scaled(T_TEAM_LINEUP, played, 20)
-    td = T_TEAM_DUO if season < cur else scaled(T_TEAM_DUO, played, 50)
+    tl = T_TEAM_LINEUP if season < cur else scaled(T_TEAM_LINEUP, played, MIN_POSS)
+    td = T_TEAM_DUO if season < cur else scaled(T_TEAM_DUO, played, MIN_POSS)
     name = team_name(code, season)
     sl = season_label(season)
     rec_txt = f'{int(rec["wins"])}-{int(rec["losses"])}'
@@ -1012,7 +1031,7 @@ def page_team(ctx, slug):
         S = F[F['season'] == season]
         code = S['team'].iloc[0]
         rec = records[(records['season'] == season) & (records['team'] == code)].iloc[0]
-        tl = T_TEAM_LINEUP if season < cur else scaled(T_TEAM_LINEUP, int(rec['games']), 20)
+        tl = T_TEAM_LINEUP if season < cur else scaled(T_TEAM_LINEUP, int(rec['games']), MIN_POSS)
         b = rank(S[S['poss'] >= tl], 1)
         sl = season_label(season)
         head = (f'<div class="ssh"><a href="{SITE}/{slug}/{sl}/"><b>{sl} {esc(team_name(code, season))}</b></a>'
@@ -1053,8 +1072,8 @@ def page_season(ctx, season):
     L = lineups[lineups['season'] == season]
     D = duos[duos['season'] == season]
     played = float(records[records['season'] == season]['games'].mean())
-    tl = T_SEASON_LINEUP if season < cur else scaled(T_SEASON_LINEUP, played, 30)
-    td = T_SEASON_DUO if season < cur else scaled(T_SEASON_DUO, played, 80)
+    tl = T_SEASON_LINEUP if season < cur else scaled(T_SEASON_LINEUP, played, MIN_POSS)
+    td = T_SEASON_DUO if season < cur else scaled(T_SEASON_DUO, played, MIN_POSS)
     q = L[L['poss'] >= tl]
     sl = season_label(season)
     panels = [('Best', f'Minimum {tl:,} possessions. {NET_NOTE}', rows(rank(q, 25), lineup_row, show=10)),
@@ -1114,7 +1133,7 @@ def page_duos(ctx):
                    else f'{season_label(r["first"])} to {season_label(r["last"])}')
         return duo_row(r, i, extra_cls=extra_cls, label=f'{t["name"]}, {seasons}')
     played = float(ctx['records'][ctx['records']['season'] == cur]['games'].mean())
-    td = scaled(T_SEASON_DUO, played, 80)
+    td = scaled(T_SEASON_DUO, played, MIN_POSS)
     C = duos[(duos['season'] == cur) & (duos['poss'] >= td)]
     expl = 'Team performance while both players were on the floor, whoever the other three teammates were.'
     panels = [(f'{season_label(cur)}', f'{expl} Minimum {td:,} possessions together. {NET_NOTE}', rows(rank(C, 15), duo_row, show=10)),

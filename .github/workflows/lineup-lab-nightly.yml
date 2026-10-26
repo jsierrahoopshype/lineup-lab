@@ -52,6 +52,11 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: python build/lineup_lab_update.py
 
+      # Heights from Wikidata (public domain), to show each lineup shortest to
+      # tallest. Keeps the previous file if Wikidata is down; never fails the run.
+      - name: Heights
+        run: python build/lineup_lab_heights.py
+
       # Portraits for players new to the data (only the missing ones).
       - name: Faces
         run: python build/lineup_lab_faces.py --fetch

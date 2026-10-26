@@ -104,6 +104,19 @@ class Units(unittest.TestCase):
             finally:
                 B.DATA, B.OUT = data, out
 
+    def test_faces_go_shortest_to_tallest(self):
+        old = B.HEIGHTS
+        try:
+            B.HEIGHTS = {'1': 211.0, '2': 185.0, '3': 196.0}
+            # '4' has no height: it sits at UNKNOWN_HEIGHT, between 3 and 1
+            self.assertEqual(B.by_height(['1', '2', '3', '4']), ['2', '3', '4', '1'])
+        finally:
+            B.HEIGHTS = old
+
+    def test_season_minimums_never_below_min_poss(self):
+        self.assertEqual(B.scaled(B.T_TEAM_LINEUP, 1, B.MIN_POSS), B.MIN_POSS)
+        self.assertGreaterEqual(B.T_SWAP, B.MIN_POSS)
+
 
 @unittest.skipUnless(os.path.exists(os.path.join(DOCS, 'index.html')), 'docs/ not built')
 class Site(unittest.TestCase):
@@ -156,6 +169,9 @@ class Site(unittest.TestCase):
         self.assertIn('Ramiro Bentes', s)
         block = s.split('id="recent"', 1)[1].split('</section>', 1)[0]
         self.assertNotIn('class="net neg"', block)
+        # every lineup in the list has at least MIN_POSS possessions
+        for n in re.findall(r'([\d,]+) poss', block):
+            self.assertGreaterEqual(int(n.replace(',', '')), B.MIN_POSS)
 
     def test_player_pages_staged_indexing(self):
         players = [p for p in self.pages if os.sep + 'player' + os.sep in p]
