@@ -21,6 +21,7 @@ Ramiro Bentes' public NBA data ([nba_data](https://github.com/ramirobentes/nba_d
 - `data/current/lineup_games_<YYYY>.csv`: the season in progress, one row per game, team and lineup, with the game date (from the same source's play-by-play file).
 - `data/headshots.json`: NBA id to file in nba-headshots' `players/headshots/face/` (transparent cutouts).
 - `data/faces_state.json`: per portrait, the source file's hash, how the face was found and the framing version; `docs/faces/<id>.webp` are the portraits, every one framed the same way (`build/lineup_lab_faces.py`). Players with no NBA photo get initials.
+- `data/heights.json`: NBA id to height in centimetres, from [Wikidata](https://www.wikidata.org) (public domain), refreshed nightly; every row of faces goes shortest to tallest, roughly point guard to center. Players with no height yet (mostly rookies) sit in the middle.
 - `data/teams.json`: the 30 franchises (slugs, NBA ids for logos).
 - `data/page_hashes.json`: each page's content hash and `<lastmod>`; a date moves only when that page's bytes change.
 
@@ -32,10 +33,11 @@ Season numbers follow the source: `2027` is 2026-27.
 
 1. Unit tests.
 2. `build/lineup_lab_update.py`: saves any finished season not yet in `data/raw`, downloads the current season, refuses a file with fewer games than our copy (the run fails, nothing changes), refreshes the headshot map.
-3. `build/lineup_lab_faces.py --fetch`: downloads and frames portraits only for players who have none yet. After changing the framing (`CROP_V`), redo them all locally with `python build/lineup_lab_faces.py <folder with nba-headshots' players/headshots/face>` and commit `docs/faces`.
-4. `build/lineup_lab_build.py`: aggregates and writes `docs/` and `docs/sitemap.xml`.
-5. Site tests (canonicals on hoopsmatic.com, footer, sitemap).
-6. Commits `data/` and `docs/` if anything changed.
+3. `build/lineup_lab_heights.py`: refreshes the heights (keeps the old file if Wikidata is unreachable).
+4. `build/lineup_lab_faces.py --fetch`: downloads and frames portraits only for players who have none yet. After changing the framing (`CROP_V`), redo them all locally with `python build/lineup_lab_faces.py <folder with nba-headshots' players/headshots/face>` and commit `docs/faces`.
+5. `build/lineup_lab_build.py`: aggregates and writes `docs/` and `docs/sitemap.xml`.
+6. Site tests (canonicals on hoopsmatic.com, footer, sitemap).
+7. Commits `data/` and `docs/` if anything changed.
 
 No keys, tokens or secrets: the source is public and the workflow uses only the automatic `GITHUB_TOKEN`.
 
