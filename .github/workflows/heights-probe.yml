@@ -1,0 +1,22 @@
+# TEMPORARY: one run on this branch to see Wikidata's height coverage. Deleted before merge.
+name: Heights probe
+on:
+  push:
+    branches: [heights-min100]
+    paths: ['.github/workflows/heights-probe.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python build/lineup_lab_heights.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: heights
+          path: data/heights.json
