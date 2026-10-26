@@ -5,7 +5,7 @@ on:
     branches: [heights-min100]
     paths: ['.github/workflows/heights-probe.yml']
 permissions:
-  contents: read
+  contents: write
 jobs:
   probe:
     runs-on: ubuntu-latest
@@ -16,7 +16,9 @@ jobs:
         with:
           python-version: '3.12'
       - run: python build/lineup_lab_heights.py
-      - uses: actions/upload-artifact@v4
-        with:
-          name: heights
-          path: data/heights.json
+      - run: |
+          git add data/heights.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m "Heights probe result"
+          git push
