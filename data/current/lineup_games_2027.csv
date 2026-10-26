@@ -634,7 +634,7 @@ game_date,game_id,team,lineup,names,poss,pts,opp_poss,opp_pts,secs
 2026-10-23,0022600008,NYK,203903-1626157-1628404-1628973-1629013,Jordan Clarkson|Karl-Anthony Towns|Josh Hart|Jalen Brunson|Landry Shamet,5.0,5.0,5.0,2.0,146.0
 2026-10-23,0022600009,HOU,1627832-1630578-1631095-1631106-1641708,Fred VanVleet|Alperen Sengun|Jabari Smith Jr.|Tari Eason|Amen Thompson,7.0,4.0,7.0,8.0,258.0
 2026-10-23,0022600009,HOU,201142-1627832-1630578-1631095-1631106,Kevin Durant|Fred VanVleet|Alperen Sengun|Jabari Smith Jr.|Tari Eason,2.0,5.0,2.0,0.0,49.0
-2026-10-23,0022600009,HOU,201142-1627832-1630578-1631095-1641708,Kevin Durant|Fred VanVleet|Alperen Sengun|Jabari Smith Jr.|Amen Thompson,30.0,32.0,31.0,31.0,962.0
+2026-10-23,0022600009,HOU,201142-1627832-1630578-1631095-1641708,Kevin Durant|Fred VanVleet|Alperen Sengun|Jabari Smith Jr.|Amen Thompson,31.0,32.0,31.0,31.0,962.0
 2026-10-23,0022600009,HOU,201142-1627832-1630578-1631106-1641708,Kevin Durant|Fred VanVleet|Alperen Sengun|Tari Eason|Amen Thompson,3.0,5.0,4.0,6.0,98.0
 2026-10-23,0022600009,HOU,201142-203500-1627832-1631095-1641708,Kevin Durant|Steven Adams|Fred VanVleet|Jabari Smith Jr.|Amen Thompson,4.0,6.0,3.0,4.0,90.0
 2026-10-23,0022600009,HOU,201142-203500-203935-1627832-1631106,Kevin Durant|Steven Adams|Marcus Smart|Fred VanVleet|Tari Eason,8.0,13.0,7.0,9.0,227.0
@@ -642,7 +642,7 @@ game_date,game_id,team,lineup,names,poss,pts,opp_poss,opp_pts,secs
 2026-10-23,0022600009,HOU,201142-203500-203935-1631106-1641708,Kevin Durant|Steven Adams|Marcus Smart|Tari Eason|Amen Thompson,5.0,4.0,5.0,5.0,136.0
 2026-10-23,0022600009,HOU,201142-203935-1627832-1630578-1631106,Kevin Durant|Marcus Smart|Fred VanVleet|Alperen Sengun|Tari Eason,2.0,1.0,1.0,0.0,35.0
 2026-10-23,0022600009,HOU,201142-203935-1627832-1630578-1641708,Kevin Durant|Marcus Smart|Fred VanVleet|Alperen Sengun|Amen Thompson,3.0,7.0,2.0,6.0,81.0
-2026-10-23,0022600009,HOU,201142-203935-1627832-1631095-1641708,Kevin Durant|Marcus Smart|Fred VanVleet|Jabari Smith Jr.|Amen Thompson,1.0,2.0,1.0,0.0,5.0
+2026-10-23,0022600009,HOU,201142-203935-1627832-1631095-1641708,Kevin Durant|Marcus Smart|Fred VanVleet|Jabari Smith Jr.|Amen Thompson,1.0,2.0,2.0,0.0,5.0
 2026-10-23,0022600009,HOU,201142-203935-1627832-1631106-1641708,Kevin Durant|Marcus Smart|Fred VanVleet|Tari Eason|Amen Thompson,2.0,0.0,3.0,5.0,54.0
 2026-10-23,0022600009,HOU,201142-203935-1631095-1631106-1641708,Kevin Durant|Marcus Smart|Jabari Smith Jr.|Tari Eason|Amen Thompson,4.0,5.0,5.0,7.0,148.0
 2026-10-23,0022600009,HOU,201142-203935-203992-1630578-1631095,Kevin Durant|Marcus Smart|Bogdan Bogdanović|Alperen Sengun|Jabari Smith Jr.,4.0,9.0,3.0,3.0,121.0
@@ -660,7 +660,7 @@ game_date,game_id,team,lineup,names,poss,pts,opp_poss,opp_pts,secs
 2026-10-23,0022600009,SAS,1628368-1629640-1630170-1641705-1642264,De'Aaron Fox|Keldon Johnson|Devin Vassell|Victor Wembanyama|Stephon Castle,2.0,3.0,1.0,0.0,61.0
 2026-10-23,0022600009,SAS,1628368-1629640-1630577-1641705-1642264,De'Aaron Fox|Keldon Johnson|Julian Champagnie|Victor Wembanyama|Stephon Castle,9.0,7.0,8.0,9.0,210.0
 2026-10-23,0022600009,SAS,1628368-1630170-1630577-1641705-1642844,De'Aaron Fox|Devin Vassell|Julian Champagnie|Victor Wembanyama|Dylan Harper,13.0,19.0,12.0,8.0,363.0
-2026-10-23,0022600009,SAS,1628368-1630170-1641705-1642264-1642844,De'Aaron Fox|Devin Vassell|Victor Wembanyama|Stephon Castle|Dylan Harper,22.0,15.0,21.0,26.0,658.0
+2026-10-23,0022600009,SAS,1628368-1630170-1641705-1642264-1642844,De'Aaron Fox|Devin Vassell|Victor Wembanyama|Stephon Castle|Dylan Harper,23.0,15.0,22.0,26.0,658.0
 2026-10-23,0022600009,SAS,1628368-1630577-1641705-1642264-1642844,De'Aaron Fox|Julian Champagnie|Victor Wembanyama|Stephon Castle|Dylan Harper,2.0,6.0,3.0,7.0,81.0
 2026-10-23,0022600009,SAS,1628436-1629640-1630170-1630577-1642844,Luke Kornet|Keldon Johnson|Devin Vassell|Julian Champagnie|Dylan Harper,2.0,2.0,3.0,4.0,66.0
 2026-10-23,0022600009,SAS,1628436-1629640-1630170-1642264-1642868,Luke Kornet|Keldon Johnson|Devin Vassell|Stephon Castle|Carter Bryant,0.0,0.0,0.0,0.0,4.0
