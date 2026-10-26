@@ -57,9 +57,10 @@ jobs:
       - name: Heights
         run: python build/lineup_lab_heights.py
 
-      # Portraits for players new to the data (only the missing ones).
+      # Portraits: copies new or changed files from nba-headshots' face-fill/, the
+      # one headshot look every HoopsMatic section uses.
       - name: Faces
-        run: python build/lineup_lab_faces.py --fetch
+        run: python build/lineup_lab_faces.py
 
       - name: Build
         run: python build/lineup_lab_build.py
