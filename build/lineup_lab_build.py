@@ -812,7 +812,7 @@ def shell(path, title, desc, h1, subtitle, body, active=None, noindex=False):
 {body}
 <footer class="foot">
 <p>Anything wrong? Email us at <a href="mailto:hoopsmatic@hoopsmatic.com">hoopsmatic@hoopsmatic.com</a></p>
-<p>For business inquiries, contact us at <a href="mailto:ads@hoopsmatic.com">ads@hoopsmatic.com</a></p>
+<p>For any other inquiry, contact us at <a href="mailto:ads@hoopsmatic.com">ads@hoopsmatic.com</a></p>
 </footer>
 </div>
 <script>{JS}</script>
