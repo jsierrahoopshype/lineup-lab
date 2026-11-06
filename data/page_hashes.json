@@ -1,7 +1,7 @@
 {
 "/": {
-"hash": "dac03220bf7b620d7968ba0d9049eafa72507a8fc1706e6bb0dec35975d62025",
-"lastmod": "2026-11-05"
+"hash": "7fc93044030745c569ecd8f029b26d807b7e8466f95503e3e4f5df1eaaeb2e5b",
+"lastmod": "2026-11-06"
 },
 "/76ers/": {
 "hash": "3b0fc19fcbb3b71921075fcfea9eb47a0145a706cf714f5db9db6e81af8375fd",
@@ -128,8 +128,8 @@
 "lastmod": "2026-10-30"
 },
 "/76ers/2026-27/": {
-"hash": "00fa7c65d1aa64141a98a8cf53ea452c4ee04be97a1ee967b303b5186b8c051f",
-"lastmod": "2026-11-05"
+"hash": "c46f002f2e646a3a8f566b8a760c9b4b8e7578887f30952b89b988a82280a56b",
+"lastmod": "2026-11-06"
 },
 "/all-time/": {
 "hash": "c17fa3d3f940a6b6eb61b967433b6cf07bc587653e0ea69033e16cb4c4850086",
@@ -260,8 +260,8 @@
 "lastmod": "2026-10-30"
 },
 "/bucks/2026-27/": {
-"hash": "649da7cf6cbc534b05baa4e0c0245f055c7a4a21751e14e05d856d1e809c85a9",
-"lastmod": "2026-11-05"
+"hash": "d3b9d4f637e912d0ac4ed5b7e3d9660e0f5386c0ded3e8e31f526fbe2e329f43",
+"lastmod": "2026-11-06"
 },
 "/bulls/": {
 "hash": "1c2527cb070864e8cd732714cf9748d858b1bf9f5ecbbf03e2b071d0cfd25306",
@@ -388,8 +388,8 @@
 "lastmod": "2026-10-30"
 },
 "/bulls/2026-27/": {
-"hash": "9bb9390e8cf78783e7b6c684ddf86b42e4c35620fbbbd17939102a462fcc3051",
-"lastmod": "2026-11-05"
+"hash": "0f1af65c932312c7e902eca4dd00ba18de0a882a3c7e69700608f2e6c0f1c4e0",
+"lastmod": "2026-11-06"
 },
 "/cavaliers/": {
 "hash": "a5a845f2358e773248d9fb37d3c62587dd27e1d2bf93efa5101e5a387fbd1f38",
@@ -516,8 +516,8 @@
 "lastmod": "2026-10-30"
 },
 "/cavaliers/2026-27/": {
-"hash": "12df9df04f762450caecf4af5bd88e1ac1f57b0c1856c244c3ff2de788cfafa0",
-"lastmod": "2026-11-05"
+"hash": "b0c126e2045c3424ab578fb7c80f8421fde9675eaf1db74a45240ce597b5e963",
+"lastmod": "2026-11-06"
 },
 "/celtics/": {
 "hash": "82da849af107e8bd5d6dfefa457f4aeea3b140ece3d9d446d500fb9804a8152c",
@@ -644,8 +644,8 @@
 "lastmod": "2026-10-30"
 },
 "/celtics/2026-27/": {
-"hash": "1dd6dc45051686bbd33cf3e2e8b766d3a0491ecc001989dfbe6b7901b30e7a12",
-"lastmod": "2026-11-05"
+"hash": "6d894999f2cd005b870e70f35316777bd3214cf6543b656737bb369d0c04f73f",
+"lastmod": "2026-11-06"
 },
 "/clippers/": {
 "hash": "d60a4f0c8e75307fd51df6f5b8dbabdc888d41ee89d5f6372944e5a690e1f141",
@@ -772,12 +772,12 @@
 "lastmod": "2026-10-30"
 },
 "/clippers/2026-27/": {
-"hash": "fc865601e460e0f11ba97e3105f39eed112d25f952699b496c6cb9b855521339",
-"lastmod": "2026-11-05"
+"hash": "2d9608f1ee9d54a8af58acd296a79054819b0e84176881d9a4328dcd943f26f6",
+"lastmod": "2026-11-06"
 },
 "/duos/": {
-"hash": "f45f566c96cb25ede1e060299f810c46ac6ffd6480724f3b33140e62d6036ecc",
-"lastmod": "2026-11-05"
+"hash": "f36881d559ea174617b74a70f51f84d0d7a5ffefcf118966b5a1716663b838a2",
+"lastmod": "2026-11-06"
 },
 "/grizzlies/": {
 "hash": "4d562a90c701cce11f0d879c3e18f1842e6a2790b3f2c727cd1bd89d5b5f7141",
@@ -904,8 +904,8 @@
 "lastmod": "2026-10-30"
 },
 "/grizzlies/2026-27/": {
-"hash": "1102cc2d20f02f0cf86aa40bd50da530fa43012b0fc8db3c5b207957fd6a9b86",
-"lastmod": "2026-11-05"
+"hash": "de50550220d40d7ee9cb212cd5cabe1bdce3cb1c20f20588c7f86c1d4877a957",
+"lastmod": "2026-11-06"
 },
 "/hawks/": {
 "hash": "e61649a9f277197f92095bc57b29e00d57cec1f5b55c7c9175ea020928eb3ceb",
@@ -1032,12 +1032,12 @@
 "lastmod": "2026-10-30"
 },
 "/hawks/2026-27/": {
-"hash": "8aae1323b03f531e71584be6850420946232e69c8797f3a8260cdffe105d4501",
-"lastmod": "2026-11-05"
+"hash": "3c642c840117551b35a0086a80434300cb7942a5391582d49b3c9086daeca91b",
+"lastmod": "2026-11-06"
 },
 "/heat/": {
-"hash": "6e8e2d04bdaefabea8f4f98d5ed053eea2e0b0403116dabedaa080aa74401b7c",
-"lastmod": "2026-11-05"
+"hash": "4848f983b0455c8b7d35587002fb1cc5131d9a14612b09d68bfef837425266a6",
+"lastmod": "2026-11-06"
 },
 "/heat/1996-97/": {
 "hash": "7de491f7a222053a7a4481727059a22a53bec7e944e7a58343c8c39417b722ad",
@@ -1160,8 +1160,8 @@
 "lastmod": "2026-10-30"
 },
 "/heat/2026-27/": {
-"hash": "3e3562a0e0dd828d384419d14b0d44ea088f34d201079b11f4fc28762b6995a2",
-"lastmod": "2026-11-05"
+"hash": "3520cdf7ef59d336d0826dce5a7fbe746d069706da61ec042f8772d04a8bf1fd",
+"lastmod": "2026-11-06"
 },
 "/hornets/": {
 "hash": "ade5fdbf54a4bc6d3afbc808bda9379da7cfcae28cbc26ecba58e8be17c6746c",
@@ -1280,8 +1280,8 @@
 "lastmod": "2026-10-30"
 },
 "/hornets/2026-27/": {
-"hash": "b2529260a2e0822bcdd793bd39843bba4c37352bf0a556f9820483bd42d246b3",
-"lastmod": "2026-11-05"
+"hash": "24cf4d6c0936be937c869acd83d1481ce7634fa3358885dfb7afef8ff924b665",
+"lastmod": "2026-11-06"
 },
 "/jazz/": {
 "hash": "4c8af2b7d6cbb23225792dbdee5025d93af907c6b41735168d6d2540ae4c79b5",
@@ -1408,8 +1408,8 @@
 "lastmod": "2026-10-30"
 },
 "/jazz/2026-27/": {
-"hash": "6e06355538c4af18c12cdb9f66a5d7863c912f3f2df1715d4cd72ff7a4c83dc9",
-"lastmod": "2026-11-05"
+"hash": "09ec8355418811bfecfd8b2c71e5abea76bfdc151d3f9bbab4431ffc842163a0",
+"lastmod": "2026-11-06"
 },
 "/kings/": {
 "hash": "64c8e56c06a7e17266ca83b292958ad6c270578801df16fe87b8248bc37c1b3a",
@@ -1536,8 +1536,8 @@
 "lastmod": "2026-10-30"
 },
 "/kings/2026-27/": {
-"hash": "34b09221027b07dd4315a6e66221c01c7536d21f9f3006b2a0c7504883253eda",
-"lastmod": "2026-11-05"
+"hash": "7afb846645cd7fa85aa5d8f124b1f8a349e675d52390c733844aef3d2a82bf20",
+"lastmod": "2026-11-06"
 },
 "/knicks/": {
 "hash": "b8d5e9f494c24099435cb60b0b39440bd3e8293fc4213c654b1e3ed401c24f5e",
@@ -1664,8 +1664,8 @@
 "lastmod": "2026-10-30"
 },
 "/knicks/2026-27/": {
-"hash": "db876520350fbc628c94bb8b2691cd837ac833463d3d19c57b8c881756fc5a09",
-"lastmod": "2026-11-05"
+"hash": "50437191ff0bbaad5b1c0151b623baec9bd5c5b8c6dc12fa8ac938190323ccd1",
+"lastmod": "2026-11-06"
 },
 "/lakers/": {
 "hash": "0c9dddbc50527f3eca554a9ac6b411ac6df96a75fc2246c932a064bb211331ac",
@@ -1792,12 +1792,12 @@
 "lastmod": "2026-10-30"
 },
 "/lakers/2026-27/": {
-"hash": "e3ee582925a31341a701209746c05f5fddf88fb8c8d50f3f4acb1787fcc3d5f8",
-"lastmod": "2026-11-05"
+"hash": "cbde2c195928047062b2eb715edf63a0f08d048a281aa34edeb4ed266ade4839",
+"lastmod": "2026-11-06"
 },
 "/magic/": {
-"hash": "d41ca2b89e9e8055544fb2a654c677303e323280a6337213be5e046408253912",
-"lastmod": "2026-11-03"
+"hash": "3d236bc2afdcf10509979e1f94086b67baf328272cd52cc19b287a92d805d615",
+"lastmod": "2026-11-06"
 },
 "/magic/1996-97/": {
 "hash": "4215fee2438bd96cfef80e150cae3116680d2b4409dfec507cc49278ed860509",
@@ -1920,8 +1920,8 @@
 "lastmod": "2026-10-30"
 },
 "/magic/2026-27/": {
-"hash": "5a1aa508038e1e52c863a604ad715a503e85ebcb2a005d401a4e54144d2274ad",
-"lastmod": "2026-11-05"
+"hash": "048adceaff4c60ca392b26917f2b8e8ace7ff835703be52673456fd31937b63a",
+"lastmod": "2026-11-06"
 },
 "/mavericks/": {
 "hash": "d9beec1840dda93a27382e775975ab0ec241db2520ec291e397cd5d1e73886f4",
@@ -2048,8 +2048,8 @@
 "lastmod": "2026-10-30"
 },
 "/mavericks/2026-27/": {
-"hash": "08cddbb7152f58c8fdf2d33634ad09278315205624bd78a64c7693edc4027629",
-"lastmod": "2026-11-05"
+"hash": "da2d54510e4cbb8767430673dcee66fb43037182d4c48fb1094b94f000532e04",
+"lastmod": "2026-11-06"
 },
 "/nets/": {
 "hash": "c6a6e22e8baf5f8185e780ea6c152567eb2b0c7647a47f2447992a446efc2128",
@@ -2176,8 +2176,8 @@
 "lastmod": "2026-10-30"
 },
 "/nets/2026-27/": {
-"hash": "6be31a2ff1bba2bb6ee2596ed2b39ab84ee5a7ff7635f2363def7dfcf09d97e2",
-"lastmod": "2026-11-05"
+"hash": "d3e4d3da98c469cd89e54b65adb8422b8df610b0c58ed95794811dccd20496f9",
+"lastmod": "2026-11-06"
 },
 "/nuggets/": {
 "hash": "8f43fb4e51f776d261d64456fe3ca95c6d3caac21328811ab2b81c0338fa25e6",
@@ -2304,8 +2304,8 @@
 "lastmod": "2026-10-30"
 },
 "/nuggets/2026-27/": {
-"hash": "e7420bbdb4b76ad69182347739b12de457c6d3e594b4d7478de203333b1bc399",
-"lastmod": "2026-11-05"
+"hash": "3dedbbec1140e7ca335b3a4489837c6cadf27255adf84da2195cd44277527beb",
+"lastmod": "2026-11-06"
 },
 "/pacers/": {
 "hash": "bb84f2430d66db532cb2b5be3452d183ec984f23400cdbcdc227fa3cfc5f6e15",
@@ -2432,8 +2432,8 @@
 "lastmod": "2026-10-30"
 },
 "/pacers/2026-27/": {
-"hash": "e6b1fe084b3e76051536fe90f1b4a7096e0ce84c0dbbaf6365e912dd3df6a4da",
-"lastmod": "2026-11-05"
+"hash": "2a6167d3c837299e3559dc5262d81da564186f59e6a9f8c8fa619e57ef104da7",
+"lastmod": "2026-11-06"
 },
 "/pelicans/": {
 "hash": "c4971645cfe88be55b1325c06ac4ca4a8c32f9dbbc3c91dc5ea2187dd12a0201",
@@ -2536,8 +2536,8 @@
 "lastmod": "2026-10-30"
 },
 "/pelicans/2026-27/": {
-"hash": "fce302b286e70f176c06a53a214fe1dd9a90bd28e7094d95602fe4664e465e94",
-"lastmod": "2026-11-05"
+"hash": "ffdece12e32ebda0141588e102b1ca60f724efb822dae72ca96355489f3baaac",
+"lastmod": "2026-11-06"
 },
 "/pistons/": {
 "hash": "6f7596d8ed6a5f62204636b20ad5613f95e5ad0ad148bd4fb4b56b4e8d42691c",
@@ -2664,8 +2664,8 @@
 "lastmod": "2026-10-30"
 },
 "/pistons/2026-27/": {
-"hash": "fa255d2d9b130ac268eed8f7c52187f897a213527a713f13509b840a759c3646",
-"lastmod": "2026-11-05"
+"hash": "b12011a24b5276f3ea8649c0552eb9cf761104c68c93e7ce958dcebe7dc0f860",
+"lastmod": "2026-11-06"
 },
 "/player/aaron-brooks-201166/": {
 "hash": "202bb29da3170d512485de2fed33d2075fcb7c998f2571bde39330f28ef5ca7e",
@@ -2692,8 +2692,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/al-horford-201143/": {
-"hash": "f88084c817af3c5dfe4d176f1cd78b844bcc6f86f0b3c92ba49ffd6a05fdddfa",
-"lastmod": "2026-11-05"
+"hash": "111a6fbe87314e8bf0172cf7a7efcb9af635a02ea5709de343f1e9feadd450fb",
+"lastmod": "2026-11-06"
 },
 "/player/al-jefferson-2744/": {
 "hash": "f441cd8ab59677d65d67419cc84de7364ff119eac70a14ac2473aeedcbd07c97",
@@ -2756,8 +2756,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/andrew-wiggins-203952/": {
-"hash": "2a32cad730e34cc791e9cda7508d179dbffbe52849ae61402085db9f7183ef1c",
-"lastmod": "2026-11-05"
+"hash": "c622b2b2bf6fc5f8c8caa6e788525cc36809d7e768e795c92a149a79648e646d",
+"lastmod": "2026-11-06"
 },
 "/player/anfernee-hardaway-358/": {
 "hash": "03ce5c3a796ff58cbb5a8cbe894c25327f1f19f9646b65ab0678ea83956d7a2c",
@@ -2828,8 +2828,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/bam-adebayo-1628389/": {
-"hash": "1c91443dca77328b90ec239575bdbcf1529865441782bb1a6dbb0c0a1ba11e02",
-"lastmod": "2026-11-05"
+"hash": "5610bd4aa32d1fe3c21a02af5e6baece81929e1c311bd7df3a3fc28eded1c586",
+"lastmod": "2026-11-06"
 },
 "/player/baron-davis-1884/": {
 "hash": "566608e2e74bdf185a5fbb272640f1e7e94275a37b8b0d4d2100c0f6372e8789",
@@ -2868,8 +2868,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/bobby-portis-jr-1626171/": {
-"hash": "0b512d963ace192a0103dd4998b799260753baee9301d538ae3d02a7d4557beb",
-"lastmod": "2026-11-05"
+"hash": "7f14c7c2211d0bf8182859d3abc2709e171752f44f26791e85467edc257ef4d6",
+"lastmod": "2026-11-06"
 },
 "/player/bogdan-bogdanovic-203992/": {
 "hash": "490c2d8edb39ca8a2f5718031dc705613acf44e169e3f6e27fd73a210734a123",
@@ -3208,8 +3208,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/devin-booker-1626164/": {
-"hash": "31b9838e5023683b39abf3033a3e9d872ec8b2ccf496d15facf9f27cda6b8357",
-"lastmod": "2026-11-05"
+"hash": "d7ffa6ea935429bab519ebd6a672b97f642b5c14b4b0af1842285deb518a1dbf",
+"lastmod": "2026-11-06"
 },
 "/player/devin-harris-2734/": {
 "hash": "ddd1fab9e9d6fb538b87a81251fda6fb8e93924b99fd1ab2e00000781a5419bb",
@@ -3220,8 +3220,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/dillon-brooks-1628415/": {
-"hash": "21667520f4e18e9870b0351e1fbb9fbaf1d76147b5b0c9d5d9e103c8e37fafc0",
-"lastmod": "2026-11-05"
+"hash": "23e06bbfae61bb27c45cda4cde413b8dee21a2017fb2eafa8b77214361e43e9c",
+"lastmod": "2026-11-06"
 },
 "/player/dirk-nowitzki-1717/": {
 "hash": "77801f6c63ab545f057c39b0f6ff6e7d71cbd0d2cc0f284de12787bf18f79292",
@@ -3256,8 +3256,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/draymond-green-203110/": {
-"hash": "d559e785acc23e8e0fdc8024695bb0885d28625e001f12b3ef2f0c4e5b18847b",
-"lastmod": "2026-11-05"
+"hash": "b913c2e2c55ffdeef7ee4c2cc0f3a3b2d82091477500a1f29b57a7e8cc772db7",
+"lastmod": "2026-11-06"
 },
 "/player/drew-gooden-2400/": {
 "hash": "c74bb8744a61190c472149b40cabc5091f947c7835e53f825774ab275bf51d36",
@@ -3400,8 +3400,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/giannis-antetokounmpo-203507/": {
-"hash": "303fd4811da20fe67e020edf40a62211f5951b32ef7e87a109f69655ce1457bc",
-"lastmod": "2026-11-05"
+"hash": "e689b924bfdbb95754b7293a7f013d7fd0c5e4c0044231286f4b1b878e21a1c7",
+"lastmod": "2026-11-06"
 },
 "/player/gilbert-arenas-2240/": {
 "hash": "4c3308c9a52807feff7454301c81b833ce321b863c6e8d75e6cd2c0bca84d679",
@@ -3824,8 +3824,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/klay-thompson-202691/": {
-"hash": "9eca1efc4717b6f9d89dde82b6d4a15cc7c21ef97050b0af63a579e0b5f336ff",
-"lastmod": "2026-11-05"
+"hash": "76a290aa53be166bfda4692d319d5687b1944f72d70267bc531f1943146bf5b9",
+"lastmod": "2026-11-06"
 },
 "/player/kobe-bryant-977/": {
 "hash": "06c00a8c0c0628b1135e0e13b1d31d3e14de71e3cd23306148569de8ad3de45e",
@@ -4084,8 +4084,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/miles-bridges-1628970/": {
-"hash": "a755713c741744895f27a115531ea8fe1c746e0176cb677270f3bfae03f4c698",
-"lastmod": "2026-11-05"
+"hash": "7f16643c5f18f9e1bdd9b672861c92a857971fd0eeac98710b627b73bf1e79ef",
+"lastmod": "2026-11-06"
 },
 "/player/mo-williams-2590/": {
 "hash": "3a22c5b0c24a37a4b5d3be58b91665480e8e0a25e72f100b1db2aaa7f8ce6a94",
@@ -4140,8 +4140,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/nikola-vucevic-202696/": {
-"hash": "c331285436b94201eb74be96437db95b891f21707edc15ed2871d461c4892c11",
-"lastmod": "2026-11-05"
+"hash": "1e20ff679a0aa8fb850ee986ea5e2f74ea57839fd3e4708b9ce5f915970440e2",
+"lastmod": "2026-11-06"
 },
 "/player/norman-powell-1626181/": {
 "hash": "f3709ed2c257bfec7fc143736e12f8bbab1fb47b95e63ae81426a63260c83e17",
@@ -4420,8 +4420,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/stephen-curry-201939/": {
-"hash": "48ec19960cbda4aa30b2bd58dec584357396d6d64f47848c5f9bafca0ed4a53f",
-"lastmod": "2026-11-05"
+"hash": "6ad02811167f52d716b105c89bc05dce03be2a803df9e3b7c8c5b10e816a6740",
+"lastmod": "2026-11-06"
 },
 "/player/stephen-jackson-1536/": {
 "hash": "969afc3f626b18affc881e265ee0798ab8393081a838e5381d3dc94c157441d1",
@@ -4496,8 +4496,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/tim-hardaway-jr-203501/": {
-"hash": "8e111a15770767b74d51f5199a6ca591ed70e878051ab35717100cd4faf25cf4",
-"lastmod": "2026-11-05"
+"hash": "4d3d418ccee3b31d62e667338a56d66db0b992ebfc59ff3b288dbb135af8e93d",
+"lastmod": "2026-11-06"
 },
 "/player/tim-thomas-1501/": {
 "hash": "e36d0e2df02b39b9b9dfb2676061e23b1f86b64b80cdf5bae5361e64e2555bcc",
@@ -4620,8 +4620,8 @@
 "lastmod": "2026-11-05"
 },
 "/player/wendell-carter-jr-1628976/": {
-"hash": "c1215b6c209ab6c89c48ddd3fe40ac186873fb12125ac4cfb48b8abd4553d464",
-"lastmod": "2026-11-05"
+"hash": "43927dd40074ac5b90796bfc9d9c8228aba56378b003f50cb79d10dfe48d218c",
+"lastmod": "2026-11-06"
 },
 "/player/wesley-johnson-202325/": {
 "hash": "53aa0987a4d51ddc3b30781a647c0bbca7d1e5b29a204413501475cf0100a6b2",
@@ -4796,8 +4796,8 @@
 "lastmod": "2026-10-30"
 },
 "/raptors/2026-27/": {
-"hash": "7347aa6d8fcf31385273adcccf86f727202fbce2f52053dcfe9e9f49406ef913",
-"lastmod": "2026-11-05"
+"hash": "7681ccabe1edbba569981de3bdd3ba18fb424d773d0505f2ebda0e681884447c",
+"lastmod": "2026-11-06"
 },
 "/rockets/": {
 "hash": "1697f1c61da063a2401e2107c35a83a5bda6fc2c48236e85bd32be54176842b3",
@@ -4924,8 +4924,8 @@
 "lastmod": "2026-10-30"
 },
 "/rockets/2026-27/": {
-"hash": "b920cd65c3205eac7195b9bd774b74f0eae057fcb8066cc5d2ee83710ba83a6f",
-"lastmod": "2026-11-05"
+"hash": "cc4b34ba832d771c180cc0b3b752b427c94ef19e5bd5676eb5255cde95e749d2",
+"lastmod": "2026-11-06"
 },
 "/season/1996-97/": {
 "hash": "3e3b4928052f8340404753a196bd918dcbc02dab416a8356fec3d3174eefd663",
@@ -5048,8 +5048,8 @@
 "lastmod": "2026-10-30"
 },
 "/season/2026-27/": {
-"hash": "f75f16d942b7868304395209086da20db4584bd79b766f75fbcaa6275f86310e",
-"lastmod": "2026-11-05"
+"hash": "0299347421505f1e1aa6f7da79bd82d623a671c6f6d276c67213c0c3a680efe3",
+"lastmod": "2026-11-06"
 },
 "/spurs/": {
 "hash": "5dc52c1b1337975891bb417b61389d61193da33343c2899a45385ed3483b8fd6",
@@ -5176,12 +5176,12 @@
 "lastmod": "2026-10-30"
 },
 "/spurs/2026-27/": {
-"hash": "e3c1699b74aaaaaae9211311fc5c101d6931ec81cda325a0e0a56a18ee4bd92c",
-"lastmod": "2026-11-05"
+"hash": "49544761f75b7413888dfccb01cd43a4d2da5cefa4f18b4379dd0431cdaafd1a",
+"lastmod": "2026-11-06"
 },
 "/suns/": {
-"hash": "9eb8869cc7f4e55039e364c4ad516c4cf2b44271bb87b8ebbd01ea876937ac51",
-"lastmod": "2026-11-05"
+"hash": "33e92abe6ee038dc74dd75325f73f5d3b71b7722b573a710859f08202c0c6db7",
+"lastmod": "2026-11-06"
 },
 "/suns/1996-97/": {
 "hash": "8b17eb6aa17efe442b6dd3ccc02eb8d1203735cd3fdab9617b0684ccf5f87e31",
@@ -5304,8 +5304,8 @@
 "lastmod": "2026-10-30"
 },
 "/suns/2026-27/": {
-"hash": "08d0347473687b555ec3a42bb3fe0a07713c17751ae4e54e1544c057e3b18818",
-"lastmod": "2026-11-05"
+"hash": "3c4938ff923e5eb07ec14e0d075a32d2a8c94d7417daeeb2f7de45f04aa75eb7",
+"lastmod": "2026-11-06"
 },
 "/thunder/": {
 "hash": "36007ca27517665be4f52f57c78de222bd7d7aed5c7aaec3b3a96c1cf8f81990",
@@ -5432,8 +5432,8 @@
 "lastmod": "2026-10-30"
 },
 "/thunder/2026-27/": {
-"hash": "b7d1181c71fe16db2d825302390b565bbc39018747a3aba754e7324827529252",
-"lastmod": "2026-11-05"
+"hash": "870afce3c5df63b9aa85c2816c4f74be75a2a1d6d26d67973d21b791b6a0760a",
+"lastmod": "2026-11-06"
 },
 "/timberwolves/": {
 "hash": "fb16b1813070ce14c8aa5f63dd2c9baac69a26744c707d40644ddb5a3c4c326d",
@@ -5560,8 +5560,8 @@
 "lastmod": "2026-10-30"
 },
 "/timberwolves/2026-27/": {
-"hash": "1fb5aab758371ebd6cd5463b312dade736fde3972ccc8bb60b105a5bc1424df9",
-"lastmod": "2026-11-05"
+"hash": "c7138b00329f79b533cf2f0935ca65d4753f7e7d5dee7560b8f23031c0be24bd",
+"lastmod": "2026-11-06"
 },
 "/trail-blazers/": {
 "hash": "6aefcd1a2880b0c646a671c04a237651568b49bb3a9323d3fec564e5931572d7",
@@ -5688,12 +5688,12 @@
 "lastmod": "2026-10-30"
 },
 "/trail-blazers/2026-27/": {
-"hash": "75bb7e81274c4ea465d5d4d80420798998f8b0cb75a23f9cf0eac14756fd569e",
-"lastmod": "2026-11-05"
+"hash": "c8dad196a5a55421f8dde08d670dff88b04441a1270f944dc22ff6b71a74f69c",
+"lastmod": "2026-11-06"
 },
 "/warriors/": {
-"hash": "bd50ef9a3dd8ae37c83cbfd1f05d933a9c2771520ee92eda7e9ddac3396a49d3",
-"lastmod": "2026-11-03"
+"hash": "75dd62918d31a62f408cc893d9c98613ef6dda883ae2906913f489103d47d1e1",
+"lastmod": "2026-11-06"
 },
 "/warriors/1996-97/": {
 "hash": "28039d5840e3ead848b0623809b3886cfbdc4d327e5c1ec64ba21d439486fb3d",
@@ -5816,8 +5816,8 @@
 "lastmod": "2026-10-30"
 },
 "/warriors/2026-27/": {
-"hash": "0853f2f02cb15bd21c0cc366c0878991892750027db81a7077c564c673023bbe",
-"lastmod": "2026-11-05"
+"hash": "4ea776bd88347e09cf0bf06b871de5dd397b5471291bd856c50e29d1d33029e7",
+"lastmod": "2026-11-06"
 },
 "/wizards/": {
 "hash": "63de31622c494db178756caffbcfbd39a198935d53bc0debe6b8f6ca631e41a7",
@@ -5944,7 +5944,7 @@
 "lastmod": "2026-10-30"
 },
 "/wizards/2026-27/": {
-"hash": "705828209102add9af04c1b41c70abe327a98ad5e07c374a353e93abd2e3021b",
-"lastmod": "2026-11-05"
+"hash": "cc77b0aee702e69ec21f547bb06c6358310f292db28db97c3adc5c7fe7605fed",
+"lastmod": "2026-11-06"
 }
 }
