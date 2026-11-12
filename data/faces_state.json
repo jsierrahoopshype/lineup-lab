@@ -6095,9 +6095,9 @@
 "stem": "1717-dirk-nowitzki"
 },
 "1718": {
-"sha": "85fb7518491ed73ff7115dced84d517d2483f03a5e4da1f0dd060e53038f4fad",
-"src": "head-uniform-480",
-"stem": "1718-shaquille-oneal"
+"sha": "c4a9af2da9fb72de2ae82135fce5270f6f2757897685fb722f1b6daba85e4078",
+"src": "head-uniform-sharp",
+"stem": "1718-paul-pierce"
 },
 "1719": {
 "sha": "e66b409aaa20a5c389a8d5e7a0afdfe9cfb072e5329d60618cd5b8dc88d15da5",
@@ -6205,9 +6205,9 @@
 "stem": "1891-jason-terry"
 },
 "1897": {
-"sha": "785f01dc538f95421e872324ac54f2ab53ce9225c381309ec5edbea9aef83c0f",
-"src": "head-uniform-480",
-"stem": "1897-vince-carter"
+"sha": "19077496e19318aa00f4766fc005d81b54793500d1f9433ec366dcb9e8eb8118",
+"src": "head-uniform-sharp",
+"stem": "1897-metta-world-peace"
 },
 "1899": {
 "sha": "f46c59e806ce2348aece4e19f16a6a9e81d27930d31424cc4d5fd689cadf188b",
@@ -6225,9 +6225,9 @@
 "stem": "1921-gordan-giricek"
 },
 "193": {
-"sha": "97c0a4f1df5dac12d9acb11bf9c296f26138f19fe1f2ce1252a147edc716d9f3",
-"src": "head-uniform-480",
-"stem": "193-hakeem-olajuwon"
+"sha": "cf3c00bd1fbfda434ec02ba905001bad9f237db3598fbf9cefec39692098d8ba",
+"src": "head-uniform-sharp",
+"stem": "193-anthony-mason"
 },
 "1938": {
 "sha": "5671fc826c72613bcb8a467faf2844a4a834adb5be723be5b552cb0df1516ae1",
@@ -8490,9 +8490,9 @@
 "stem": "2405-amare-stoudemire"
 },
 "2406": {
-"sha": "54d5620ab3a92ca5dd721ea291c83aaf5a100da2c6ae0890811d3b039700f2a7",
-"src": "head-uniform-480",
-"stem": "2406-dwyane-wade"
+"sha": "5c2791b53544b4931d3bc10a895cde169b5275066375f39e68f105780e130d47",
+"src": "head-uniform-sharp",
+"stem": "2406-caron-butler"
 },
 "2410": {
 "sha": "3877681278d71a57b0101f88c9db5df3cb9f957d97aefe1b37c3d73556aa70ea",
@@ -8590,9 +8590,9 @@
 "stem": "2549-chris-kaman"
 },
 "255": {
-"sha": "1d96e895998ef8d4808d8bdb276c6388d9f08f8dbf2e821862024f40b8773427",
-"src": "head-uniform-480",
-"stem": "255-reggie-miller"
+"sha": "6e66f82127c6a33e9fd4ca16f205c0e596db143e09530d866faf476017542264",
+"src": "head-uniform-sharp",
+"stem": "255-grant-hill"
 },
 "2550": {
 "sha": "6c796dfdde221842f9abcb29cfc32ff7f6097166bb7c896d73dd8ee08ad1501b",
@@ -8960,9 +8960,9 @@
 "stem": "600003-bob-cousy"
 },
 "600005": {
-"sha": "1309ed04317c8d12e6d6b6c0d976b783d60314b1ccf794638824e7e29627a6c8",
-"src": "head-uniform-480",
-"stem": "600005-julius-erving"
+"sha": "1a6bbb1e92643d0d8b26841f0982f7b586061b31701fd2e2512297c884f634ed",
+"src": "head-uniform-sharp",
+"stem": "600005-bob-lanier"
 },
 "600006": {
 "sha": "c0f83116ccfcb3a6d8f7ecdbf3b6e551594312b81b0a9a1f83e64934f46cd538",
@@ -8980,9 +8980,9 @@
 "stem": "600013-rick-barry"
 },
 "600014": {
-"sha": "303554005b85a5186cef6539d5d599997d2ff10a8c6f60a031170ed5224a53b3",
-"src": "head-uniform-480",
-"stem": "600014-connie-hawkins"
+"sha": "bb76de3556f272fba3e4aa54c8705174d7e7cfcf97d546fa35e581cfd7e2c592",
+"src": "head-uniform-sharp",
+"stem": "600014-artis-gilmore"
 },
 "600015": {
 "sha": "361fdec67337f448fc50450a1a5b21b4696e50b079f5bb0a303813096b6824ca",
@@ -9050,9 +9050,9 @@
 "stem": "702-voshon-lenard"
 },
 "708": {
-"sha": "437376d05924733705fcfc43741688a616115687fb4a769b8907babdc08e9a36",
-"src": "head-uniform-480",
-"stem": "708-patrick-ewing"
+"sha": "ec9d0cdfd95e54f28be183f11589882cf542f12951d7b2be7094e36d62788670",
+"src": "head-uniform-sharp",
+"stem": "708-kevin-garnett"
 },
 "722": {
 "sha": "d8e0a5f85a19d8388ce516e02af1d3fc237bb70bbc68c4b1ea8e62140f73e348",
@@ -9225,9 +9225,9 @@
 "stem": "77929-willis-reed"
 },
 "78049": {
-"sha": "500e8a2f87235f6b96895c70d55d1866b73531742b45898f8118740fa14bc50b",
-"src": "head-uniform-480",
-"stem": "78049-jerry-west"
+"sha": "973c1808f8af7d6db7621d035978e4b4b31c14e8f1df4731ae609ef4ae9a826a",
+"src": "head-uniform-sharp",
+"stem": "78049-bill-russell"
 },
 "78076": {
 "sha": "a13f45e30d3c0d9f7b7d344d9ad80b38b40711471fb862f98c51f9eb01f86d52",
@@ -9260,9 +9260,9 @@
 "stem": "78450-bill-walton"
 },
 "78497": {
-"sha": "3dda77e22aeaf062cee974ed83c74be0cbf7b1483134c073637da8b6692a66df",
-"src": "head-uniform-480",
-"stem": "78497-oscar-robertson"
+"sha": "cfa11eda6317febba748999b17ca293ca8c7afb660774122a22c6723fea6a4f9",
+"src": "head-uniform-sharp",
+"stem": "78497-jerry-west"
 },
 "787": {
 "sha": "1cea85325cf2abd4f2797d1e41261fa7d24799ea01c51ce2bfefeb176f7e8d81",
@@ -9325,9 +9325,9 @@
 "stem": "93-hubert-davis"
 },
 "934": {
-"sha": "0cc445469def49ffd95bebda73739cac8bfac721605e6ec7782b1d8f0d4a2184",
-"src": "head-uniform-480",
-"stem": "934-grant-hill"
+"sha": "b5481fffa49089f10e86bb4d99ddd96ff826897ddac8a272aa8418fb245b91ed",
+"src": "head-uniform-sharp",
+"stem": "934-derrick-coleman"
 },
 "937": {
 "sha": "76084814bdc3e6f0e1a540539b3f4d7c59fc8b22767de3db148da7f61a63e3dc",
@@ -9380,9 +9380,9 @@
 "stem": "955-samaki-walker"
 },
 "956": {
-"sha": "0ef3ffa89d908f753e96601ada01e91012deb02eedf18bb2ad36f50248293c44",
-"src": "head-uniform-480",
-"stem": "956-stephon-marbury"
+"sha": "8690aa0ea4205e1b0b0334aa0cc37d06f8db268ff44227b4226250f80ae6a64c",
+"src": "head-uniform-sharp",
+"stem": "956-erick-dampier"
 },
 "959": {
 "sha": "25c8cac995b816dc018ad279762489411baa959668d7c9756437472e82b955ff",
