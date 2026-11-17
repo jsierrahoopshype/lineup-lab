@@ -119,6 +119,37 @@ class Units(unittest.TestCase):
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(DOCS, 'index.html')), 'docs/ not built')
+class Minutes(unittest.TestCase):
+    """docs/data/minutes-<YYYY>.json, read by the Trade Machine's depth charts."""
+    def frame(self):
+        rows = [
+            # BOS game 1: player 1 plays 20+10 minutes, player 6 10.
+            ('2026-10-20', 'g1', 'BOS', '1-2-3-4-5', 'A One|B Two|C Three|D Four|E Five', 1200),
+            ('2026-10-20', 'g1', 'BOS', '1-2-3-4-6', 'A One|B Two|C Three|D Four|F Six', 600),
+            # BOS game 2: player 1 plays 30.
+            ('2026-10-22', 'g2', 'BOS', '1-2-3-4-5', 'A One|B Two|C Three|D Four|E Five', 1800),
+            # Player 6 traded to LAL: one game, 24 minutes.
+            ('2026-10-25', 'g3', 'LAL', '6-7-8-9-10', 'F Six|G Seven|H Eight|I Nine|J Ten', 1440),
+        ]
+        return pd.DataFrame(rows, columns=['game_date', 'game_id', 'team', 'lineup', 'names', 'secs'])
+
+    def test_minutes_per_team_and_total(self):
+        m = B.minutes_json(self.frame(), 2027)
+        self.assertEqual(m['season'], '2026-27')
+        self.assertEqual(m['through'], '2026-10-25')
+        self.assertEqual(m['games'], {'BOS': 2, 'LAL': 1})
+        self.assertEqual(m['teams']['BOS']['1'], {'name': 'A One', 'g': 2, 'mpg': 30.0})
+        self.assertEqual(m['teams']['BOS']['6'], {'name': 'F Six', 'g': 1, 'mpg': 10.0})
+        self.assertEqual(m['teams']['LAL']['6'], {'name': 'F Six', 'g': 1, 'mpg': 24.0})
+        # Traded: his totals across both teams.
+        self.assertEqual(m['players']['6'], {'g': 2, 'mpg': 17.0})
+        self.assertEqual(m['min_games'], 3)
+
+    def test_file_is_small_json(self):
+        m = B.minutes_json(self.frame(), 2027)
+        self.assertLess(len(json.dumps(m)), 2000)
+
+
 class Site(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

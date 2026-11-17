@@ -15,6 +15,7 @@ Pages (all canonical on hoopsmatic.com):
   /lineups/players/               every player with 2,000+ minutes in the data
   /lineups/player/<name>-<id>/    one player: best teammates, season by season, lineups
   /lineups/sitemap.xml            per-URL <lastmod> that moves only when that page changes
+  /lineups/data/minutes-<YYYY>.json  this season's minutes per game per team (for the Trade Machine), not a page
 
 Player pages: every player has one so every name is a link, but only players
 with PLAYER_INDEX_MIN career minutes AND within the top PLAYER_INDEX_LIMIT by
@@ -1285,6 +1286,36 @@ def sitemap(pages, today):
                 '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + '\n</urlset>\n')
 
 
+MINUTES_MIN_GAMES = 3  # the Trade Machine shows "-" for fewer games than this
+
+
+def minutes_json(cur_games, cur):
+    """This season's minutes per game, for the Trade Machine's depth charts.
+
+    Per team and NBA id: games he was on the floor for that team, seconds
+    summed over his lineups, minutes per game. A player traded mid-season is
+    under each team with that team's games, and once more in "players" with
+    his totals across teams (what the Trade Machine shows). "games" is each
+    team's games in the data. "through" is the last game date, not the build
+    time, so the file only changes when the minutes do.
+    """
+    d = cur_games[['game_date', 'game_id', 'team', 'lineup', 'names', 'secs']].copy()
+    d['pid'] = d['lineup'].str.split('-')
+    d['name'] = d['names'].str.split('|')
+    d = d.explode(['pid', 'name'])
+    team = (d.groupby(['team', 'pid'], as_index=False)
+              .agg(name=('name', 'last'), g=('game_id', 'nunique'), secs=('secs', 'sum')))
+    tot = d.groupby('pid', as_index=False).agg(g=('game_id', 'nunique'), secs=('secs', 'sum'))
+    mpg = lambda secs, g: round(float(secs) / 60.0 / int(g), 1) if g else 0.0
+    teams = {}
+    for r in team.sort_values(['team', 'secs'], ascending=[True, False]).itertuples():
+        teams.setdefault(r.team, {})[str(r.pid)] = {'name': r.name, 'g': int(r.g), 'mpg': mpg(r.secs, r.g)}
+    players = {str(r.pid): {'g': int(r.g), 'mpg': mpg(r.secs, r.g)} for r in tot.sort_values('pid').itertuples()}
+    games = {k: int(v) for k, v in cur_games.groupby('team')['game_id'].nunique().items()}
+    return {'season': season_label(cur), 'through': str(cur_games['game_date'].max()),
+            'min_games': MINUTES_MIN_GAMES, 'games': games, 'teams': teams, 'players': players}
+
+
 FONT_V = None
 FACE_V = None
 NAMES = {}
@@ -1327,6 +1358,8 @@ def build(today=None):
         write(f'/player/{slugs[pid]}/', html_, pages if idx else None)
         n_noindex += not idx
     write('/404.html', page_404(), None)
+    if cur_games is not None and len(cur_games):
+        write(f'/data/minutes-{cur}.json', json.dumps(minutes_json(cur_games, cur), separators=(',', ':'), sort_keys=True) + '\n', None)
     with open(os.path.join(OUT, '.nojekyll'), 'w') as f:
         f.write('')
     sitemap(pages, today)
