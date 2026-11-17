@@ -24,6 +24,7 @@ Ramiro Bentes' public NBA data ([nba_data](https://github.com/ramirobentes/nba_d
 - `data/heights.json`: NBA id to height in centimetres, from [Wikidata](https://www.wikidata.org) (public domain), refreshed nightly; every row of faces goes shortest to tallest, roughly point guard to center. Players with no height yet (mostly rookies) sit in the middle.
 - `data/teams.json`: the 30 franchises (slugs, NBA ids for logos).
 - `data/page_hashes.json`: each page's content hash and `<lastmod>`; a date moves only when that page's bytes change.
+- `docs/data/ratings-<YYYY>.json`: Global Rating+ and Real Value for every player (names as on those pages), worked out every 3 hours by `build/lineup_lab_ratings.mjs` (`.github/workflows/lineup-lab-ratings.yml`), which runs Alberto's current page code on the same public data files his pages read; the Trade Machine reads it at `/lineups/data/ratings-2027.json`. About 22 KB. `updated` moves only when a number changes; `source` holds a short hash of each page's code.
 - `docs/data/minutes-<YYYY>.json`: this season's minutes per game, per team and NBA id (plus each player's total across teams and each team's games), built from `data/current`. The Trade Machine (`hoopsmatic.com/`) reads it at `/lineups/data/minutes-2027.json` for its depth charts. Not a page, not in the sitemap; it changes only when a new game is in.
 
 Season numbers follow the source: `2027` is 2026-27.
