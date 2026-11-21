@@ -119,6 +119,49 @@ class Units(unittest.TestCase):
 
 
 @unittest.skipUnless(os.path.exists(os.path.join(DOCS, 'index.html')), 'docs/ not built')
+class Pairs(unittest.TestCase):
+    """Two-man pairs grid on team-season pages."""
+    def test_together_vs_apart(self):
+        tot = {'1': dict(poss=300.0, pts=330.0, opp_poss=300.0, opp_pts=300.0, secs=36000.0),
+               '2': dict(poss=200.0, pts=200.0, opp_poss=200.0, opp_pts=210.0, secs=24000.0)}
+        duo = dict(poss=100.0, pts=120.0, opp_poss=100.0, opp_pts=100.0, secs=12000.0)
+        v = B.pair_stats('1', '2', tot, duo)
+        self.assertAlmostEqual(v['net'], 20.0)
+        self.assertAlmostEqual(v['a_net'], 210 / 200 * 100 - 200 / 200 * 100)   # 1 without 2: +5
+        self.assertAlmostEqual(v['b_net'], 80 / 100 * 100 - 110 / 100 * 100)    # 2 without 1: -30
+        self.assertAlmostEqual(v['a_min'], 400)
+        self.assertAlmostEqual(v['b_min'], 200)
+        self.assertAlmostEqual(v['diff'], 20 - (5 * 400 + -30 * 200) / 600)
+
+    def test_never_together(self):
+        tot = {'1': dict(poss=10.0, pts=10.0, opp_poss=10.0, opp_pts=10.0, secs=600.0),
+               '2': dict(poss=10.0, pts=10.0, opp_poss=10.0, opp_pts=10.0, secs=600.0)}
+        v = B.pair_stats('1', '2', tot, None)
+        self.assertIsNone(v['net'])
+        self.assertIsNone(v['diff'])
+
+    def test_grid_on_team_season_pages_only(self):
+        for rel in ('warriors/2015-16', 'bulls/1996-97', 'celtics/2026-27'):
+            p = os.path.join(DOCS, *rel.split('/'), 'index.html')
+            if not os.path.exists(p):
+                self.skipTest('docs/ not built')
+            with open(p, encoding='utf-8') as f:
+                s = f.read()
+            block = s.split('<section class="block pairs"', 1)[1].split('</section>', 1)[0]
+            self.assertEqual(block.count('<th scope="col">'), B.PAIRS_N, rel)
+            # a number only with at least PAIRS_MIN minutes together
+            for m in re.findall(r'data-m="([\d,]+)"', block):
+                self.assertGreaterEqual(int(m.replace(',', '')), B.PAIRS_MIN, rel)
+            # every pair link goes to a duo row that exists on the page
+            for u in set(re.findall(r'data-u="(d-[\d-]+)"', block)):
+                self.assertIn(f'id="{u}"', s, rel)
+        for rel in ('index.html', 'duos/index.html', 'celtics/index.html', 'all-time/index.html'):
+            p = os.path.join(DOCS, rel)
+            if os.path.exists(p):
+                with open(p, encoding='utf-8') as f:
+                    self.assertNotIn('class="block pairs"', f.read(), rel)
+
+
 class Minutes(unittest.TestCase):
     """docs/data/minutes-<YYYY>.json, read by the Trade Machine's depth charts."""
     def frame(self):

@@ -594,7 +594,9 @@ def duo_row(r, i, show_team=True, extra_cls='', label=None):
     elif show_team:
         head += team_line(r['team'], r['season'])
     sub = meta(r)
-    return (f'<li class="row duo {extra_cls}"><div class="rh">{head}{num_block(r)}</div>'
+    # team-season Duos tab only: an anchor the two-man pairs grid links to
+    did = f' id="{duo_anchor(r["p1"], r["p2"])}"' if label is None and not show_team else ''
+    return (f'<li class="row duo {extra_cls}"{did}><div class="rh">{head}{num_block(r)}</div>'
             f'{people(ids, 52, "who two")}{sub}</li>')
 
 
@@ -1013,6 +1015,283 @@ def summary_card(title, r, duo=False):
             f'{people(ids, 36)}{meta(r)}{rl}</div>')
 
 
+# ── two-man pairs grid (team-season pages) ────────────────────────────────
+# The team's PAIRS_N most-used players that season. Each cell is the team's net
+# rating with both on the floor; the diagonal is the player's own on-court net.
+# "Together vs. apart" = net together minus the minutes-weighted average of
+# each player's net without the other. Its CSS and JS travel inside the block,
+# so pages without the grid keep their exact bytes (and sitemap dates).
+
+PAIRS_N = 12
+PAIRS_MIN = 50  # minutes together; fewer shows "-" (no number, no color)
+
+
+def duo_anchor(p1, p2):
+    a, b = sorted((str(p1), str(p2)), key=int)
+    return f'd-{a}-{b}'
+
+
+def _net(pts, poss, opp_pts, opp_poss):
+    """Same formula as add_ratings; None without possessions."""
+    if poss <= 0 or opp_poss <= 0:
+        return None
+    return pts / poss * 100 - opp_pts / opp_poss * 100
+
+
+def on_court(L):
+    """pid -> totals (poss, pts, opp_poss, opp_pts, secs) over every five he was in."""
+    ex = L[['lineup', 'poss', 'pts', 'opp_poss', 'opp_pts', 'secs']].copy()
+    ex['pid'] = ex['lineup'].str.split('-')
+    ex = ex.explode('pid')
+    g = ex.groupby('pid')[['poss', 'pts', 'opp_poss', 'opp_pts', 'secs']].sum()
+    return {pid: r for pid, r in zip(g.index, g.to_dict('records'))}
+
+
+def pair_stats(a, b, tot, duo):
+    """Numbers for players a and b. duo: totals with both on (or None)."""
+    z = dict(poss=0.0, pts=0.0, opp_poss=0.0, opp_pts=0.0, secs=0.0)
+    t = duo or z
+    out = {'min': t['secs'] / 60, 'poss': t['poss'], 'net': _net(t['pts'], t['poss'], t['opp_pts'], t['opp_poss'])}
+    for side, p in (('a', a), ('b', b)):
+        w = {k: tot[p][k] - t[k] for k in z}  # p on the floor, the other off
+        out[f'{side}_min'] = w['secs'] / 60
+        out[f'{side}_net'] = _net(w['pts'], w['poss'], w['opp_pts'], w['opp_poss'])
+    parts = [(out[f'{s}_net'], out[f'{s}_min']) for s in 'ab' if out[f'{s}_net'] is not None and out[f'{s}_min'] > 0]
+    wsum = sum(m for _, m in parts)
+    apart = sum(n * m for n, m in parts) / wsum if wsum else None
+    out['apart'] = apart
+    out['diff'] = out['net'] - apart if out['net'] is not None and apart is not None else None
+    return out
+
+
+PAIRS_CSS = """
+.pairs .pv{display:flex;flex-wrap:wrap;gap:.3rem;margin:.2rem 0 .7rem}
+.pairs .pv button,.pairs .pk button{font:inherit;cursor:pointer;touch-action:manipulation;color:var(--text)}
+.pairs .pv button{font-size:.82rem;font-weight:600;padding:.45rem .9rem;border-radius:999px;border:1px solid var(--border);background:var(--surface);min-height:44px}
+.pairs .pv button[aria-pressed=true]{background:var(--accent);border-color:var(--accent);color:#fff}
+.pairs .pv button:hover{border-color:var(--accent)}
+.pairs [hidden]{display:none!important}
+.pairs .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap}
+.pg-w{display:none;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.5rem}
+.pg{width:100%;border-collapse:separate;border-spacing:2px;table-layout:fixed;font-variant-numeric:tabular-nums}
+.pg col.rc{width:8.2rem}
+@media(min-width:960px){.pg col.rc{width:9.5rem}}
+.pg thead td{background:none}
+.pg thead th{vertical-align:bottom;padding:0 0 .2rem;font-weight:400}
+.pg thead a{display:flex;flex-direction:column;align-items:center;color:var(--text);container-type:inline-size;min-width:0}
+.pg thead a:hover,.pg tbody th a:hover{text-decoration:none;color:var(--accent)}
+.pg thead .fn{--f:.56rem}.pg thead .ln{--f:.62rem}
+.pg tbody th{text-align:left;font-weight:600;font-size:.74rem;line-height:1.2;padding:0 .3rem 0 0}
+.pg tbody th a{display:flex;align-items:center;gap:.35rem;color:var(--text);min-height:44px;min-width:0}
+.pg tbody th a span:last-child{min-width:0;overflow-wrap:anywhere}
+.pg td{height:44px;padding:0;text-align:center;font-size:.74rem;border-radius:6px;background:var(--bg)}
+.pg td.na{color:var(--text-secondary)}
+.pg td.dg{background:var(--surface-hover);font-weight:700}
+.pg .c{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:44px;font:inherit;font-weight:600;
+border:0;border-radius:6px;cursor:pointer;color:var(--text);background:transparent;touch-action:manipulation}
+.pg .c:hover{box-shadow:inset 0 0 0 2px var(--accent)}
+.pg .c[aria-pressed=true]{box-shadow:inset 0 0 0 2px var(--text)}
+.pairs .c[data-st=pos],.pairs[data-view=d] .c[data-sd=pos]{background:color-mix(in srgb,#2ea05a calc(var(--a) * 55%),#fff)}
+.pairs .c[data-st=neg],.pairs[data-view=d] .c[data-sd=neg]{background:color-mix(in srgb,#e04848 calc(var(--a) * 50%),#fff)}
+.pairs[data-view=d] .c[data-sd=dash]{background:#fff}
+.pairs .vd,.pairs[data-view=d] .vt{display:none}
+.pairs[data-view=d] .vd{display:inline}
+.pm .pk{list-style:none;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.3rem;margin-bottom:.7rem}
+@media(min-width:480px){.pm .pk{grid-template-columns:repeat(6,minmax(0,1fr))}}
+.pm .pk button{width:100%;min-height:44px;display:flex;flex-direction:column;align-items:center;padding:.35rem .15rem;
+background:var(--surface);border:1px solid var(--border);border-radius:10px;container-type:inline-size}
+.pm .pk button[aria-pressed=true]{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.pm .pk .fn{--f:.56rem}.pm .pk .ln{--f:.64rem}
+.pm .pl{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.55rem .7rem;margin-bottom:.5rem}
+.pairs.js .pl:not(.on){display:none}
+.pm .pl h3{font-size:.86rem;font-weight:700;margin-bottom:.2rem}
+.pm ol{list-style:none}
+.pm ol li{display:flex;align-items:center;gap:.5rem;border-top:1px solid var(--surface-hover);min-height:52px}
+.pm ol li:first-child{border-top:0}
+.pm ol li>a{display:flex;align-items:center;gap:.45rem;flex:1;min-width:0;min-height:44px;color:var(--text);font-size:.82rem;font-weight:600}
+.pm ol li>a span:last-child{min-width:0;overflow-wrap:anywhere}
+.pm .mn{font-size:.72rem;color:var(--text-secondary);white-space:nowrap;font-variant-numeric:tabular-nums}
+.pm .c,.pm .na{min-width:64px;min-height:44px;display:flex;align-items:center;justify-content:center;border-radius:8px;
+font:inherit;font-size:.86rem;font-weight:700;font-variant-numeric:tabular-nums;border:1px solid var(--border);cursor:pointer;color:var(--text);background:#fff}
+.pm .na{border-color:transparent;color:var(--text-secondary);cursor:default;font-weight:600}
+.pm .c[aria-pressed=true]{border-color:var(--text);box-shadow:0 0 0 1px var(--text)}
+.pd{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:.7rem .85rem;margin-top:.6rem}
+.pd h3{font-size:.92rem;font-weight:700;margin-bottom:.35rem}
+.pm .pl h3 a,.pd h3 a{display:inline-flex;align-items:center;min-height:44px}
+.pd dl{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:.15rem .8rem;font-size:.82rem}
+.pd dt{color:var(--text-secondary);min-width:0}
+.pd dd{text-align:right;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+.pd .ex{font-size:.76rem;color:var(--text-secondary);margin-top:.45rem}
+.pd .dl a{display:inline-flex;align-items:center;min-height:44px;font-size:.8rem;font-weight:600}
+@media(min-width:768px){.pg-w{display:block}.pm{display:none}}
+"""
+
+PAIRS_JS = """
+(function(){
+  var s=document.getElementById('pairs');if(!s)return;
+  s.classList.add('js');
+  var d=document.getElementById('pairs-d'),pl={};
+  s.querySelectorAll('a[data-pl]').forEach(function(a){pl[a.getAttribute('data-pl')]={n:a.getAttribute('data-n'),u:a.href};});
+  function el(t,c,x){var e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e;}
+  function lk(p){var a=el('a',null,pl[p].n);a.href=pl[p].u;return a;}
+  function row(dl,k,v){dl.appendChild(el('dt',null,k));dl.appendChild(el('dd',null,v));}
+  var on=null;
+  function show(b){
+    s.querySelectorAll('.c[aria-pressed=true]').forEach(function(x){x.setAttribute('aria-pressed','false');});
+    s.querySelectorAll('.c[data-k="'+b.getAttribute('data-k')+'"]').forEach(function(x){x.setAttribute('aria-pressed','true');});
+    on=b;var src=b.closest('.pg')?b:s.querySelector('.pg .c[data-a="'+b.getAttribute('data-a')+'"][data-b="'+b.getAttribute('data-b')+'"]');
+    var g=function(k){return src.getAttribute('data-'+k);},a=g('a'),c=g('b');
+    d.textContent='';var h=el('h3');h.appendChild(lk(a));h.appendChild(document.createTextNode(' and '));h.appendChild(lk(c));d.appendChild(h);
+    var dl=el('dl');
+    row(dl,'Minutes together',g('m'));row(dl,'Possessions together',g('p'));
+    row(dl,'Net rating together',g('nt'));
+    row(dl,pl[a].n+' without '+pl[c].n,g('na')+' in '+g('ma')+' min');
+    row(dl,pl[c].n+' without '+pl[a].n,g('nb')+' in '+g('mb')+' min');
+    row(dl,'Together vs. apart',g('d'));
+    d.appendChild(dl);
+    d.appendChild(el('p','ex','Together vs. apart: the net rating with both on the floor minus the net rating when one of them played without the other (those two numbers averaged by their minutes). Above zero, the team did better with them together.'));
+    if(g('u')){var p=el('p','dl'),x=el('a',null,'See this duo in the Duos list');x.href='#'+g('u');p.appendChild(x);d.appendChild(p);}
+    d.hidden=false;
+  }
+  s.addEventListener('click',function(e){
+    var b=e.target.closest('.c');if(b){show(b);return;}
+    var k=e.target.closest('.pk button');
+    if(k){s.querySelectorAll('.pk button').forEach(function(x){x.setAttribute('aria-pressed',x===k?'true':'false');});
+      s.querySelectorAll('.pl').forEach(function(x){x.classList.toggle('on',x.getAttribute('data-for')===k.getAttribute('data-p'));});
+      d.hidden=true;s.querySelectorAll('.c[aria-pressed=true]').forEach(function(x){x.setAttribute('aria-pressed','false');});on=null;return;}
+    var v=e.target.closest('.pv button');
+    if(v){var m=v.getAttribute('data-v');s.setAttribute('data-view',m);
+      s.querySelectorAll('.pv button').forEach(function(x){x.setAttribute('aria-pressed',x===v?'true':'false');});
+      s.querySelectorAll('.pm ol').forEach(function(o){Array.prototype.slice.call(o.children).sort(function(x,y){
+        return x.getAttribute('data-o'+m)-y.getAttribute('data-o'+m);}).forEach(function(li){o.appendChild(li);});});
+      document.getElementById('pairs-s').textContent=(m==='d'?'Showing together vs. apart':'Showing net rating together')+', best first.';return;}
+    var a=e.target.closest('.pd .dl a');
+    if(a){var t=document.getElementById(a.getAttribute('href').slice(1));if(!t)return;
+      var pan=t.closest('[role=tabpanel]');if(pan){var bt=document.getElementById(pan.getAttribute('aria-labelledby'));if(bt&&pan.hidden)bt.click();}}
+  });
+  s.querySelector('.pv').hidden=false;s.querySelector('.pk').hidden=false;
+  var f=s.querySelector('.pk button');if(f)f.click();
+})();
+"""
+
+
+def _ord_key(v):
+    return -v if v is not None else float('inf')
+
+
+def pairs_block(L, D, duo_keys):
+    """The two-man pairs grid for one team-season. duo_keys: (p1, p2) pairs that
+    have a row in this page's Duos tab."""
+    if L.empty:
+        return ''
+    tot = on_court(L)
+    top = sorted(tot, key=lambda p: (-tot[p]['secs'], int(p)))[:PAIRS_N]
+    if len(top) < 2:
+        return ''
+    dd = {(r.p1, r.p2): dict(poss=r.poss, pts=r.pts, opp_poss=r.opp_poss, opp_pts=r.opp_pts, secs=r.secs)
+          for r in D.itertuples(index=False)}
+    st = {}
+    for a, b in itertools.combinations(top, 2):
+        k = tuple(sorted((a, b), key=int))
+        st[(a, b)] = st[(b, a)] = pair_stats(k[0], k[1], tot, dd.get(k)) | {'k': k}
+    maxm = max([v['min'] for v in st.values()] + [1])
+
+    def nm(p):
+        return NAMES.get(p, p)
+
+    def plink(p, inner, extra=''):
+        return (f'<a href="{player_url(p)}" data-pl="{p}" data-n="{esc(nm(p))}"{extra}>{inner}</a>')
+
+    def two_line(p):
+        first, last = split_name(nm(p))
+        return (f'<span class="fn" style="--n:{max(len(first), 4)}">{esc(first) or "&nbsp;"}</span>'
+                f'<span class="ln" style="--n:{max(len(last), 4)}">{esc(last)}</span>')
+
+    def cell(a, b, tag='button'):
+        """The button for pair a-b, or the dash when under PAIRS_MIN minutes."""
+        v = st[(a, b)]
+        if v['min'] < PAIRS_MIN or v['net'] is None:
+            return None
+        p1, p2 = v['k']
+        sa, sb = (('a', 'b') if p1 == a else ('b', 'a'))
+        nt, cst = fmt_net(v['net'])
+        df, cdf = fmt_net(v['diff'])
+        u = duo_anchor(p1, p2) if (p1, p2) in duo_keys else ''
+        alpha = max(0.15, min(1.0, v['min'] / maxm))
+        attrs = (f'data-k="{p1}-{p2}" data-a="{a}" data-b="{b}" data-m="{n0(v["min"])}" data-p="{n0(v["poss"])}" '
+                 f'data-nt="{nt}" data-na="{fmt_net(v[sa + "_net"])[0]}" data-ma="{n0(v[sa + "_min"])}" '
+                 f'data-nb="{fmt_net(v[sb + "_net"])[0]}" data-mb="{n0(v[sb + "_min"])}" data-d="{df}" data-u="{u}"')
+        return (nt, df, cst, cdf, attrs, alpha)
+
+    # desktop/tablet grid
+    head = ''.join(f'<th scope="col">{plink(p, face(p, 30) + two_line(p))}</th>' for p in top)
+    body = []
+    for a in top:
+        tds = []
+        for b in top:
+            if a == b:
+                t = tot[a]
+                own = _net(t['pts'], t['poss'], t['opp_pts'], t['opp_poss']) if t['secs'] / 60 >= PAIRS_MIN else None
+                txt, cls = fmt_net(own) if own is not None else ('-', 'dash')
+                tds.append(f'<td class="dg"><span class="{cls}">{txt}</span>'
+                           f'<span class="sr"> {esc(nm(a))} on the floor</span></td>')
+                continue
+            c = cell(a, b)
+            if c is None:
+                tds.append('<td class="na">-<span class="sr"> under 50 minutes together</span></td>')
+                continue
+            nt, df, cst, cdf, attrs, alpha = c
+            tds.append(f'<td><button type="button" class="c" aria-pressed="false" {attrs} data-st="{cst}" data-sd="{cdf}" '
+                       f'style="--a:{alpha:.2f}" aria-label="{esc(nm(a))} and {esc(nm(b))}">'
+                       f'<span class="vt">{nt}</span><span class="vd">{df}</span></button></td>')
+        body.append(f'<tr><th scope="row">{plink(a, face(a, 28) + f"<span>{esc(nm(a))}</span>")}</th>{"".join(tds)}</tr>')
+    grid = (f'<div class="pg-w"><table class="pg"><caption class="sr">Team net rating per 100 possessions with each '
+            f'two players on the floor</caption><colgroup><col class="rc">{"<col>" * len(top)}</colgroup>'
+            f'<thead><tr><td></td>{head}</tr></thead><tbody>{"".join(body)}</tbody></table></div>')
+
+    # phones: picker + one list per player
+    pick = ''.join(f'<li><button type="button" aria-pressed="false" data-p="{p}">{face(p, 36)}{two_line(p)}'
+                   f'<span class="sr"> partners</span></button></li>' for p in top)
+    lists = []
+    for a in top:
+        mates = [b for b in top if b != a]
+        ot = sorted(mates, key=lambda b: (_ord_key(st[(a, b)]['net'] if st[(a, b)]['min'] >= PAIRS_MIN else None),
+                                          -st[(a, b)]['min'], int(b)))
+        od = sorted(mates, key=lambda b: (_ord_key(st[(a, b)]['diff'] if st[(a, b)]['min'] >= PAIRS_MIN else None),
+                                          -st[(a, b)]['min'], int(b)))
+        lis = []
+        for b in ot:
+            c = cell(a, b)
+            mins = f'<span class="mn">{n0(st[(a, b)]["min"])} min</span>'
+            if c is None:
+                val = '<span class="na">-<span class="sr"> under 50 minutes together</span></span>'
+            else:
+                nt, df, cst, cdf, attrs, alpha = c
+                # the numbers for the details live once, on the grid's button for a-b
+                short = f'data-k="{"-".join(st[(a, b)]["k"])}" data-a="{a}" data-b="{b}"'
+                val = (f'<button type="button" class="c" aria-pressed="false" {short} data-st="{cst}" data-sd="{cdf}" '
+                       f'style="--a:{alpha:.2f}" aria-label="{esc(nm(a))} and {esc(nm(b))} details">'
+                       f'<span class="vt">{nt}</span><span class="vd">{df}</span></button>')
+            lis.append(f'<li data-ot="{ot.index(b)}" data-od="{od.index(b)}">'
+                       f'<a href="{player_url(b)}">{face(b, 36)}<span>{esc(nm(b))}</span></a>{mins}{val}</li>')
+        lists.append(f'<div class="pl" data-for="{a}"><h3>With <a href="{player_url(a)}">{esc(nm(a))}</a> on the floor</h3>'
+                     f'<ol>{"".join(lis)}</ol></div>')
+    phone = f'<div class="pm"><ul class="pk" hidden>{pick}</ul>{"".join(lists)}</div>'
+
+    note = (f'The {len(top)} players with the most minutes. Each square: the team\'s net rating per 100 possessions '
+            f'with both players on the floor; darker means more minutes together; "-" means under {PAIRS_MIN} minutes together. '
+            'Down the diagonal: the team\'s net rating with that player on the floor. '
+            '"Together vs. apart" compares the team with both on the floor against the team when either one played without the other. '
+            'Tap or select a number for the details.')
+    switch = ('<div class="pv" role="group" aria-label="What the numbers show" hidden>'
+              '<button type="button" data-v="t" aria-pressed="true">Together</button>'
+              '<button type="button" data-v="d" aria-pressed="false">Together vs. apart</button></div>')
+    detail = ('<p class="sr" role="status" id="pairs-s"></p>'
+              '<div class="pd" id="pairs-d" aria-live="polite" hidden></div>')
+    return (f'<section class="block pairs" id="pairs" data-view="t"><style>{PAIRS_CSS}</style><h2>Two-man pairs</h2>'
+            f'<p class="note">{note}</p>{switch}{grid}{phone}{detail}<script>{PAIRS_JS}</script></section>')
+
+
 def page_team_season(ctx, code, season):
     cur, lineups, duos, records = ctx['cur'], ctx['lineups'], ctx['duos'], ctx['records']
     L = lineups[(lineups['season'] == season) & (lineups['team'] == code)]
@@ -1060,7 +1339,8 @@ def page_team_season(ctx, code, season):
         panels.append(('Worst', f'Minimum {tl:,} possessions.', rows(worst, lineup_row, show_team=False)))
     panels.append(('Duos', f'Minimum {td:,} possessions together. Team performance while both were on the floor.',
                    rows(bd, duo_row, show_team=False)))
-    parts = [f'<p class="lede">{" ".join(lede)}</p>' if lede else '', summary, tabs(panels), swap_html(swap_groups(L))]
+    parts = [f'<p class="lede">{" ".join(lede)}</p>' if lede else '', summary, tabs(panels),
+             pairs_block(L, D, {(r['p1'], r['p2']) for _, r in bd.iterrows()}), swap_html(swap_groups(L))]
     slug = franchise(code)['slug']
     nav = []
     seasons = sorted(lineups[lineups['slug'] == slug]['season'].unique())
