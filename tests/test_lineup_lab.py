@@ -238,5 +238,89 @@ class Site(unittest.TestCase):
         self.assertIn('<span class="nw">1996-97</span> Utah Jazz', s)
 
 
+
+class RotationsLinks(unittest.TestCase):
+    def test_unit_link_only_when_rotations_has_it(self):
+        old = B.ROT_UNITS
+        try:
+            B.ROT_UNITS = {(2016, 'GSW'): {'1-2-3-4-5'}}
+            self.assertEqual(B.rot_unit_url(2016, 'GSW', '1-2-3-4-5'),
+                             'https://hoopsmatic.com/rotations/u/1-2-3-4-5-gsw-2015-16/')
+            self.assertIsNone(B.rot_unit_url(2016, 'GSW', '1-2-3-4-6'))
+            self.assertIsNone(B.rot_unit_url(2017, 'GSW', '1-2-3-4-5'))
+            self.assertEqual(B.rot_unit_link(2017, 'GSW', '1-2-3-4-5'), '')
+        finally:
+            B.ROT_UNITS = old
+
+    def test_player_link_only_when_rotations_has_it(self):
+        old = B.ROT_PLAYERS
+        try:
+            B.ROT_PLAYERS = {'201939': 'p/201939-stephen/'}
+            self.assertEqual(B.rot_player_url('201939'), 'https://hoopsmatic.com/rotations/p/201939-stephen/')
+            self.assertIsNone(B.rot_player_url('2544'))
+            B.ROT_PLAYERS = {'1': 'p/1-x/"><script>', '2': 'p/3-y/'}
+            self.assertIsNone(B.rot_player_url('1'))  # not a clean path
+            self.assertIsNone(B.rot_player_url('2'))  # another player's id
+        finally:
+            B.ROT_PLAYERS = old
+
+
+PUBLIC = os.path.join(DOCS, 'data', 'public')
+
+
+@unittest.skipUnless(os.path.isdir(PUBLIC), 'docs/ not built')
+class PublicData(unittest.TestCase):
+    def page_for(self, url):
+        rel = url.split('https://hoopsmatic.com/lineups', 1)[1].split('#', 1)[0]
+        with open(os.path.join(DOCS, rel.lstrip('/'), 'index.html'), encoding='utf-8') as f:
+            return f.read()
+
+    def test_files_and_urls(self):
+        for season in ('2026-27', '2015-16'):
+            files = glob.glob(os.path.join(PUBLIC, 'units', season, '*.json'))
+            self.assertEqual(len(files), 30, season)
+        with open(os.path.join(PUBLIC, 'players.json')) as f:
+            pl = json.load(f)
+        self.assertEqual(pl['201939'], 'https://hoopsmatic.com/lineups/player/stephen-curry-201939/')
+        with open(os.path.join(PUBLIC, 'leaderboards.json')) as f:
+            lb = json.load(f)
+        self.assertEqual(lb['2015-16'], 'https://hoopsmatic.com/lineups/season/2015-16/')
+        self.assertEqual(lb['all-time'], 'https://hoopsmatic.com/lineups/all-time/')
+        for u in list(pl.values()) + list(lb.values()):
+            self.assertTrue(u.startswith('https://hoopsmatic.com/lineups/'), u)
+
+    def test_numbers_match_the_row_they_point_to(self):
+        for season, team in (('2015-16', 'GSW'), ('2026-27', 'OKC'), ('1996-97', 'CHI')):
+            with open(os.path.join(PUBLIC, 'units', season, f'{team}.json'), encoding='utf-8') as f:
+                d = json.load(f)
+            self.assertEqual((d['season'], d['team']), (season, team))
+            self.assertTrue(d['units'])
+            for u in d['units'][:15]:
+                self.assertEqual(u['ids'], sorted(u['ids']))
+                self.assertTrue(u['url'].startswith('https://hoopsmatic.com/lineups/'), u['url'])
+                rid = u['url'].split('#', 1)[1]
+                self.assertTrue(rid.startswith('l-' + '-'.join(map(str, u['ids']))), rid)
+                s = self.page_for(u['url'])
+                row = s.split(f'id="{rid}"', 1)[1].split('</li><li class="row', 1)[0]
+                net = re.search(r'class="net [a-z]+">([^<]+)<', row).group(1).replace('\u2212', '-').lstrip('+')
+                self.assertEqual(float(net), u['net'], (u, rid))
+                self.assertIn(f'{u["poss"]:,} poss', row)
+                self.assertIn(f'{u["min"]:,} min', row)
+
+    def test_rotations_links_are_verified(self):
+        """Every Rotations link on a sample of pages is in data/rotations."""
+        pl, un = B.load_rotations()
+        unit_keys = {f'{k}-{t.lower()}-{B.season_label(s)}' for (s, t), ks in un.items() for k in ks}
+        pages = [os.path.join(DOCS, 'warriors', '2015-16', 'index.html'), os.path.join(DOCS, 'index.html'),
+                 os.path.join(DOCS, 'player', 'stephen-curry-201939', 'index.html')]
+        for p in pages:
+            with open(p, encoding='utf-8') as f:
+                s = f.read()
+            for k in re.findall(r'hoopsmatic\.com/rotations/u/([0-9a-z-]+)/', s):
+                self.assertIn(k, unit_keys)
+            for k in re.findall(r'hoopsmatic\.com/rotations/(p/[0-9a-z-]+/)', s):
+                self.assertIn(k, set(pl.values()))
+
+
 if __name__ == '__main__':
     unittest.main()
