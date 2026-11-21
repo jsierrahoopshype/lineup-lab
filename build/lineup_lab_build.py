@@ -16,6 +16,7 @@ Pages (all canonical on hoopsmatic.com):
   /lineups/player/<name>-<id>/    one player: best teammates, season by season, lineups
   /lineups/sitemap.xml            per-URL <lastmod> that moves only when that page changes
   /lineups/data/minutes-<YYYY>.json  this season's minutes per game per team (for the Trade Machine), not a page
+  /lineups/data/public/...        the public unit index other HoopsMatic sections read (public-data.md), not pages
 
 Player pages: every player has one so every name is a link, but only players
 with PLAYER_INDEX_MIN career minutes AND within the top PLAYER_INDEX_LIMIT by
@@ -45,6 +46,7 @@ SITE = 'https://hoopsmatic.com/lineups'
 HS = 'https://jsierrahoopshype.github.io/nba-headshots'
 FIRST_SEASON = 1997
 FORGE = 'https://forge.hoopsmatic.com/'
+ROT = 'https://hoopsmatic.com/rotations'
 
 # ── thresholds (possessions) ──────────────────────────────────────────────
 # A finished season uses the full number; the season in progress scales it by
@@ -308,7 +310,8 @@ def recent(cur_games, cur):
     g = window(cur_games, cur, start)
     g = g[g['net'] > 0]
     q = g[g['poss'] >= MIN_POSS]
-    return dict(rows=rank(q, 10), start=start, end=end, min=MIN_POSS, whole_season=(start == first))
+    # _win: these numbers cover the window only, so the public index never points at them
+    return dict(rows=rank(q, 10).assign(_win=True), start=start, end=end, min=MIN_POSS, whole_season=(start == first))
 
 
 # ── players ───────────────────────────────────────────────────────────────
@@ -320,6 +323,52 @@ def ascii_slug(s):
 
 def player_url(pid):
     return f'{SITE}/player/{PSLUG[pid]}/'
+
+
+def load_rotations():
+    """data/rotations (build/lineup_lab_rotations.py): which NBA Rotations pages
+    exist. Returns ({nba id: 'p/<id>-<slug>/'}, {(season, TEAM): set of five keys}).
+    Missing files mean no Rotations links, never a guessed one."""
+    d = os.path.join(DATA, 'rotations')
+    pl, un = {}, {}
+    p = os.path.join(d, 'players.json')
+    if os.path.exists(p):
+        with open(p) as f:
+            pl = json.load(f)
+    ud = os.path.join(d, 'units')
+    if os.path.isdir(ud):
+        for fn in os.listdir(ud):
+            if fn.endswith('.json') and fn[:-5].isdigit():
+                with open(os.path.join(ud, fn)) as f:
+                    for code, keys in json.load(f).items():
+                        un[(int(fn[:-5]), code)] = set(keys)
+    return pl, un
+
+
+ROT_PLAYERS, ROT_UNITS = load_rotations()
+
+
+ROT_PATH = re.compile(r'p/(\d+)-[a-z0-9-]+/')
+
+
+def rot_player_url(pid):
+    """His Rotations player page, only when listed there. The path comes from a
+    downloaded file, so it must be exactly p/<this id>-<slug>/ before it goes in an href."""
+    p = ROT_PLAYERS.get(str(pid))
+    m = ROT_PATH.fullmatch(p) if isinstance(p, str) else None
+    return f'{ROT}/{p}' if m and m.group(1) == str(pid) else None
+
+
+def rot_unit_url(season, team, key):
+    """The five's Rotations unit page, only when Rotations has that unit."""
+    if key in ROT_UNITS.get((int(season), team), ()):
+        return f'{ROT}/u/{key}-{team.lower()}-{season_label(int(season))}/'
+    return None
+
+
+def rot_unit_link(season, team, key):
+    u = rot_unit_url(season, team, key)
+    return f'<p class="rl"><a href="{u}">How the coach uses this five</a></p>' if u else ''
 
 
 def last_name(n):
@@ -527,8 +576,12 @@ def lineup_row(r, i, show_team=True, extra_cls='', swaps=True):
             det = (f'<details class="det"><summary>One player changes ({len(sw)})</summary>'
                    f'<p class="note">The same team and season, four of these five on the floor and one different.</p>'
                    f'<ul class="swaps">{"".join(items)}</ul></details>')
+    if not bool(r.get('_win', False)):
+        # season totals for this team-season: the public unit index can point here
+        SHOWN.setdefault((int(r['season']), r['team'], r['lineup']), []).append((PAGE[0], rid))
+    rl = rot_unit_link(r['season'], r['team'], r['lineup'])
     return (f'<li class="row {extra_cls}" id="{rid}"><div class="rh">{head}{num_block(r)}</div>'
-            f'{people(ids)}{sub}{det}</li>')
+            f'{people(ids)}{sub}{rl}{det}</li>')
 
 
 def duo_row(r, i, show_team=True, extra_cls='', label=None):
@@ -751,6 +804,10 @@ ol.ssn>li{background:var(--surface);border:1px solid var(--border);border-radius
 .az li{break-inside:avoid;font-size:.84rem;padding:.2rem 0}
 .az .yrs{font-size:.72rem;color:var(--text-secondary)}
 .find{width:100%;max-width:26rem;font:inherit;font-size:.9rem;padding:.55rem .75rem;border:1px solid var(--border);border-radius:10px;margin-bottom:.8rem;background:var(--surface)}
+.rl{margin-top:.1rem}
+.rl a,.rotp a{display:inline-flex;align-items:center;min-height:44px;font-size:.76rem;font-weight:600}
+.rotp{margin:-.4rem 0 .8rem;font-size:.78rem;color:var(--text-secondary)}
+.rotp a{font-size:.84rem;margin-right:.35rem}
 .foot{text-align:center;font-size:.8125rem;line-height:1.6;color:var(--text-secondary);padding:1.5rem 1rem 0}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
 """
@@ -951,8 +1008,9 @@ def swap_html(groups):
 
 def summary_card(title, r, duo=False):
     ids = [r['p1'], r['p2']] if duo else r['lineup'].split('-')
+    rl = '' if duo else rot_unit_link(r['season'], r['team'], r['lineup'])
     return (f'<div class="row"><div class="rh"><h3>{esc(title)}</h3>{num_block(r)}</div>'
-            f'{people(ids, 36)}{meta(r)}</div>')
+            f'{people(ids, 36)}{meta(r)}{rl}</div>')
 
 
 def page_team_season(ctx, code, season):
@@ -1233,11 +1291,16 @@ def page_player(ctx, pid):
               ('Most minutes', 'Teammates he played the most minutes with, career.', rows(most_mates, mate_row, show=5)),
               ('Best lineups', f'Single seasons, minimum {T_PLAYER_LINEUP} possessions.', rows(best_l, lineup_row, show=5)),
               ('Most used', 'His most-used lineups, single seasons, by minutes.', rows(used_l, lineup_row))]
+    ru = rot_player_url(pid)
+    rot = (f'<p class="rotp"><a href="{ru}">How his coach uses him</a> '
+           f'<span>Minutes, stints and closing, game by game, on NBA Rotations.</span></p>') if ru else ''
     parts = [f'<p class="lede">{" ".join(lede)}</p>' if lede else '', tabs(panels),
              block('Season by season', f'Each team and season, with his highest-rated teammate that year (minimum {T_PLAYER_SEASON_DUO} possessions together).',
                    '<ol class="ssn">' + ''.join(items) + '</ol>'),
              links_block([('All players', f'{SITE}/players/'), ('Best duos', f'{SITE}/duos/'), ('Best lineups, last 30 days', f'{SITE}/')]),
              f'<p class="note">{CREDIT}</p>']
+    if rot:
+        parts.insert(1, rot)
     sub = f'{yrs} · {", ".join(teams_)} · {n0(mins)} minutes in the data (regular season, 1996-97 onward).'
     indexed = pid in ctx['indexed']
     return shell(f'/player/{PSLUG[pid]}/', f'{n} Lineups: Best Teammates and Five-Man Units, {yrs} | HoopsMatic',
@@ -1316,16 +1379,88 @@ def minutes_json(cur_games, cur):
             'min_games': MINUTES_MIN_GAMES, 'games': games, 'teams': teams, 'players': players}
 
 
+PAGE_RANK = ('team-season', 'season', 'all-time', 'team', 'index', 'player')
+
+
+def page_kind(path):
+    if path == '/':
+        return 'index'
+    if path.startswith('/season/'):
+        return 'season'
+    if path.startswith('/player/'):
+        return 'player'
+    if path == '/all-time/':
+        return 'all-time'
+    return 'team-season' if path.count('/') == 3 else 'team'
+
+
+def five_url(season, team, key):
+    """Where this five's season numbers are shown: its row on its team-season
+    page if it is there, else the first other page with that row."""
+    c = SHOWN.get((season, team, key))
+    if not c:
+        return None
+    path, rid = sorted(c, key=lambda t: (PAGE_RANK.index(page_kind(t[0])), t[0]))[0]
+    return f'{SITE}{path}#{rid}'
+
+
+def public_data(ctx):
+    """docs/data/public/: the unit index other HoopsMatic sections read
+    (format in public-data.md). Every five shown on any Lineups page with its
+    season numbers, rounded exactly as the pages show them."""
+    L, cur = ctx['lineups'], ctx['cur']
+    base = os.path.join(OUT, 'data', 'public')
+    keep = set()
+    shown = {k for k in SHOWN}
+    L = L.set_index(['season', 'team', 'lineup'])
+    by_ts = {}
+    for k in sorted(shown):
+        by_ts.setdefault((k[0], k[1]), []).append(k[2])
+    for (season, team), keys in sorted(by_ts.items()):
+        units = []
+        for key in keys:
+            r = L.loc[(season, team, key)]
+            net, _ = fmt_net(r['net'])
+            units.append({'ids': [int(x) for x in key.split('-')],
+                          'min': int(round(r['secs'] / 60)), 'poss': int(round(r['poss'])),
+                          'opp_poss': int(round(r['opp_poss'])),
+                          'pts': int(r['pts']), 'opp_pts': int(r['opp_pts']), 'games': int(r['games']),
+                          'net': None if net == 'n/a' else float(net.replace('−', '-')),
+                          'url': five_url(season, team, key)})
+        units.sort(key=lambda u: (-u['min'], u['ids']))
+        doc = {'season': season_label(season), 'team': team, 'team_name': team_name(team, season),
+               'page': team_season_url(team, season), 'units': units}
+        if season == cur and ctx['end']:
+            doc['through'] = ctx['end']
+        rel = f'/data/public/units/{season_label(season)}/{team}.json'
+        keep.add(os.path.join(OUT, rel.lstrip('/')))
+        write(rel, json.dumps(doc, separators=(',', ':'), ensure_ascii=False) + '\n', None)
+    # a team-season that no longer has a file (never expected) must not linger
+    for dp, _, fns in os.walk(os.path.join(base, 'units')):
+        for fn in fns:
+            if os.path.join(dp, fn) not in keep:
+                os.remove(os.path.join(dp, fn))
+    players = {str(pid): player_url(pid) for pid in sorted(PSLUG, key=int)}
+    write('/data/public/players.json', json.dumps(players, separators=(',', ':')) + '\n', None)
+    boards = {season_label(s): f'{SITE}/season/{season_label(s)}/' for s in sorted(L.index.get_level_values(0).unique())}
+    boards['all-time'] = f'{SITE}/all-time/'
+    write('/data/public/leaderboards.json', json.dumps(boards, separators=(',', ':')) + '\n', None)
+    return sum(len(v) for v in by_ts.values())
+
+
 FONT_V = None
 FACE_V = None
 NAMES = {}
 PSLUG = {}
 SWAPS = {}
 CTX = {}
+SHOWN = {}    # (season, team, five key) -> [(page path, row id)], filled as rows are written
+PAGE = ['/']  # the page being written
 
 
 def build(today=None):
-    global FONT_V, FACE_V, NAMES, PSLUG, SWAPS, CTX
+    global FONT_V, FACE_V, NAMES, PSLUG, SWAPS, CTX, SHOWN
+    SHOWN = {}
     FONT_V = font_v()
     FACE_V = faces_v()
     today = today or dt.datetime.now(dt.timezone.utc).date().isoformat()
@@ -1342,18 +1477,23 @@ def build(today=None):
     CTX['ps_by'] = ps.groupby('pid')
     ctx = CTX
     pages = {}
-    write('/', page_index(ctx), pages)
-    write('/all-time/', page_alltime(ctx), pages)
-    write('/duos/', page_duos(ctx), pages)
-    write('/players/', page_players(ctx), pages)
+
+    def at(rel):
+        PAGE[0] = rel
+        return rel
+    write(at('/'), page_index(ctx), pages)
+    write(at('/all-time/'), page_alltime(ctx), pages)
+    write(at('/duos/'), page_duos(ctx), pages)
+    write(at('/players/'), page_players(ctx), pages)
     for s in sorted(lineups['season'].unique()):
-        write(f'/season/{season_label(s)}/', page_season(ctx, s), pages)
+        write(at(f'/season/{season_label(s)}/'), page_season(ctx, s), pages)
     for slug in sorted(SLUG_TEAM):
-        write(f'/{slug}/', page_team(ctx, slug), pages)
+        write(at(f'/{slug}/'), page_team(ctx, slug), pages)
     for (s, code) in sorted(set(zip(lineups['season'], lineups['team']))):
-        write(f'/{franchise(code)["slug"]}/{season_label(s)}/', page_team_season(ctx, code, s), pages)
+        write(at(f'/{franchise(code)["slug"]}/{season_label(s)}/'), page_team_season(ctx, code, s), pages)
     n_noindex = 0
     for pid in sorted(slugs):
+        at(f'/player/{slugs[pid]}/')
         html_, idx = page_player(ctx, pid)
         write(f'/player/{slugs[pid]}/', html_, pages if idx else None)
         n_noindex += not idx
@@ -1362,8 +1502,9 @@ def build(today=None):
         write(f'/data/minutes-{cur}.json', json.dumps(minutes_json(cur_games, cur), separators=(',', ':'), sort_keys=True) + '\n', None)
     with open(os.path.join(OUT, '.nojekyll'), 'w') as f:
         f.write('')
+    n_units = public_data(ctx)
     sitemap(pages, today)
-    print(f'{len(pages)} indexable pages, {n_noindex} noindex player pages, games through {end}')
+    print(f'{len(pages)} indexable pages, {n_noindex} noindex player pages, {n_units} fives in the public index, games through {end}')
     return ctx, pages
 
 

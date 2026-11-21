@@ -27,6 +27,9 @@ Ramiro Bentes' public NBA data ([nba_data](https://github.com/ramirobentes/nba_d
 - `docs/data/ratings-<YYYY>.json`: Global Rating+ and Real Value for every player (names as on those pages), worked out every 3 hours by `build/lineup_lab_ratings.mjs` (`.github/workflows/lineup-lab-ratings.yml`), which runs Alberto's current page code on the same public data files his pages read; the Trade Machine reads it at `/lineups/data/ratings-2027.json`. About 22 KB. `updated` moves only when a number changes; `source` holds a short hash of each page's code.
 - `docs/data/minutes-<YYYY>.json`: this season's minutes per game, per team and NBA id (plus each player's total across teams and each team's games), built from `data/current`. The Trade Machine (`hoopsmatic.com/`) reads it at `/lineups/data/minutes-2027.json` for its depth charts. Not a page, not in the sitemap; it changes only when a new game is in.
 
+- `docs/data/public/`: the public unit index other HoopsMatic sections read (every five shown with its numbers and where it is shown, player page URLs, leaderboard URLs), at `https://hoopsmatic.com/lineups/data/public/`. Format in [public-data.md](public-data.md).
+- `data/rotations/`: which NBA Rotations player and unit pages exist, read from Rotations' public data on hoopsmatic.com by `build/lineup_lab_rotations.py`. Lineups links a player or a five to Rotations only when it is listed there.
+
 Season numbers follow the source: `2027` is 2026-27.
 
 ## How it updates
@@ -37,9 +40,10 @@ Season numbers follow the source: `2027` is 2026-27.
 2. `build/lineup_lab_update.py`: saves any finished season not yet in `data/raw`, downloads the current season, refuses a file with fewer games than our copy (the run fails, nothing changes), refreshes the headshot map.
 3. `build/lineup_lab_heights.py`: refreshes the heights (keeps the old file if Wikidata is unreachable).
 4. `build/lineup_lab_faces.py`: copies new or changed portraits from nba-headshots' face-fill folder.
-5. `build/lineup_lab_build.py`: aggregates and writes `docs/` and `docs/sitemap.xml`.
-6. Site tests (canonicals on hoopsmatic.com, footer, sitemap).
-7. Commits `data/` and `docs/` if anything changed.
+5. `build/lineup_lab_rotations.py`: refreshes which NBA Rotations pages exist (this season every run, finished seasons weekly; keeps the old lists on any error, never fails the run).
+6. `build/lineup_lab_build.py`: aggregates and writes `docs/`, `docs/data/public/` and `docs/sitemap.xml`.
+7. Site tests (canonicals on hoopsmatic.com, footer, sitemap, public data).
+8. Commits `data/` and `docs/` if anything changed.
 
 No keys, tokens or secrets: the source is public and the workflow uses only the automatic `GITHUB_TOKEN`.
 

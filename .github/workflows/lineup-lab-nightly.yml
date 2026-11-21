@@ -62,6 +62,12 @@ jobs:
       - name: Faces
         run: python build/lineup_lab_faces.py
 
+      # Which NBA Rotations player and unit pages exist (its public data on
+      # hoopsmatic.com), so Lineups links there only on a verified match. Keeps
+      # the previous lists on any error; never fails the run.
+      - name: Rotations index
+        run: python build/lineup_lab_rotations.py
+
       - name: Build
         run: python build/lineup_lab_build.py
 
