@@ -1017,7 +1017,8 @@ def summary_card(title, r, duo=False):
 
 # ── two-man pairs grid (team-season pages) ────────────────────────────────
 # The team's PAIRS_N most-used players that season. Each cell is the team's net
-# rating with both on the floor; the diagonal is the player's own on-court net.
+# rating with both on the floor; the diagonal is empty, and a final "On court"
+# column holds each player's own on-court net (with any teammates).
 # "Together vs. apart" = net together minus the minutes-weighted average of
 # each player's net without the other. Its CSS and JS travel inside the block,
 # so pages without the grid keep their exact bytes (and sitemap dates).
@@ -1086,7 +1087,12 @@ PAIRS_CSS = """
 .pg tbody th a span:last-child{min-width:0;overflow-wrap:anywhere}
 .pg td{height:44px;padding:0;text-align:center;font-size:.74rem;border-radius:6px;background:var(--bg)}
 .pg td.na{color:var(--text-secondary)}
-.pg td.dg{background:var(--surface-hover);font-weight:700}
+.pg td.dg{background:var(--surface-hover)}
+.pg col.occ{width:3.8rem}
+.pg thead th.oc{font-size:.66rem;font-weight:700;color:var(--text-secondary);line-height:1.2}
+.pg td.oc{background:var(--surface-hover);font-weight:700}
+.pm .po{font-size:.82rem;font-weight:600;color:var(--text-secondary);margin-bottom:.15rem}
+.pm .po b{font-variant-numeric:tabular-nums}
 .pg .c{display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:44px;font:inherit;font-weight:600;
 border:0;border-radius:6px;cursor:pointer;color:var(--text);background:transparent;touch-action:manipulation}
 .pg .c:hover{box-shadow:inset 0 0 0 2px var(--accent)}
@@ -1223,18 +1229,21 @@ def pairs_block(L, D, duo_keys):
                  f'data-nb="{fmt_net(v[sb + "_net"])[0]}" data-mb="{n0(v[sb + "_min"])}" data-d="{df}" data-u="{u}"')
         return (nt, df, cst, cdf, attrs, alpha)
 
+    def own_net(p):
+        """(text, class) for the team's net with p on the floor, '-' under PAIRS_MIN minutes."""
+        t = tot[p]
+        own = _net(t['pts'], t['poss'], t['opp_pts'], t['opp_poss']) if t['secs'] / 60 >= PAIRS_MIN else None
+        return fmt_net(own) if own is not None else ('-', 'dash')
+
     # desktop/tablet grid
     head = ''.join(f'<th scope="col">{plink(p, face(p, 30) + two_line(p))}</th>' for p in top)
+    head += '<th scope="col" class="oc">On court</th>'
     body = []
     for a in top:
         tds = []
         for b in top:
             if a == b:
-                t = tot[a]
-                own = _net(t['pts'], t['poss'], t['opp_pts'], t['opp_poss']) if t['secs'] / 60 >= PAIRS_MIN else None
-                txt, cls = fmt_net(own) if own is not None else ('-', 'dash')
-                tds.append(f'<td class="dg"><span class="{cls}">{txt}</span>'
-                           f'<span class="sr"> {esc(nm(a))} on the floor</span></td>')
+                tds.append('<td class="dg"></td>')
                 continue
             c = cell(a, b)
             if c is None:
@@ -1244,9 +1253,11 @@ def pairs_block(L, D, duo_keys):
             tds.append(f'<td><button type="button" class="c" aria-pressed="false" {attrs} data-st="{cst}" data-sd="{cdf}" '
                        f'style="--a:{alpha:.2f}" aria-label="{esc(nm(a))} and {esc(nm(b))}">'
                        f'<span class="vt">{nt}</span><span class="vd">{df}</span></button></td>')
+        txt, cls = own_net(a)
+        tds.append(f'<td class="oc"><span class="{cls}">{txt}</span></td>')
         body.append(f'<tr><th scope="row">{plink(a, face(a, 28) + f"<span>{esc(nm(a))}</span>")}</th>{"".join(tds)}</tr>')
     grid = (f'<div class="pg-w"><table class="pg"><caption class="sr">Team net rating per 100 possessions with each '
-            f'two players on the floor</caption><colgroup><col class="rc">{"<col>" * len(top)}</colgroup>'
+            f'two players on the floor</caption><colgroup><col class="rc">{"<col>" * len(top)}<col class="occ"></colgroup>'
             f'<thead><tr><td></td>{head}</tr></thead><tbody>{"".join(body)}</tbody></table></div>')
 
     # phones: picker + one list per player
@@ -1274,13 +1285,13 @@ def pairs_block(L, D, duo_keys):
                        f'<span class="vt">{nt}</span><span class="vd">{df}</span></button>')
             lis.append(f'<li data-ot="{ot.index(b)}" data-od="{od.index(b)}">'
                        f'<a href="{player_url(b)}">{face(b, 36)}<span>{esc(nm(b))}</span></a>{mins}{val}</li>')
+        otxt, ocls = own_net(a)
         lists.append(f'<div class="pl" data-for="{a}"><h3>With <a href="{player_url(a)}">{esc(nm(a))}</a> on the floor</h3>'
-                     f'<ol>{"".join(lis)}</ol></div>')
+                     f'<p class="po">On court: <b class="{ocls}">{otxt}</b></p><ol>{"".join(lis)}</ol></div>')
     phone = f'<div class="pm"><ul class="pk" hidden>{pick}</ul>{"".join(lists)}</div>'
 
     note = (f'The {len(top)} players with the most minutes. Each square: the team\'s net rating per 100 possessions '
             f'with both players on the floor; darker means more minutes together; "-" means under {PAIRS_MIN} minutes together. '
-            'Down the diagonal: the team\'s net rating with that player on the floor. '
             '"Together vs. apart" compares the team with both on the floor against the team when either one played without the other. '
             'Tap or select a number for the details.')
     switch = ('<div class="pv" role="group" aria-label="What the numbers show" hidden>'
@@ -1289,7 +1300,9 @@ def pairs_block(L, D, duo_keys):
     detail = ('<p class="sr" role="status" id="pairs-s"></p>'
               '<div class="pd" id="pairs-d" aria-live="polite" hidden></div>')
     return (f'<section class="block pairs" id="pairs" data-view="t"><style>{PAIRS_CSS}</style><h2>Two-man pairs</h2>'
-            f'<p class="note">{note}</p>{switch}{grid}{phone}{detail}<script>{PAIRS_JS}</script></section>')
+            f'<p class="note">{note}</p>{switch}'
+            '<p class="note">On court: the team\'s net rating with him on the floor, with any teammates.</p>'
+            f'{grid}{phone}{detail}<script>{PAIRS_JS}</script></section>')
 
 
 def page_team_season(ctx, code, season):
