@@ -12,7 +12,7 @@ Every NBA five-man lineup and duo since 1996-97, ranked by net rating, with the 
 - `/lineups/season/<1999-00>/`: one season's league leaders
 - `/lineups/<team>/`: one franchise, its best lineup every season (team slugs as in Salary Season Finder and Real Standings)
 - `/lineups/<team>/<1999-00>/`: one team-season: best, worst and most-used lineups, best duos, record
-  - Two-man pairs: the team's 12 most-used players; each cell is the net rating with both on the floor ("-" under 50 minutes together), the diagonal each player's own on-court net, and a "Together vs. apart" view (net together minus the minutes-weighted net of each one without the other). A grid from 768px, a player picker and partner list on phones. Its CSS and JS live inside the block, so no other page changes.
+  - Two-man pairs: the team's 12 most-used players; each cell is the net rating with both on the floor ("-" under 50 minutes together), the diagonal empty, a final "On court" column with each player's own on-court net (on phones, one "On court" line above his partner list), and a "Together vs. apart" view (net together minus the minutes-weighted net of each one without the other). A grid from 768px, a player picker and partner list on phones. Its CSS and JS live inside the block, so no other page changes.
 
 ## Data
 

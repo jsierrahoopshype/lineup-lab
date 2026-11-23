@@ -155,6 +155,16 @@ class Pairs(unittest.TestCase):
             # every pair link goes to a duo row that exists on the page
             for u in set(re.findall(r'data-u="(d-[\d-]+)"', block)):
                 self.assertIn(f'id="{u}"', s, rel)
+            # the diagonal is empty; each row ends with the player's own On court net
+            self.assertEqual(block.count('<td class="dg"></td>'), B.PAIRS_N, rel)
+            self.assertNotRegex(block, r'<td class="dg">(?!</td>)', rel)
+            self.assertEqual(block.count('<th scope="col" class="oc">On court</th>'), 1, rel)
+            self.assertEqual(block.count('<td class="oc">'), B.PAIRS_N, rel)
+            # phones: each partner list has his On court line and never lists him
+            for pid, lst in re.findall(r'<div class="pl" data-for="(\d+)">(.*?)</ol></div>', block):
+                self.assertIn('<p class="po">On court: ', lst, rel)
+                self.assertNotIn(f'data-b="{pid}"', lst, rel)
+                self.assertEqual(lst.count('<li '), B.PAIRS_N - 1, rel)
         for rel in ('index.html', 'duos/index.html', 'celtics/index.html', 'all-time/index.html'):
             p = os.path.join(DOCS, rel)
             if os.path.exists(p):
