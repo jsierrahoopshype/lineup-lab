@@ -8,7 +8,7 @@ hoopsmatic.com only.
 Each run reads face-fill/.hashes.json (one small public file) and downloads only the portraits
 that are new or changed since the last run (data/faces_state.json keeps what each copy was made
 from). Players face-fill has no file for (no NBA photo) lose any old copy, and the pages show
-their initials. No key or token: plain public file downloads.
+no picture for them, just the name. No key or token: plain public file downloads.
 
 Usage:
   python build/lineup_lab_faces.py            (nightly)
@@ -50,7 +50,7 @@ def main():
         out = os.path.join(OUT, pid + '.webp')
         r = remote.get(stem)
         if r is None:
-            # no face-fill file: initials on the pages
+            # no face-fill file: no picture on the pages, just the name
             if os.path.exists(out):
                 os.remove(out)
                 removed += 1

@@ -458,19 +458,13 @@ def load_faces():
 FACES = load_faces()
 
 
-def initials(n):
-    w = [x for x in n.replace('.', ' ').split() if x not in SUFFIXES]
-    return (w[0][0] + (w[-1][0] if len(w) > 1 else '')).upper() if w else '?'
-
-
-def face(pid, size):
-    n = NAMES.get(pid, pid)
+def face(pid, size, keep_space=False):
+    """The player's headshot. No photo on file: nothing at all (no initials circle). In a row of
+    five faces (keep_space) an empty, invisible gap the same size keeps the names lined up."""
     if pid in FACES:
-        inner = (f'<img src="{SITE}/faces/{pid}.webp?v={FACE_V}" alt="" width="{size}" height="{size}" '
-                 f'loading="lazy" decoding="async">')
-    else:
-        inner = f'<span class="ini">{esc(initials(n))}</span>'
-    return f'<span class="ph" style="--s:{size}px">{inner}</span>'
+        return (f'<span class="ph" style="--s:{size}px"><img src="{SITE}/faces/{pid}.webp?v={FACE_V}" alt="" '
+                f'width="{size}" height="{size}" loading="lazy" decoding="async"></span>')
+    return f'<span class="ph-gap" style="--s:{size}px" aria-hidden="true"></span>' if keep_space else ''
 
 
 def split_name(full):
@@ -490,7 +484,7 @@ def people(ids, size=40, cls='who'):
         first, last = split_name(full)
         # --n (name length) lets the CSS shrink a long name to fit its column
         items.append(f'<li><a href="{player_url(p)}" title="{esc(full)}">'
-                     f'{face(p, size)}<span class="fn" style="--n:{max(len(first), 4)}">{esc(first) or "&nbsp;"}</span>'
+                     f'{face(p, size, keep_space=True)}<span class="fn" style="--n:{max(len(first), 4)}">{esc(first) or "&nbsp;"}</span>'
                      f'<span class="ln" style="--n:{max(len(last), 4)}">{esc(last)}</span></a></li>')
     return f'<ul class="{cls}">' + ''.join(items) + '</ul>'
 
@@ -750,7 +744,7 @@ margin-top:.25rem;max-width:100%;white-space:nowrap}
 .ph{width:var(--s);height:var(--s);border-radius:50%;background:var(--ph);overflow:hidden;flex-shrink:0;
 display:flex;align-items:center;justify-content:center}
 .ph img{width:100%;height:100%;display:block}
-.ini{font-weight:700;color:#55555c;font-size:calc(var(--s) * .34)}
+.ph-gap{display:block;width:var(--s);height:var(--s);flex-shrink:0}
 .sub{font-variant-numeric:tabular-nums;font-size:.72rem;color:var(--text-secondary);line-height:1.45}
 details.det{margin-top:.45rem;border-top:1px solid var(--surface-hover);padding-top:.4rem}
 details.det summary{cursor:pointer;font-size:.76rem;font-weight:600;color:var(--accent);min-height:28px;display:flex;align-items:center}

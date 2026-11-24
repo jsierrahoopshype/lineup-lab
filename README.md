@@ -21,7 +21,7 @@ Ramiro Bentes' public NBA data ([nba_data](https://github.com/ramirobentes/nba_d
 - `data/raw/lineup_stats_regular_<YYYY>.parquet`: every finished season, our own copy, downloaded once.
 - `data/current/lineup_games_<YYYY>.csv`: the season in progress, one row per game, team and lineup, with the game date (from the same source's play-by-play file).
 - `data/headshots.json`: NBA id to file in nba-headshots' `players/headshots/face/` (transparent cutouts).
-- `docs/faces/<id>.webp`: portraits, copied from nba-headshots' `players/headshots/face-fill/` (the one headshot look of every HoopsMatic section: the face fills the circle) by `build/lineup_lab_faces.py`; `data/faces_state.json` records which version of each was copied. Players with no NBA photo get initials.
+- `docs/faces/<id>.webp`: portraits, copied from nba-headshots' `players/headshots/face-fill/` (the one headshot look of every HoopsMatic section: the face fills the circle) by `build/lineup_lab_faces.py`; `data/faces_state.json` records which version of each was copied. Players with no NBA photo show just their name (no initials circle).
 - `data/heights.json`: NBA id to height in centimetres, from [Wikidata](https://www.wikidata.org) (public domain), refreshed nightly; every row of faces goes shortest to tallest, roughly point guard to center. Players with no height yet (mostly rookies) sit in the middle.
 - `data/teams.json`: the 30 franchises (slugs, NBA ids for logos).
 - `data/page_hashes.json`: each page's content hash and `<lastmod>`; a date moves only when that page's bytes change.
